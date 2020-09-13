@@ -28,10 +28,10 @@ def face_projection_area(face, obj):
         v4 = obj.data.vertices[v4]
 
         # Apply transform matrix to vertex coordinates.
-        v1 = transform_matrix * v1.co
-        v2 = transform_matrix * v2.co
-        v3 = transform_matrix * v3.co
-        v4 = transform_matrix * v4.co
+        v1 = transform_matrix @ v1.co
+        v2 = transform_matrix @ v2.co
+        v3 = transform_matrix @ v3.co
+        v4 = transform_matrix @ v4.co
 
         v1[2] = 0
         v2[2] = 0
@@ -63,9 +63,9 @@ def face_projection_area(face, obj):
         v3 = obj.data.vertices[v3]
 
         # Apply transform matrix to vertex coordinates.
-        v1 = transform_matrix * v1.co
-        v2 = transform_matrix * v2.co
-        v3 = transform_matrix * v3.co
+        v1 = transform_matrix @ v1.co
+        v2 = transform_matrix @ v2.co
+        v3 = transform_matrix @ v3.co
 
         v1[2] = 0
         v2[2] = 0
@@ -87,7 +87,8 @@ def object_volume(obj):
         # New volume method for bmesh 2015 corrected 2017
 
         bm = bmesh.new()
-        bm.from_object(obj, bpy.context.scene)  # could also use from_mesh() if you don't care about deformation etc.
+        # could also use from_mesh() if you don't care about deformation etc.
+        bm.from_object(obj, bpy.context.evaluated_depsgraph_get())
         bmesh.ops.triangulate(bm, faces=bm.faces)
         # print(bm.calc_volume())
         return bm.calc_volume()

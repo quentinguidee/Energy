@@ -118,54 +118,55 @@ class EnergyDeperditions(bpy.types.Panel):
 
         # Those should be serialized:
 
+        # TODO: Uncomment use_alpha, if useful.
         if bpy.data.images.find('ArToKi.png') == -1:
             img = bpy.data.images.load(os.path.join(dirname, 'ArToKi.png'))
-            img.use_alpha = True
+            # img.use_alpha = True
             img.user_clear()  # Won't get saved into .blend files
 
         if bpy.data.images.find('A_Plus_Plus.png') == -1:
             img = bpy.data.images.load(os.path.join(dirname, 'A_Plus_Plus.png'))
-            img.use_alpha = True
+            # img.use_alpha = True
             img.user_clear()  # Won't get saved into .blend files
 
         if bpy.data.images.find('A_Plus.png') == -1:
             img = bpy.data.images.load(os.path.join(dirname, 'A_Plus.png'))
-            img.use_alpha = True
+            # img.use_alpha = True
             img.user_clear()  # Won't get saved into .blend files
 
         if bpy.data.images.find('A.png') == -1:
             img = bpy.data.images.load(os.path.join(dirname, 'A.png'))
-            img.use_alpha = True
+            # img.use_alpha = True
             img.user_clear()  # Won't get saved into .blend files
 
         if bpy.data.images.find('B.png') == -1:
             img = bpy.data.images.load(os.path.join(dirname, 'B.png'))
-            img.use_alpha = True
+            # img.use_alpha = True
             img.user_clear()  # Won't get saved into .blend files
 
         if bpy.data.images.find('C.png') == -1:
             img = bpy.data.images.load(os.path.join(dirname, 'C.png'))
-            img.use_alpha = True
+            # img.use_alpha = True
             img.user_clear()  # Won't get saved into .blend files
 
         if bpy.data.images.find('D.png') == -1:
             img = bpy.data.images.load(os.path.join(dirname, 'D.png'))
-            img.use_alpha = True
+            # img.use_alpha = True
             img.user_clear()  # Won't get saved into .blend files
 
         if bpy.data.images.find('E.png') == -1:
             img = bpy.data.images.load(os.path.join(dirname, 'E.png'))
-            img.use_alpha = True
+            # img.use_alpha = True
             img.user_clear()  # Won't get saved into .blend files
 
         if bpy.data.images.find('F.png') == -1:
             img = bpy.data.images.load(os.path.join(dirname, 'F.png'))
-            img.use_alpha = True
+            # img.use_alpha = True
             img.user_clear()  # Won't get saved into .blend files
 
         if bpy.data.images.find('G.png') == -1:
             img = bpy.data.images.load(os.path.join(dirname, 'G.png'))
-            img.use_alpha = True
+            # img.use_alpha = True
             img.user_clear()  # Won't get saved into .blend files
 
         for i in range(int(mat.mat_layers)):
