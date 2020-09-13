@@ -1,0 +1,463 @@
+/* CSS Document */
+* {
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	font-size: 12px;
+}
+body {
+	margin: 0px;
+	padding: 0px;
+	width: 210mm;
+}
+
+h1{
+font-size: 550%;
+color:#a6a6a6;
+}
+
+h2{
+font-size: 80%;
+text-decoration: underline;
+line-height: 1em;
+margin: 0px;
+}
+
+
+.first_page {
+	margin: 5mm;
+	height: 287mm;
+	page-break-after: always;
+}
+.page {
+	margin: 1mm 5mm 5mm 5mm;
+	height: 287mm;
+}
+.int_page {
+}
+.header_frame {
+	width: 100%;
+	height: 15mm;
+	border-collapse: collapse;
+	border: 1px solid black;
+}
+.header_left {
+	width: 32mm;
+	height: 15mm;
+	border: 1px solid black;
+	font-size: 350%;
+	font-weight: bold;
+
+}
+.header_left:first-letter {
+	margin-left: 12px;
+}
+.header_right {
+	height: 15mm;
+	width: 42mm;
+	border: 1px solid black;
+}
+
+.header_right img{
+	max-height: 15mm;
+	max-width: 42mm;
+}
+
+
+.header_street{
+	height: 7.5mm;
+	border: 1px solid black;
+	padding-left:2mm;
+	font-weight: bold;
+}
+
+.header_city{
+	height: 7.5mm;
+	border: 1px solid black;
+	padding-left:2mm;
+	font-weight: bold;
+}
+
+.date,.page_nb{
+  text-align: right;
+	height: 7.5mm;
+	border: 1px solid black;
+	padding-right:2mm;
+	font-weight: bold;
+}
+
+
+.main_frame {
+	width: 100%;
+	height: 251mm;
+	border-collapse: collapse;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+}
+
+
+.main_middle{
+/*text-align: center;  */
+vertical-align: top;
+}
+
+.footer_frame {
+	width: 100%;
+	height: 20mm;
+	border-collapse: collapse;
+	border: 1px solid black;
+}
+.sign {
+	border: 1px solid black;
+	height: 20mm;
+	padding-top: 1.5mm;
+	padding-left: 1.5mm;
+	vertical-align: top;
+}
+
+
+
+.aud1, .aud2,.aud3,.aud4{
+text-align: left;
+padding-left:2mm;
+	height: 5mm;
+	/*background-color: blue;   */
+	font-size: 70%;
+	padding: 0px;
+	padding-left:2mm;
+	margin: 0px;
+	width:45mm;
+}
+
+.aud5, .aud6,.aud7,.aud8{
+text-align: right;
+padding-right:2mm;
+height: 5mm;
+	/*background-color: blue;   */
+	font-size: 70%;
+	padding: 0px;
+	margin: 0px;
+	width:45mm;
+	padding-right:2mm;
+}
+
+.aud1{
+font-size: 80%;
+font-weight: bold;
+}
+
+.spacer {
+}
+.hidden {
+	visibility: hidden;
+	font-size: 0px;
+	height: 5mm;
+}
+
+#first_page_title{
+width:100%;
+text-align: center;
+margin-top:75mm
+}
+
+#first_page_title{
+width:100%;
+text-align: center;
+}
+
+
+
+
+
+
+#first_picture_line {
+	width: 100%;
+	height: 88mm;
+/*	background-color: cyan;  */
+	border-collapse: collapse;
+}
+#second_picture_line {
+	width: 100%;
+	height: 80mm;
+/*	background-color: cyan;  */
+	border-collapse: collapse;
+}
+
+#second_picture_line tr {
+
+	vertical-align: top;
+}
+#legend_line {
+
+	height: 70mm;
+	/*background-color: orange;      */
+	border-collapse: collapse;
+	text-align: center;
+	margin-top:2mm;
+}
+#legend_cell {
+	vertical-align: top;
+	padding: 0mm 3mm;
+}
+
+
+
+
+
+#plan {
+	width: 80mm;
+	height: 80mm;
+/*	background-color: cyan; */
+	padding-left: 3mm;
+}
+#plan img {
+	width: 80mm;
+	height: 80mm;
+}
+#img_plan {
+	border: 1px black solid;
+}
+#elevation {
+	height: 80mm;
+/*	background-color: magenta; */
+	text-align: right;
+	padding-right: 3mm;
+	
+}
+
+
+#elevation span {
+margin-left: 4mm;
+	width: 107mm;
+	height: 80mm;
+	overflow: hidden;
+	display: block;
+	background-color: black; 
+  border: 1px black solid; 
+  margin-top:-2px;
+}
+#elevation img {
+
+	max-height: 80mm;
+	background-color: black;  
+}
+
+#img_elevation {
+	
+}
+#axono_1 {
+	height: 80mm;
+	width: 50%;
+	padding-left: 3mm;
+/*	background-color: blue;         */
+}
+#axono_1 img {
+	max-width: 93.5mm;
+	max-height: 80mm;
+	/*background-color: black; */
+	border: 1px black solid;
+
+
+}
+#axono_2 {
+	height: 80mm;
+	/*background-color: green;   */
+	text-align: right;
+	padding-right: 3mm;
+}
+#axono_2 img {
+	max-width: 93.5mm;
+	max-height: 80mm;
+	/*background-color: black;  */
+	border: 1px black solid;
+
+}
+
+#LEGEND {
+	border-collapse: collapse;
+	border: 1px solid black;
+
+}
+
+#LEGEND td{ 
+  vertical-align: top;
+}
+
+#LEGEND caption {
+	border-collapse: collapse;
+	border: 1px solid black; 
+  font-weight: bold;
+  border-bottom: none;
+}
+
+#Sols, #Toitures{
+border-left: 1px black solid;
+overflow: hidden;
+}
+
+#Table_Walls caption,#Table_Floors caption,#Table_Roofs caption{
+width:61mm;
+text-align: left;
+font-weight: bold;
+border: none;
+padding-left:2mm;
+}
+
+#Table_Walls tr,#Table_Floors tr,#Table_Roofs tr{
+line-height: 1em;
+}
+
+#Table_Floors caption,#Table_Roofs caption{
+
+}
+
+#Table_Floors,#Table_Roofs{
+
+}
+
+
+.mat_color{
+font-size: 200%;
+line-height: 0.25em;
+}
+
+.mat_name{
+min-width:25mm;
+}
+
+/*Page 3*/
+.tr_spacer{
+height: 1em;
+}
+
+#GENERAL_TABLE{
+margin: 3mm 3mm 0mm 3mm;
+border-collapse: collapse;
+ 
+}
+
+.VALUES_TABLE{
+margin: 3mm 3mm 0mm 3mm;
+border-collapse: collapse;
+
+}
+
+.VALUES_TABLE tr{
+vertical-align:top;
+
+}
+
+#general_values{
+
+}
+
+#general_values td{
+text-align: center; width:1521px;
+font-weight: bold;
+
+}
+#general_volume{
+padding :2mm 0mm 2mm 2mm;
+border-top:1px solid black;
+border-left:1px solid black;
+border-bottom:1px solid black;
+
+}
+
+#general_surface{
+padding :2mm 2mm 2mm 0mm;
+border-top:1px solid black;
+border-right:1px solid black;
+border-bottom:1px solid black;
+
+}
+
+#walls_values{
+width:192mm;  
+border:1px solid black;
+border-top: none;
+margin-top:3mm;
+border-collapse: collapse;
+}
+
+#floors_values{
+width:60mm;  
+border:1px solid black;
+border-top: none;
+margin-top:3mm;
+border-collapse: collapse;
+}
+
+#roofs_values{
+width:128.5mm;  
+border:1px solid black;
+border-top: none;
+margin-top:3mm;
+margin-left: 3mm;
+border-collapse: collapse;
+}
+
+#walls_values caption,#floors_values caption,#roofs_values caption {
+  padding :0.5mm 1mm;
+	border-collapse: collapse;
+	border: 1px solid black; 
+  font-weight: bold;
+  text-align: left;
+  border-bottom:none;
+}
+
+
+
+#walls_values td{
+width: 45mm;
+border:0px;
+}
+
+#walls_values>tbody>tr>td{
+
+border-right:1px black solid;
+}
+
+#walls_values #walls_projection caption,#floors_values #floors_projection caption,#roofs_values #roofs_projection caption{
+  border:none;
+}
+
+#walls_projection tr,#floors_projection tr,#roofs_projection tr{
+line-height: 1em; 
+}
+#walls_values tr,#floors_values tr,#roofs_values tr{
+border-top: 1px solid black;
+}
+
+#walls_projection td,#floors_projection td,#roofs_projection td{
+vertical-align: top;
+}
+
+#walls_projection .mat_color,#floors_projection .mat_color,#roofs_projection .mat_color{
+font-size: 200%;
+line-height: 0.3em;
+width:5mm;
+}
+
+.mat_surf{
+width:20mm;
+text-align: right;
+}
+
+#roofs_projection .mat_surf_brute{
+width:30mm;
+text-align:right;
+}
+
+#roofs_projection .mat_angle{
+width:20mm;
+text-align:right;
+}
+
+#roofs_projection .mat_orient{
+width:20mm;
+text-align:center;
+}
+
+#roofs_projection .mat_surf_proj{
+width:40mm;
+text-align:right;
+}

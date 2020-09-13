@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Artoki-PEB Version="0.0.3">
+  <Project Name="Semois" date="21-12-2012">
+    <Address1>Rue du Chenois, 2</Address1>
+    <Address2>1430 Quenast</Address2>
+    <Volume>943.22</Volume>
+    <Surf_tot>1552.32</Surf_tot>
+    <Walls>
+      <Wall Name="Murs g&#233;n&#233;raux" Surf="552.32" id="M-01" />
+      <Wall Name="Murs mitoyens" Surf="112.02" id="M-02" />
+    </Walls>
+    <Floors>
+      <Floor Name="Plancher sur terre plein" Surf="552.32" id="S-01" />
+      <Floor Name="Plancher sur garage" Surf="112.02" id="S-02" />
+    </Floors>
+    <Roofs>
+      <Roof Name="Toit g&#233;n&#233;ral" Surf="552.32" id="T-01" />
+      <Roof Name="Toit plat" Surf="112.02" id="T-02" />
+    </Roofs>
+    <WallProjections Surf="1235.32">
+      <WallProjection Orientation="NNE" Surf="552.32" id="00">
+        <ProjPart Surf="22.33" Wall="M-01" />
+        <ProjPart Surf="33.12" Wall="M-03" />
+      </WallProjection>
+      <WallProjection Orientation="NO" Surf="352.32" id="01">
+        <ProjPart Surf="22.33" Wall="M-05" />
+        <ProjPart Surf="55.12" Wall="M-03" />
+      </WallProjection> 
+    </WallProjections>
+    <FloorProjections Surf="154.32">      
+      <FloorProjection Floor="S-01" Surf="22.33" />
+      <FloorProjection Floor="S-03" Surf="55.12" />      
+    </FloorProjections>
+    <RoofProjections Surf="154.32">
+      <RoofProjection Angle="35" Orientation="NNE" ProjSurf="652.32" Roof="R-01" Surf="552.32" /> 
+      <RoofProjection Angle="0" Orientation="SSE" ProjSurf="352.32" Roof="R-02" Surf="252.32" /> 
+    </RoofProjections>
+  </Project>
+</Artoki-PEB>

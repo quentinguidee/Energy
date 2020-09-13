@@ -1,0 +1,20 @@
+<Artoki-PEB Version="(0, 0, 10)">
+  <Project Date="2019-01-17 16:56" Name="PAE 048 Van Dooren">
+    <Address1>Rue Pont Des Précheurs, 3</Address1>
+    <Address2>1495 Tilly</Address2>
+    <Volume>206.0</Volume>
+    <Surf_tot>35.22</Surf_tot>
+    <Walls>
+    <Wall Id="M-01" Name="Façades" Surf="35.22" /><Wall Id="M-02" Name="Mur vers cave" Surf="0" /><Wall Id="M-03" Name="Murs contre terre" Surf="0" /><Wall Id="M-04" Name="Contremarches escalier" Surf="0" /></Walls>
+    <Floors>
+    <Floor Id="S-01" Name="Sol sur terre plein" Surf="0" /><Floor Id="S-02" Name="Sol sur cave" Surf="0" /><Floor Id="S-03" Name="Marches escalier" Surf="0" /></Floors>
+    <Roofs>
+    <Roof Id="T-01" Name="Toiture avant" Surf="0" /><Roof Id="T-02" Name="Toiture décrochement avant" Surf="0" /><Roof Id="T-03" Name="Toiture arrière" Surf="0" /></Roofs>
+    <WallProjections Surf="">      
+    <WallProjection Id="0" Orientation="ESE" Surf="35.22"><WallPart Surf="35.22" id="M-01" /></WallProjection></WallProjections>
+    <FloorProjections Surf="">           
+    </FloorProjections>
+    <RoofProjections Surf="">
+    </RoofProjections>
+  </Project>
+</Artoki-PEB>

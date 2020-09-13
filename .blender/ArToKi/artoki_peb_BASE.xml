@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Artoki-PEB Version="">
+  <Project Name="" Date="">
+    <Address1></Address1>
+    <Address2></Address2>
+    <Volume></Volume>
+    <Surf_tot></Surf_tot>
+    <Walls>
+    </Walls>
+    <Floors>
+    </Floors>
+    <Roofs>
+    </Roofs>
+    <WallProjections Surf="">      
+    </WallProjections>
+    <FloorProjections Surf="">           
+    </FloorProjections>
+    <RoofProjections Surf="">
+    </RoofProjections>
+  </Project>
+</Artoki-PEB>
