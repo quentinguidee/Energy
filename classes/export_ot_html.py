@@ -5,7 +5,7 @@ from bpy_extras.io_utils import ExportHelper
 from ..functions import create_html_file
 
 
-class ExportOTHTML(bpy.types.Operator, ExportHelper):
+class EXPORT_OT_HTML(bpy.types.Operator, ExportHelper):
     """
     This appears in the tooltip of the operator and in the generated docs.
     """
@@ -15,7 +15,7 @@ class ExportOTHTML(bpy.types.Operator, ExportHelper):
     # ExportHelper mixin class uses this
     filename_ext = ".html"
 
-    filter_glob = StringProperty(
+    filter_glob: StringProperty(
         default="*.html",
         options={'HIDDEN'},
     )

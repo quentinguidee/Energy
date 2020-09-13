@@ -119,7 +119,8 @@ def create_html_file(context, filepath):
     bpy.context.scene.render.image_settings.color_mode = 'RGBA'
     bpy.context.scene.render.resolution_x = 1024
     bpy.context.scene.render.resolution_y = 768
-    bpy.context.scene.render.alpha_mode = 'TRANSPARENT'
+    # TODO: Re-enable this line
+    # bpy.context.scene.render.alpha_mode = 'TRANSPARENT'
 
     cameras_in_scene = []
     for i in bpy.context.scene.objects:
@@ -129,12 +130,15 @@ def create_html_file(context, filepath):
     vue_nb = 0
     for j in cameras_in_scene:
         vue_nb = vue_nb + 1
-        bpy.context.scene.render.filepath = os.path.split(filepath)[0] + '\\html_files\\axono_' + str(vue_nb) + '.jpg'
+        # TODO
+        # bpy.context.scene.render.filepath = os.path.split(filepath)[0] + '\\html_files\\axono_' + str(vue_nb) + '.jpg'
+        bpy.context.scene.render.filepath = os.path.split(filepath)[0] + '/html_files/axono_' + str(vue_nb) + '.jpg'
         bpy.context.scene.camera = j
         bpy.ops.render.opengl(write_still=True)
     # print(cameras_in_scene)
     print('Trying to start Firefox')
     # windows os.startfile(filepath)
-    subprocess.call(('xdg-open', filepath))
+    # TODO: Re-enable this line
+    # subprocess.call(('xdg-open', filepath))
 
     return {'FINISHED'}

@@ -2,7 +2,7 @@ import os
 import bpy
 
 
-class EnergyDeperditions(bpy.types.Panel):
+class OBJECT_PT_ArToKi_EnergyDeperditions(bpy.types.Panel):
     bl_label = "ArToKi - Energy - Deperditions (alpha)"
     bl_space_type = "PROPERTIES"
     bl_region_type = "WINDOW"

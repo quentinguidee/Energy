@@ -10,7 +10,7 @@ bl_info = {
     "location": "Properties > Material > ArToKi EPB",
     "description": "Explore surface and volumes of building parts.",
     "warning": "",
-    "wiki_url": "",
+    "doc_url": "",
     "tracker_url": "",
     "category": "Material"
 }

@@ -9,7 +9,7 @@ from .. import info
 import bpy
 
 
-class EnergyReport(bpy.types.Panel):
+class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
     bl_label = "ArToKi - Energy - Report"
     bl_space_type = "PROPERTIES"
     bl_region_type = "WINDOW"

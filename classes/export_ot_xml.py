@@ -5,7 +5,7 @@ from bpy_extras.io_utils import ExportHelper
 from ..functions import create_xml_file
 
 
-class ExportOTXML(bpy.types.Operator, ExportHelper):
+class EXPORT_OT_XML(bpy.types.Operator, ExportHelper):
     """
     This appears in the tooltip of the operator and in the generated docs.
     """
@@ -15,7 +15,7 @@ class ExportOTXML(bpy.types.Operator, ExportHelper):
     # ExportHelper mixin class uses this
     filename_ext = ".xml"
 
-    filter_glob = StringProperty(
+    filter_glob: StringProperty(
         default="*.xml",
         options={'HIDDEN'},
     )
