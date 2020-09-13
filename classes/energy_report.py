@@ -3,6 +3,9 @@ import math
 import os
 from xml.etree.ElementTree import SubElement, ElementTree
 
+from ..functions import face_projection_area, object_volume
+from .. import info
+
 import bpy
 
 
@@ -52,7 +55,7 @@ class EnergyReport(bpy.types.Panel):
         # Bases du fichier xml et html
         root = tree.getroot()
         root_html = tree_html.getroot()
-        root.attrib['Version'] = bl_info['version']
+        root.attrib['Version'] = info.VERSION
         project = tree.find('Project')
         project.attrib['Name'] = bpy.context.scene.name
         project.attrib['Date'] = now.strftime("%Y-%m-%d %H:%M")

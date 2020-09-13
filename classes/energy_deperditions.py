@@ -112,7 +112,7 @@ class EnergyDeperditions(bpy.types.Panel):
         row.label(text="Environnement:")
         row.prop(mat, 'mat_environnement', text="")
         row = layout.row()
-        row.label(text="Outside", icon='LAMP_SUN')
+        row.label(text="Outside", icon="LIGHT_SUN")
 
         dirname = os.path.expanduser('~') + '/.blender/ArToKi/labels'
 

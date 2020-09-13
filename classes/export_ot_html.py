@@ -2,7 +2,7 @@ import bpy
 from bpy.props import *
 from bpy_extras.io_utils import ExportHelper
 
-from ..main import create_html_file
+from ..functions import create_html_file
 
 
 class ExportOTHTML(bpy.types.Operator, ExportHelper):

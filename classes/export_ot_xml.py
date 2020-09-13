@@ -1,7 +1,8 @@
 import bpy
 from bpy.props import *
 from bpy_extras.io_utils import ExportHelper
-from ..main import create_xml_file
+
+from ..functions import create_xml_file
 
 
 class ExportOTXML(bpy.types.Operator, ExportHelper):
