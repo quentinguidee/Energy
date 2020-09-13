@@ -31,7 +31,6 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
         description="Changes the upper left text logo",
         default="PEB"
     )
-
     def draw(self, context):
 
         author = 'Maes Thierry'
@@ -227,8 +226,8 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
                 tr = SubElement(html_floors_materials[1], 'tr', id=i.name[0:4])
                 td_1 = SubElement(tr, 'td')
                 td_1.attrib["class"] = "mat_color"
-                td_1.attrib["style"] = "color:rgb(" + str(int(i.material.diffuse_color.r * 255)) + "," + str(
-                    int(i.material.diffuse_color.g * 255)) + "," + str(int(i.material.diffuse_color.b * 255)) + ")"
+                td_1.attrib["style"] = "color:rgb(" + str(int(i.material.diffuse_color[0] * 255)) + "," + str(
+                    int(i.material.diffuse_color[1] * 255)) + "," + str(int(i.material.diffuse_color[2] * 255)) + ")"
                 td_1.text = "\u25A0"
                 td_2 = SubElement(tr, 'td')
                 td_2.attrib["class"] = "mat_index"
@@ -246,8 +245,8 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
                 tr = SubElement(html_roofs_materials[1], 'tr', id=i.name[0:4])
                 td_1 = SubElement(tr, 'td')
                 td_1.attrib["class"] = "mat_color"
-                td_1.attrib["style"] = "color:rgb(" + str(int(i.material.diffuse_color.r * 255)) + "," + str(
-                    int(i.material.diffuse_color.g * 255)) + "," + str(int(i.material.diffuse_color.b * 255)) + ")"
+                td_1.attrib["style"] = "color:rgb(" + str(int(i.material.diffuse_color[0] * 255)) + "," + str(
+                    int(i.material.diffuse_color[1] * 255)) + "," + str(int(i.material.diffuse_color[2] * 255)) + ")"
                 td_1.text = "\u25A0"
                 td_2 = SubElement(tr, 'td')
                 td_2.attrib["class"] = "mat_index"
@@ -403,8 +402,8 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
                             if i.name[0:4] == y:
                                 color = i.material.diffuse_color
 
-                        td_1.attrib["style"] = "color:rgb(" + str(int(color.r * 255)) + "," + str(
-                            int(color.g * 255)) + "," + str(int(color.b * 255)) + ")"
+                        td_1.attrib["style"] = "color:rgb(" + str(int(color[0] * 255)) + "," + str(
+                            int(color[1] * 255)) + "," + str(int(color[2] * 255)) + ")"
                         td_1.text = "\u25A0"
                         td_2 = SubElement(tr, 'td')
                         td_2.attrib["class"] = "mat_index"
@@ -450,7 +449,7 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
                     if z[3] == y:
                         surf_mat_vert = surf_mat_vert + z[6]
 
-                subrow.label(5 * ' ' + y + ' : ' + str(round(surf_mat_vert, 2)) + " m\xb2", icon="ASSET_MANAGER")
+                subrow.label(text=5 * ' ' + y + ' : ' + str(round(surf_mat_vert, 2)) + " m\xb2", icon="ASSET_MANAGER")
                 floorpart = SubElement(xml_floor_projections, 'FloorPart', Id=str(y), Surf=str(round(surf_mat_vert, 2)))
 
                 tr = SubElement(html_floors_projection[0], 'tr')
@@ -460,8 +459,8 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
                 for i in bpy.context.object.material_slots:
                     if i.name[0:4] == y:
                         color = i.material.diffuse_color
-                td_1.attrib["style"] = "color:rgb(" + str(int(color.r * 255)) + "," + str(
-                    int(color.g * 255)) + "," + str(int(color.b * 255)) + ")"
+                td_1.attrib["style"] = "color:rgb(" + str(int(color[0] * 255)) + "," + str(
+                    int(color[1] * 255)) + "," + str(int(color[2] * 255)) + ")"
                 td_1.text = "\u25A0"
                 td_2 = SubElement(tr, 'td')
                 td_2.attrib["class"] = "mat_index"
@@ -517,10 +516,10 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
                         roof_angle = z[5]
                         roof_orientation = z[2]
 
-                subrow.label(y + ' : ' + str(round(surf_mat_roof, 2)) + " m\xb2", icon="MOD_ARRAY")
-                subrow.label('Proj. : ' + str(roof_orientation))
-                subrow.label('Angle : ' + str(round(math.fabs(math.degrees(roof_angle)), 1)) + " \xb0")
-                subrow.label('Proj. surf. : ' + str(round(surf_proj_mat_roof, 2)) + " m\xb2")
+                subrow.label(text=y + ' : ' + str(round(surf_mat_roof, 2)) + " m\xb2", icon="MOD_ARRAY")
+                subrow.label(text='Proj. : ' + str(roof_orientation))
+                subrow.label(text='Angle : ' + str(round(math.fabs(math.degrees(roof_angle)), 1)) + " \xb0")
+                subrow.label(text='Proj. surf. : ' + str(round(surf_proj_mat_roof, 2)) + " m\xb2")
                 roofpart = SubElement(
                     xml_roof_projections,
                     'RoofPart',
@@ -537,8 +536,8 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
                 for i in bpy.context.object.material_slots:
                     if i.name[0:4] == y:
                         color = i.material.diffuse_color
-                td_1.attrib["style"] = "color:rgb(" + str(int(color.r * 255)) + "," + str(
-                    int(color.g * 255)) + "," + str(int(color.b * 255)) + ")"
+                td_1.attrib["style"] = "color:rgb(" + str(int(color[0] * 255)) + "," + str(
+                    int(color[1] * 255)) + "," + str(int(color[2] * 255)) + ")"
                 td_1.text = "\u25A0"
                 td_2 = SubElement(tr, 'td')
                 td_2.attrib["class"] = "mat_index"
@@ -625,3 +624,4 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
             img_A_Plus.user_clear()  # Won't get saved into .blend files
         icon_ArToKi = self.layout.icon(bpy.data.images['ArToKi.png'])
         row.label(text="ArToKi - Energy by tmaes" + 60 * " " + "info@tmaes.be", icon_value=icon_ArToKi)
+
