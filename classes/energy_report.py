@@ -1,6 +1,7 @@
 import datetime
 import math
 import os
+from enum import Enum
 from xml.etree.ElementTree import SubElement, ElementTree
 
 from ..functions import face_projection_area, object_volume
@@ -9,30 +10,109 @@ from .. import info
 import bpy
 
 
+class Orientation(Enum):
+    S = (-191.25, -168.75)
+    SSW = (-168.75, -146.25)
+    SW = (-146.25, -123.75)
+    WSW = (-123.75, -101.25)
+    W = (-101.25, -78.75)
+    WNW = (-78.75, -56.25)
+    NW = (-56.25, -33.75)
+    NNW = (-33.75, -11.25)
+    N = (-11.25, 11.25)
+    NNE = (-11.25, 33.75)
+    NE = (33.75, 56.25)
+    ENE = (56.25, 78.75)
+    E = (78.75, 101.25)
+    ESE = (101.25, 123.75)
+    SE = (123.75, 146.25)
+    SSE = (146.25, 168.75)
+
+    @staticmethod
+    def get_direction(angle_proj: float) -> 'Orientation':
+        if 168.75 <= angle_proj < 191.25:
+            return Orientation.S
+
+        for direction in Orientation:
+            if direction.value[0] <= angle_proj < direction.value[1]:
+                return direction
+
+
+class FaceType(Enum):
+    WALL = ['M', 'W']
+    FLOOR = ['S', 'F']
+    ROOF = ['T', 'R']
+
+    def get_name(self):
+        if self == self.WALL:
+            return 'Walls'
+        elif self == self.FLOOR:
+            return 'Floors'
+        elif self == self.ROOF:
+            return 'Roofs'
+
+    def get_icon(self):
+        if self == self.WALL:
+            return 'MOD_BUILD'
+        elif self == self.FLOOR:
+            return 'TEXTURE'
+        elif self == self.ROOF:
+            return 'LINCURVE'
+
+    @staticmethod
+    def get_face_type(letter: str) -> 'FaceType':
+        for face_type in FaceType:
+            if letter in face_type.value:
+                return face_type
+
+
+class Face:
+    index: int
+    area: float
+    orientation: Orientation
+    material: str  # ?
+    type: FaceType
+    angle: float
+    projection_area: float
+    material_name: str
+
+    def __init__(self, index: int, area: float, orientation: Orientation, material: str, face_type: FaceType,
+                 angle: float, projection_area: float, material_name: str):
+        self.index = index
+        self.area = area
+        self.orientation = orientation
+        self.material = material
+        self.type = face_type
+        self.angle = angle
+        self.projection_area = projection_area
+        self.material_name = material_name
+
+
 class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
     bl_label = "ArToKi - Energy - Report"
     bl_space_type = "PROPERTIES"
     bl_region_type = "WINDOW"
     bl_context = "material"
 
-    bpy.types.Scene.atk_aerial = bpy.props.StringProperty(name="Aerial", description="Aerial view path", default="",
-                                                          subtype='FILE_PATH')
-    bpy.types.Scene.atk_elevation = bpy.props.StringProperty(name="Elevation", description="Elevation view path",
-                                                             default="", subtype='FILE_PATH')
-    bpy.types.Scene.atk_address1 = bpy.props.StringProperty(name="Address 1", description="Street, nb", default="")
-    bpy.types.Scene.atk_address2 = bpy.props.StringProperty(name="Address 2", description="PostCode City", default="")
-    bpy.types.Scene.atk_therm_col = bpy.props.BoolProperty(name="Therm col",
-                                                           description="Assign materials colors by performance",
-                                                           default=0)
-    bpy.types.Scene.atk_procedure_type = bpy.props.EnumProperty(
-        items=[('PAE', 'PAE', 'Procédure d\'audit énergétique'),
-               ('PEB', 'PEB', 'Performances énergétiques des batiments')],
-        name="Procedure type",
-        description="Changes the upper left text logo",
-        default="PEB"
-    )
-    def draw(self, context):
+    bpy.types.Scene.atk_aerial \
+        = bpy.props.StringProperty(name="Aerial", description="Aerial view path", default="", subtype='FILE_PATH')
+    bpy.types.Scene.atk_elevation \
+        = bpy.props.StringProperty(name="Elevation", description="Elevation view path", default="", subtype='FILE_PATH')
+    bpy.types.Scene.atk_address1 \
+        = bpy.props.StringProperty(name="Address 1", description="Street, nb", default="")
+    bpy.types.Scene.atk_address2 \
+        = bpy.props.StringProperty(name="Address 2", description="PostCode City", default="")
+    bpy.types.Scene.atk_therm_col \
+        = bpy.props.BoolProperty(name="Therm col", description="Assign materials colors by performance", default=0)
+    bpy.types.Scene.atk_procedure_type \
+        = bpy.props.EnumProperty(items=[('PAE', 'PAE', 'Procédure d\'audit énergétique'),
+                                        ('PEB', 'PEB', 'Performances énergétiques des batiments')],
+                                 name="Procedure type",
+                                 description="Changes the upper left text logo",
+                                 default="PEB"
+                                 )
 
+    def draw(self, context):
         author = 'Maes Thierry'
         author_titles = 'Auditeur PAE, Certificateur PEB'
         author_adress_1 = 'Rue Joseph Berger, 6'
@@ -63,29 +143,29 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
         address2 = tree.find('Project/Address2')
         address2.text = str(scene.atk_address2)
 
-        # placement des éléments statiques du html coordonnées, date etc... header_left
-        for i in tree_html.findall(".//td[@class='header_left']"):
-            i.text = str(scene.atk_procedure_type)
-        for i in tree_html.findall(".//td[@class='header_street']"):
-            i.text = str(scene.atk_address1)
-        for i in tree_html.findall(".//td[@class='header_city']"):
-            i.text = str(scene.atk_address2)
-        for i in tree_html.findall(".//td[@class='aud1']"):
-            i.text = str(author)
-        for i in tree_html.findall(".//td[@class='aud2']"):
-            i.text = str(author_titles)
-        for i in tree_html.findall(".//td[@class='aud3']"):
-            i.text = str(author_adress_1)
-        for i in tree_html.findall(".//td[@class='aud4']"):
-            i.text = str(author_adress_2)
-        for i in tree_html.findall(".//td[@class='aud5']"):
-            i.text = str(author_e_mail)
-        for i in tree_html.findall(".//td[@class='aud7']"):
-            i.text = str(author_phone)
-        for i in tree_html.findall(".//td[@class='aud8']"):
-            i.text = str(author_gsm)
-        for i in tree_html.findall(".//td[@class='date']"):
-            i.text = now.strftime("%d/%m/%Y")
+        # Place static elements of the HTML (coordinates, date...)
+        for material_slot in tree_html.findall(".//td[@class='header_left']"):
+            material_slot.text = str(scene.atk_procedure_type)
+        for material_slot in tree_html.findall(".//td[@class='header_street']"):
+            material_slot.text = str(scene.atk_address1)
+        for material_slot in tree_html.findall(".//td[@class='header_city']"):
+            material_slot.text = str(scene.atk_address2)
+        for material_slot in tree_html.findall(".//td[@class='aud1']"):
+            material_slot.text = str(author)
+        for material_slot in tree_html.findall(".//td[@class='aud2']"):
+            material_slot.text = str(author_titles)
+        for material_slot in tree_html.findall(".//td[@class='aud3']"):
+            material_slot.text = str(author_adress_1)
+        for material_slot in tree_html.findall(".//td[@class='aud4']"):
+            material_slot.text = str(author_adress_2)
+        for material_slot in tree_html.findall(".//td[@class='aud5']"):
+            material_slot.text = str(author_e_mail)
+        for material_slot in tree_html.findall(".//td[@class='aud7']"):
+            material_slot.text = str(author_phone)
+        for material_slot in tree_html.findall(".//td[@class='aud8']"):
+            material_slot.text = str(author_gsm)
+        for material_slot in tree_html.findall(".//td[@class='date']"):
+            material_slot.text = now.strftime("%d/%m/%Y")
 
         layout = self.layout
 
@@ -96,95 +176,32 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
         faces_floors = []
         faces_roofs = []
         faces_temp = []
-        faces_types = ['WALLS', 'FLOORS', 'ROOFS']
-        PROJECTIONS = ['S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW', 'N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE',
-                       'SSE']
-        FACES = []
 
-        ### 1 Création d'une liste contenant: index, surface, orientation, matériau, type de la face, angle, surface projetée et nom du matériau
+        faces: [Face] = []
 
         for a in obj.data.polygons:
-            properties = []
-            properties.append(a.index)
-            properties.append(a.area)
             angle_proj = round(math.degrees(math.atan2(a.normal[0], a.normal[1])))
-            angle_proj_name = ''  # pourrait etre ameliore par une fonction
+            angle_proj_orientation = Orientation.get_direction(angle_proj)
+            material_id = context.object.material_slots[a.material_index].name[0:1]
 
-            if angle_proj >= -191.25 and angle_proj < -168.75:
-                angle_proj_name = 'S'
-
-            if angle_proj >= -168.75 and angle_proj < -146.25:
-                angle_proj_name = 'SSW'
-
-            if angle_proj >= -146.25 and angle_proj < -123.75:
-                angle_proj_name = 'SW'
-
-            if angle_proj >= -123.75 and angle_proj < -101.25:
-                angle_proj_name = 'WSW'
-
-            if angle_proj >= -101.25 and angle_proj < -78.75:
-                angle_proj_name = 'W'
-
-            if angle_proj >= -78.75 and angle_proj < -56.25:
-                angle_proj_name = 'WNW'
-
-            if angle_proj >= -56.25 and angle_proj < -33.75:
-                angle_proj_name = 'NW'
-
-            if angle_proj >= -33.75 and angle_proj < -11.25:
-                angle_proj_name = 'NNW'
-
-            if angle_proj >= -11.25 and angle_proj < 11.25:
-                angle_proj_name = 'N'
-
-            if angle_proj >= 11.25 and angle_proj < 33.75:
-                angle_proj_name = 'NNE'
-
-            if angle_proj > 33.75 and angle_proj < 56.25:
-                angle_proj_name = 'NE'
-
-            if angle_proj >= 56.25 and angle_proj < 78.75:
-                angle_proj_name = 'ENE'
-
-            if angle_proj >= 78.75 and angle_proj < 101.25:
-                angle_proj_name = 'E'
-
-            if angle_proj >= 101.25 and angle_proj < 123.75:
-                angle_proj_name = 'ESE'
-
-            if angle_proj >= 123.75 and angle_proj < 146.25:
-                angle_proj_name = 'SE'
-
-            if angle_proj >= 146.25 and angle_proj < 168.75:
-                angle_proj_name = 'SSE'
-
-            if angle_proj >= 168.75 and angle_proj < 191.25:
-                angle_proj_name = 'S'
-
-            properties.append(angle_proj_name)
-            properties.append(bpy.context.object.material_slots[a.material_index].name[0:4])
-
-            if context.object.material_slots[a.material_index].name[0:1] == 'M' or context.object.material_slots[
-                                                                                       a.material_index].name[
-                                                                                   0:1] == 'W':
-                properties.append(faces_types[0])
-            elif context.object.material_slots[a.material_index].name[0:1] == 'S' or context.object.material_slots[
-                                                                                         a.material_index].name[
-                                                                                     0:1] == 'F':
-                properties.append(faces_types[1])
-            elif context.object.material_slots[a.material_index].name[0:1] == 'T' or context.object.material_slots[
-                                                                                         a.material_index].name[
-                                                                                     0:1] == 'R':
-                properties.append(faces_types[2])
             if round(math.atan2(a.normal[1], a.normal[2]), 3) == 0:
                 angle_roof = math.atan2(a.normal[0], a.normal[2])
             else:
                 hypoth = math.sqrt(math.pow(a.normal[0], 2) + math.pow(a.normal[1], 2))
                 angle_roof = math.atan2(hypoth, a.normal[2])
-            properties.append(angle_roof)
-            properties.append(face_projection_area(a, obj))
-            properties.append(bpy.context.object.material_slots[a.material_index].name[5:])
-            FACES.append(properties)
+
+            face = Face(
+                index=a.index,
+                area=a.area,
+                orientation=angle_proj_orientation,
+                material=bpy.context.object.material_slots[a.material_index].name[0:4],
+                face_type=FaceType.get_face_type(material_id),
+                angle=angle_roof,
+                projection_area=face_projection_area(a, obj),
+                material_name=bpy.context.object.material_slots[a.material_index].name[5:],
+            )
+
+            faces.append(face)
 
         ### 1.1 LISTE DES MURS SOLS TOITS POUR L'EXPORT XML
 
@@ -194,66 +211,75 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
         html_floors_materials = tree_html.find(".//table[@id='Table_Floors']")
         xml_roofs_materials = tree.find('Project/Roofs')
         html_roofs_materials = tree_html.find(".//table[@id='Table_Roofs']")
-        for i in bpy.context.object.material_slots:
+
+        for material_slot in bpy.context.object.material_slots:
             xml_surf_mat = 0
 
-            for j in FACES:
-                if i.name[0:4] == j[3]:
-                    xml_surf_mat = xml_surf_mat + j[1]
+            for face in faces:
+                if material_slot.name[0:4] == face.material:
+                    xml_surf_mat += face.area
 
-            if i.name[0] == 'M' or i.name[0] == 'W':
-                wall = SubElement(xml_walls_materials, 'Wall', Id=i.name[0:4], Name=i.name[5:],
+            face_type = FaceType.get_face_type(material_slot.name[0])
+            if face_type == FaceType.WALL:
+                wall = SubElement(xml_walls_materials, 'Wall', Id=material_slot.name[0:4], Name=material_slot.name[5:],
                                   Surf=str(round(xml_surf_mat, 2)))
-                tr = SubElement(html_walls_materials[1], 'tr', id=i.name[0:4])
+                tr = SubElement(html_walls_materials[1], 'tr', id=material_slot.name[0:4])
                 td_1 = SubElement(tr, 'td')
                 td_1.attrib["class"] = "mat_color"
-                td_1.attrib["style"] = "color:rgb(" + str(int(i.material.diffuse_color[0] * 255)) + "," + str(
-                    int(i.material.diffuse_color[1] * 255)) + "," + str(int(i.material.diffuse_color[2] * 255)) + ")"
+                td_1.attrib["style"] = "color:rgb(" + str(
+                    int(material_slot.material.diffuse_color[0] * 255)) + "," + str(
+                    int(material_slot.material.diffuse_color[1] * 255)) + "," + str(
+                    int(material_slot.material.diffuse_color[2] * 255)) + ")"
                 td_1.text = "\u25A0"
                 td_2 = SubElement(tr, 'td')
                 td_2.attrib["class"] = "mat_index"
-                td_2.text = i.name[0:4]
+                td_2.text = material_slot.name[0:4]
                 td_3 = SubElement(tr, 'td')
                 td_3.attrib["class"] = "mat_name"
-                td_3.text = i.name[5:]
+                td_3.text = material_slot.name[5:]
                 td_4 = SubElement(tr, 'td')
                 td_4.attrib["class"] = "mat_surf"
                 td_4.text = str(round(xml_surf_mat, 2)) + " m²"
 
-            if i.name[0] == 'S' or i.name[0] == 'F':
-                floor = SubElement(xml_floors_materials, 'Floor', Id=i.name[0:4], Name=i.name[5:],
+            elif face_type == FaceType.FLOOR:
+                floor = SubElement(xml_floors_materials, 'Floor', Id=material_slot.name[0:4],
+                                   Name=material_slot.name[5:],
                                    Surf=str(round(xml_surf_mat, 2)))
-                tr = SubElement(html_floors_materials[1], 'tr', id=i.name[0:4])
+                tr = SubElement(html_floors_materials[1], 'tr', id=material_slot.name[0:4])
                 td_1 = SubElement(tr, 'td')
                 td_1.attrib["class"] = "mat_color"
-                td_1.attrib["style"] = "color:rgb(" + str(int(i.material.diffuse_color[0] * 255)) + "," + str(
-                    int(i.material.diffuse_color[1] * 255)) + "," + str(int(i.material.diffuse_color[2] * 255)) + ")"
+                td_1.attrib["style"] = "color:rgb(" + str(
+                    int(material_slot.material.diffuse_color[0] * 255)) + "," + str(
+                    int(material_slot.material.diffuse_color[1] * 255)) + "," + str(
+                    int(material_slot.material.diffuse_color[2] * 255)) + ")"
                 td_1.text = "\u25A0"
                 td_2 = SubElement(tr, 'td')
                 td_2.attrib["class"] = "mat_index"
-                td_2.text = i.name[0:4]
+                td_2.text = material_slot.name[0:4]
                 td_3 = SubElement(tr, 'td')
                 td_3.attrib["class"] = "mat_name"
-                td_3.text = i.name[5:]
+                td_3.text = material_slot.name[5:]
                 td_4 = SubElement(tr, 'td')
                 td_4.attrib["class"] = "mat_surf"
                 td_4.text = str(round(xml_surf_mat, 2)) + " m²"
 
-            if i.name[0] == 'T' or i.name[0] == 'R':
-                roof = SubElement(xml_roofs_materials, 'Roof', Id=i.name[0:4], Name=i.name[5:],
+            elif face_type == FaceType.ROOF:
+                roof = SubElement(xml_roofs_materials, 'Roof', Id=material_slot.name[0:4], Name=material_slot.name[5:],
                                   Surf=str(round(xml_surf_mat, 2)))
-                tr = SubElement(html_roofs_materials[1], 'tr', id=i.name[0:4])
+                tr = SubElement(html_roofs_materials[1], 'tr', id=material_slot.name[0:4])
                 td_1 = SubElement(tr, 'td')
                 td_1.attrib["class"] = "mat_color"
-                td_1.attrib["style"] = "color:rgb(" + str(int(i.material.diffuse_color[0] * 255)) + "," + str(
-                    int(i.material.diffuse_color[1] * 255)) + "," + str(int(i.material.diffuse_color[2] * 255)) + ")"
+                td_1.attrib["style"] = "color:rgb(" + str(
+                    int(material_slot.material.diffuse_color[0] * 255)) + "," + str(
+                    int(material_slot.material.diffuse_color[1] * 255)) + "," + str(
+                    int(material_slot.material.diffuse_color[2] * 255)) + ")"
                 td_1.text = "\u25A0"
                 td_2 = SubElement(tr, 'td')
                 td_2.attrib["class"] = "mat_index"
-                td_2.text = i.name[0:4]
+                td_2.text = material_slot.name[0:4]
                 td_3 = SubElement(tr, 'td')
                 td_3.attrib["class"] = "mat_name"
-                td_3.text = i.name[5:]
+                td_3.text = material_slot.name[5:]
                 td_4 = SubElement(tr, 'td')
                 td_4.attrib["class"] = "mat_surf"
                 td_4.text = str(round(xml_surf_mat, 2)) + " m²"
@@ -278,15 +304,15 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
         # calcul de la surface totale de l'enveloppe
 
         surf_tot = 0
-        for s in FACES:
-            surf_tot = surf_tot + s[1]
+        for face in faces:
+            surf_tot += face.area
         row = layout.row()
         row.alignment = 'EXPAND'
         box = row.box()
-        col = box.column()
-        subrow = col.row(align=True)
-        subrow.label(text="Volume of the enveloppe:   " + str(round(volume, 2)) + " m\xb3", icon='VIEW3D')
-        subrow.label(text="Surface of the enveloppe:   " + str(round(surf_tot, 2)) + " m\xb2", icon='MESH_GRID')
+        column = box.column()
+        sub_row = column.row(align=True)
+        sub_row.label(text="Volume of the enveloppe:   " + str(round(volume, 2)) + " m\xb3", icon='VIEW3D')
+        sub_row.label(text="Surface of the enveloppe:   " + str(round(surf_tot, 2)) + " m\xb2", icon='MESH_GRID')
 
         xml_volume = tree.find('Project/Volume')
         html_volume = tree_html.find(".//td[@id='general_volume']")
@@ -306,108 +332,126 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
 
         projection_id = 0
 
-        for p in PROJECTIONS:
-            faces_proj = []
+        for orientation in Orientation:
+            faces_proj: [Face] = []
             mat_proj = []
             surf_proj = 0
 
             # déterminer les faces de la projection et la surface de la projection
-            for g in FACES:
-                if g[2] == p and g[4] == faces_types[0]:
-                    faces_proj.append(g)
-                    surf_proj = surf_proj + g[1]
+            for face in faces:
+                if face.orientation == orientation and face.type == FaceType.WALL:
+                    faces_proj.append(face)
+                    surf_proj += face.area
 
             if surf_proj != 0:
                 row = layout.row()
                 row.alignment = 'EXPAND'
                 box = row.box()
-                col = box.column()
-                subrow = col.row(align=True)
-                subrow.label(text=p + " Projection          Surface  : " + str(round(surf_proj, 2)) + " m\xb2",
-                             icon='CURSOR')
+                column = box.column()
+                sub_row = column.row(align=True)
+                sub_row.label(
+                    text=str(orientation.name) + " Projection          Surface  : " + str(
+                        round(surf_proj, 2)) + " m\xb2",
+                    icon='CURSOR')
                 # on peut refaire le moteur apd ici...
-                subrow = col.row(align=True)
-                subrow.label(text="" + 75 * "-")
+                sub_row = column.row(align=True)
+                sub_row.label(text="" + 75 * "-")
                 projection = SubElement(xml_wall_projections, 'WallProjection', Id=str(projection_id),
-                                        Orientation=str(p), Surf=str(round(surf_proj, 2)))
-                projection_id = projection_id + 1
+                                        Orientation=str(orientation.name), Surf=str(round(surf_proj, 2)))
 
-                for x in faces_proj:
-                    if mat_proj.count(str(x[3])) == 0:  # si le matériau de la face n'existe pas encore dans mat_proj
-                        mat_proj.append(x[3])  # ajouter le matériau dans mat_proj [@name='a']
+                projection_id += 1
 
-                for y in sorted(mat_proj):
-                    subrow = col.row(align=True)
+                for face_proj in faces_proj:
+                    # si le matériau de la face n'existe pas encore dans mat_proj
+                    if mat_proj.count(str(face_proj.material)) == 0:
+                        # ajouter le matériau dans mat_proj [@name='a']
+                        mat_proj.append(face_proj.material)
+
+                for material_proj in sorted(mat_proj):
+                    sub_row = column.row(align=True)
                     surf_mat = 0
-                    for z in faces_proj:
-                        if z[3] == y:
-                            surf_mat = surf_mat + z[1]
-                    subrow.label(text=5 * ' ' + y + ' : ' + str(round(surf_mat, 2)) + " m\xb2", icon='MOD_BUILD')
-                    wallpart = SubElement(projection, 'WallPart', id=str(y), Surf=str(round(surf_mat, 2)))
+                    for face_proj in faces_proj:
+                        if face_proj.material == material_proj:
+                            surf_mat += face_proj.area
+
+                    sub_row.label(text=5 * ' ' + material_proj + ' : ' + str(round(surf_mat, 2)) + " m\xb2",
+                                  icon='MOD_BUILD')
+                    wallpart = SubElement(projection, 'WallPart', id=str(material_proj), Surf=str(round(surf_mat, 2)))
 
                 if projection_id <= 4:
                     projection_html_1 = SubElement(html_wall_projections[0][1], 'td')
-                    projection_html_1_table = SubElement(projection_html_1,
-                                                         'table')  # , Orientation=str(p), Surf=str(round(surf_proj,2))
+                    projection_html_1_table = SubElement(projection_html_1, 'table')
+                    # , Orientation=str(p), Surf=str(round(surf_proj,2))
                     projection_html_1_table.attrib["id"] = "walls_projection"
                     tbody = SubElement(projection_html_1_table, 'tbody')
                     caption = SubElement(tbody, 'caption')  # , Orientation=str(p), Surf=str(round(surf_proj,2))
-                    caption.text = "Az.: " + str(p) + " - " + str(round(surf_proj, 2)) + " m²"
-                    for x in faces_proj:
-                        if mat_proj.count(
-                                str(x[3])) == 0:  # si le matériau de la face n'existe pas encore dans mat_proj
-                            mat_proj.append(x[3])  # ajouter le matériau dans mat_proj [@name='a']
-                    for y in sorted(mat_proj):
+                    caption.text = "Az.: " + str(orientation.name) + " - " + str(round(surf_proj, 2)) + " m²"
+
+                    for face_proj in faces_proj:
+                        # si le matériau de la face n'existe pas encore dans mat_proj
+                        if mat_proj.count(str(face_proj.material)) == 0:
+                            # ajouter le matériau dans mat_proj [@name='a']
+                            mat_proj.append(face_proj.material)
+
+                    for material_proj in sorted(mat_proj):
                         surf_mat = 0
-                        for z in faces_proj:
-                            if z[3] == y:
-                                surf_mat = surf_mat + z[1]
+                        for face_proj in faces_proj:
+                            if face_proj.material == material_proj:
+                                surf_mat += face_proj.area
+
                         tr = SubElement(tbody, 'tr')
                         td_1 = SubElement(tr, 'td')
                         td_1.attrib["class"] = "mat_color"
-                        for i in bpy.context.object.material_slots:
-                            if i.name[0:4] == y:
-                                color = i.material.diffuse_color
+
+                        for material_slot in bpy.context.object.material_slots:
+                            if material_slot.name[0:4] == material_proj:
+                                color = material_slot.material.diffuse_color
+
                         td_1.attrib["style"] = "color:rgb(" + str(int(color[0] * 255)) + "," + str(
                             int(color[1] * 255)) + "," + str(int(color[2] * 255)) + ")"
                         td_1.text = "\u25A0"
                         td_2 = SubElement(tr, 'td')
                         td_2.attrib["class"] = "mat_index"
-                        td_2.text = str(y)
+                        td_2.text = str(material_proj)
                         td_3 = SubElement(tr, 'td')
                         td_3.attrib["class"] = "mat_surf"
                         td_3.text = str(round(surf_mat, 2)) + " m²"
 
-                if projection_id > 4:
+                elif projection_id > 4:
                     projection_html_1 = SubElement(html_wall_projections[0][2], 'td')
-                    projection_html_1_table = SubElement(projection_html_1,
-                                                         'table')  # , Orientation=str(p), Surf=str(round(surf_proj,2))
+                    projection_html_1_table = SubElement(projection_html_1, 'table')
+                    # , Orientation=str(p), Surf=str(round(surf_proj,2))
                     projection_html_1_table.attrib["id"] = "walls_projection"
                     tbody = SubElement(projection_html_1_table, 'tbody')
                     caption = SubElement(tbody, 'caption')  # , Orientation=str(p), Surf=str(round(surf_proj,2))
-                    caption.text = "Az.: " + str(p) + " - " + str(round(surf_proj, 2)) + " m²"
-                    for x in faces_proj:
-                        if mat_proj.count(
-                                str(x[3])) == 0:  # si le matériau de la face n'existe pas encore dans mat_proj
-                            mat_proj.append(x[3])  # ajouter le matériau dans mat_proj [@name='a']
-                    for y in sorted(mat_proj):
+                    caption.text = "Az.: " + str(orientation.name) + " - " + str(round(surf_proj, 2)) + " m²"
+
+                    for face_proj in faces_proj:
+                        # si le matériau de la face n'existe pas encore dans mat_proj
+                        if mat_proj.count(str(face_proj.material)) == 0:
+                            # ajouter le matériau dans mat_proj [@name='a']
+                            mat_proj.append(face_proj.material)
+
+                    for material_proj in sorted(mat_proj):
                         surf_mat = 0
-                        for z in faces_proj:
-                            if z[3] == y:
-                                surf_mat = surf_mat + z[1]
+                        for face_proj in faces_proj:
+                            if face_proj.material == material_proj:
+                                surf_mat += face_proj.area
+
                         tr = SubElement(tbody, 'tr')
                         td_1 = SubElement(tr, 'td')
                         td_1.attrib["class"] = "mat_color"
-                        for i in bpy.context.object.material_slots:
-                            if i.name[0:4] == y:
-                                color = i.material.diffuse_color
+
+                        for material_slot in bpy.context.object.material_slots:
+                            if material_slot.name[0:4] == material_proj:
+                                color = material_slot.material.diffuse_color
 
                         td_1.attrib["style"] = "color:rgb(" + str(int(color[0] * 255)) + "," + str(
                             int(color[1] * 255)) + "," + str(int(color[2] * 255)) + ")"
                         td_1.text = "\u25A0"
                         td_2 = SubElement(tr, 'td')
                         td_2.attrib["class"] = "mat_index"
-                        td_2.text = str(y)
+                        td_2.text = str(material_proj)
                         td_3 = SubElement(tr, 'td')
                         td_3.attrib["class"] = "mat_surf"
                         td_3.text = str(round(surf_mat, 2)) + " m²"
@@ -418,53 +462,56 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
         row = layout.row()
         row.alignment = 'EXPAND'
         box = row.box()
-        col = box.column()
+        column = box.column()
         surf_vert = 0
         faces_vert = []
         mat_vert = []
 
-        for g in FACES:
-            if g[4] == faces_types[1]:
-                faces_vert.append(g)
-                surf_vert = surf_vert + g[6]
+        for face in faces:
+            if face.type == FaceType.FLOOR:
+                faces_vert.append(face)
+                surf_vert += face.projection_area
 
         if surf_vert != 0:
-            subrow = col.row(align=True)
-            subrow.label(text="Floors Projection     Surface : " + str(round(surf_vert, 2)) + " m\xb2", icon="TEXTURE")
-            subrow = col.row(align=True)
-            subrow.label(text="" + 75 * "-")
+            sub_row = column.row(align=True)
+            sub_row.label(text="Floors Projection     Surface : " + str(round(surf_vert, 2)) + " m\xb2", icon="TEXTURE")
+            sub_row = column.row(align=True)
+            sub_row.label(text="" + 75 * "-")
             xml_floor_projections.attrib['Surf'] = str(round(surf_vert, 2))  #
             html_floors_projection.attrib['Surf'] = str(round(surf_vert, 2))  #
             caption = tree_html.find(".//table[@id='floors_values']/tbody/caption")
             caption.text = 'Projection Sols: ' + str(round(surf_vert, 2)) + ' m²'
 
-            for x in faces_vert:
-                if mat_vert.count(str(x[3])) == 0:
-                    mat_vert.append(x[3])
+            for face_proj in faces_vert:
+                if mat_vert.count(str(face_proj.material)) == 0:
+                    mat_vert.append(face_proj.material)
 
-            for y in sorted(mat_vert):
-                subrow = col.row(align=True)
+            for material_proj in sorted(mat_vert):
+                sub_row = column.row(align=True)
                 surf_mat_vert = 0
-                for z in faces_vert:
-                    if z[3] == y:
-                        surf_mat_vert = surf_mat_vert + z[6]
+                for face_proj in faces_vert:
+                    if face_proj.material == material_proj:
+                        surf_mat_vert += face_proj.projection_area
 
-                subrow.label(text=5 * ' ' + y + ' : ' + str(round(surf_mat_vert, 2)) + " m\xb2", icon="ASSET_MANAGER")
-                floorpart = SubElement(xml_floor_projections, 'FloorPart', Id=str(y), Surf=str(round(surf_mat_vert, 2)))
+                sub_row.label(text=5 * ' ' + material_proj + ' : ' + str(round(surf_mat_vert, 2)) + " m\xb2",
+                              icon="ASSET_MANAGER")
+                floorpart = SubElement(xml_floor_projections, 'FloorPart', Id=str(material_proj),
+                                       Surf=str(round(surf_mat_vert, 2)))
 
                 tr = SubElement(html_floors_projection[0], 'tr')
                 td_1 = SubElement(tr, 'td')
                 td_1.attrib["class"] = "mat_color"
 
-                for i in bpy.context.object.material_slots:
-                    if i.name[0:4] == y:
-                        color = i.material.diffuse_color
+                for material_slot in bpy.context.object.material_slots:
+                    if material_slot.name[0:4] == material_proj:
+                        color = material_slot.material.diffuse_color
+
                 td_1.attrib["style"] = "color:rgb(" + str(int(color[0] * 255)) + "," + str(
                     int(color[1] * 255)) + "," + str(int(color[2] * 255)) + ")"
                 td_1.text = "\u25A0"
                 td_2 = SubElement(tr, 'td')
                 td_2.attrib["class"] = "mat_index"
-                td_2.text = str(y)
+                td_2.text = str(material_proj)
                 td_3 = SubElement(tr, 'td')
                 td_3.attrib["class"] = "mat_surf"
                 td_3.text = str(round(surf_mat_vert, 2)) + " m²"
@@ -476,56 +523,56 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
         row = layout.row()
         row.alignment = 'EXPAND'
         box = row.box()
-        col = box.column()
+        column = box.column()
         surf_roof = 0
         surf_proj_roof = 0
         faces_roof = []
         mat_roof = []
 
-        for g in FACES:
-            if g[4] == faces_types[2]:
-                faces_roof.append(g)
-                surf_roof = surf_roof + g[1]
-                surf_proj_roof = surf_proj_roof + g[6]
+        for face in faces:
+            if face.type == FaceType.ROOF:
+                faces_roof.append(face)
+                surf_roof = surf_roof + face.area
+                surf_proj_roof = surf_proj_roof + face.projection_area
 
         if surf_roof != 0:
-            subrow = col.row(align=True)
-            subrow.label(text="Roofs Projection     Surface : " + str(round(surf_proj_roof, 2)) + " m\xb2",
-                         icon="LINCURVE")
-            subrow = col.row(align=True)
-            subrow.label(text="" + 75 * "-")
+            sub_row = column.row(align=True)
+            sub_row.label(text="Roofs Projection     Surface : " + str(round(surf_proj_roof, 2)) + " m\xb2",
+                          icon="LINCURVE")
+            sub_row = column.row(align=True)
+            sub_row.label(text="" + 75 * "-")
             xml_roof_projections.attrib['Surf'] = str(round(surf_proj_roof, 2))  #
             html_roofs_projection.attrib['Surf'] = str(round(surf_proj_roof, 2))  #
             caption = tree_html.find(".//table[@id='roofs_values']/tbody/caption")
             caption.text = 'Projection Toitures: ' + str(round(surf_proj_roof, 2)) + ' m²'
 
-            for x in faces_roof:
-                if mat_roof.count(str(x[3])) == 0:
-                    mat_roof.append(x[3])
-            for y in sorted(mat_roof):
-                subrow = col.row(align=True)
+            for face_proj in faces_roof:
+                if mat_roof.count(str(face_proj.material)) == 0:
+                    mat_roof.append(face_proj.material)
+            for material_proj in sorted(mat_roof):
+                sub_row = column.row(align=True)
                 surf_mat_roof = 0
                 surf_proj_mat_roof = 0
                 roof_angle = 0
                 roof_orientation = ''
 
-                for z in faces_roof:
-                    if z[3] == y:
-                        surf_mat_roof = surf_mat_roof + z[1]
-                        surf_proj_mat_roof = surf_proj_mat_roof + z[6]
-                        roof_angle = z[5]
-                        roof_orientation = z[2]
+                for face_proj in faces_roof:
+                    if face_proj.material == material_proj:
+                        surf_mat_roof = surf_mat_roof + face_proj.area
+                        surf_proj_mat_roof = surf_proj_mat_roof + face_proj.projection_area
+                        roof_angle = face_proj.angle
+                        roof_orientation = face_proj.orientation
 
-                subrow.label(text=y + ' : ' + str(round(surf_mat_roof, 2)) + " m\xb2", icon="MOD_ARRAY")
-                subrow.label(text='Proj. : ' + str(roof_orientation))
-                subrow.label(text='Angle : ' + str(round(math.fabs(math.degrees(roof_angle)), 1)) + " \xb0")
-                subrow.label(text='Proj. surf. : ' + str(round(surf_proj_mat_roof, 2)) + " m\xb2")
+                sub_row.label(text=material_proj + ' : ' + str(round(surf_mat_roof, 2)) + " m\xb2", icon="MOD_ARRAY")
+                sub_row.label(text='Proj. : ' + str(roof_orientation.name))
+                sub_row.label(text='Angle : ' + str(round(math.fabs(math.degrees(roof_angle)), 1)) + " \xb0")
+                sub_row.label(text='Proj. surf. : ' + str(round(surf_proj_mat_roof, 2)) + " m\xb2")
                 roofpart = SubElement(
                     xml_roof_projections,
                     'RoofPart',
                     Angle=str(round(math.fabs(math.degrees(roof_angle)), 1)),
-                    Id=str(y),
-                    Orientation=str(roof_orientation),
+                    Id=str(material_proj),
+                    Orientation=str(roof_orientation.name),
                     Surf=str(round(surf_mat_roof, 2)),
                     SurfProj=str(round(surf_proj_mat_roof, 2))
                 )
@@ -533,15 +580,15 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
                 tr = SubElement(html_roofs_projection[0], 'tr')
                 td_1 = SubElement(tr, 'td')
                 td_1.attrib["class"] = "mat_color"
-                for i in bpy.context.object.material_slots:
-                    if i.name[0:4] == y:
-                        color = i.material.diffuse_color
+                for material_slot in bpy.context.object.material_slots:
+                    if material_slot.name[0:4] == material_proj:
+                        color = material_slot.material.diffuse_color
                 td_1.attrib["style"] = "color:rgb(" + str(int(color[0] * 255)) + "," + str(
                     int(color[1] * 255)) + "," + str(int(color[2] * 255)) + ")"
                 td_1.text = "\u25A0"
                 td_2 = SubElement(tr, 'td')
                 td_2.attrib["class"] = "mat_index"
-                td_2.text = str(y)
+                td_2.text = str(material_proj)
                 td_3 = SubElement(tr, 'td')
                 td_3.attrib["class"] = "mat_surf_brute"
                 td_3.text = str(round(surf_mat_roof, 2)) + " m²"
@@ -550,7 +597,7 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
                 td_4.text = str(round(math.fabs(math.degrees(roof_angle)), 1)) + " °"
                 td_5 = SubElement(tr, 'td')
                 td_5.attrib["class"] = "mat_orient"
-                td_5.text = str(roof_orientation)
+                td_5.text = str(roof_orientation.name)
                 td_6 = SubElement(tr, 'td')
                 td_6.attrib["class"] = "mat_surf_proj"
                 td_6.text = str(round(surf_proj_mat_roof, 2)) + " m²"
@@ -562,50 +609,22 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
         row = layout.row()
         row.alignment = 'EXPAND'
         box = row.box()
-        col = box.column()
-        subrow = col.row(align=True)
-        subrow.label(text="Walls", icon="MOD_BUILD")
-        for i in bpy.context.object.material_slots:
-            xml_surf_mat = 0
 
-            for j in FACES:
-                if i.name[0:4] == j[3]:
-                    xml_surf_mat = xml_surf_mat + j[1]
+        for face_type in FaceType:
+            column = box.column()
+            sub_row = column.row(align=True)
+            sub_row.label(text=face_type.get_name(), icon=face_type.get_icon())
+            for material_slot in bpy.context.object.material_slots:
+                xml_surf_mat = 0
 
-            if i.name[0] == 'M' or i.name[0] == 'W':
-                subrow = col.row(align=True)
-                subrow.label(text=i.name[0:4] + "  " + i.name[5:] + " : ")
-                subrow.label(text=str(round(xml_surf_mat, 2)) + " m\xb2")
+                for face in faces:
+                    if material_slot.name[0:4] == face.material:
+                        xml_surf_mat += face.area
 
-        col = box.column()
-        subrow = col.row(align=True)
-        col.label(text="Floors", icon="TEXTURE")
-        for i in bpy.context.object.material_slots:
-            xml_surf_mat = 0
-
-            for j in FACES:
-                if i.name[0:4] == j[3]:
-                    xml_surf_mat = xml_surf_mat + j[1]
-
-            if i.name[0] == 'S' or i.name[0] == 'F':
-                subrow = col.row(align=True)
-                subrow.label(text=i.name[0:4] + "  " + i.name[5:] + " : ")
-                subrow.label(text=str(round(xml_surf_mat, 2)) + " m\xb2")
-
-        col = box.column()
-        subrow = col.row(align=True)
-        col.label(text="Roofs", icon="LINCURVE")
-        for i in bpy.context.object.material_slots:
-            xml_surf_mat = 0
-
-            for j in FACES:
-                if i.name[0:4] == j[3]:
-                    xml_surf_mat = xml_surf_mat + j[1]
-
-            if i.name[0] == 'T' or i.name[0] == 'R':
-                subrow = col.row(align=True)
-                subrow.label(text=i.name[0:4] + "  " + i.name[5:] + " : ")
-                subrow.label(text=str(round(xml_surf_mat, 2)) + " m\xb2")
+                if material_slot.name[0] in face_type.value:
+                    sub_row = column.row(align=True)
+                    sub_row.label(text=material_slot.name[0:4] + "  " + material_slot.name[5:] + " : ")
+                    sub_row.label(text=str(round(xml_surf_mat, 2)) + " m\xb2")
 
         # buttons & credits
 
@@ -614,8 +633,9 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
         row.operator("export.html", text="Export to pdf...")
 
         row = layout.row()
-        dirname = os.path.expanduser(
-            '~') + '\.blender\ArToKi\labels'  #### Only line to change for lite version for windows
+
+        #### Only line to change for lite version for Windows
+        dirname = os.path.expanduser('~') + '\.blender\ArToKi\labels'
 
         if bpy.data.images.find('ArToKi.png') == -1:
             img_A_Plus = bpy.data.images.load(os.path.join(dirname, 'ArToKi.png'))
@@ -624,4 +644,3 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
             img_A_Plus.user_clear()  # Won't get saved into .blend files
         icon_ArToKi = self.layout.icon(bpy.data.images['ArToKi.png'])
         row.label(text="ArToKi - Energy by tmaes" + 60 * " " + "info@tmaes.be", icon_value=icon_ArToKi)
-
