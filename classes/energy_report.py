@@ -1,9 +1,7 @@
 import datetime
 import math
 import os
-from collections import namedtuple
 from enum import Enum
-from typing import overload
 from xml.etree.ElementTree import SubElement, ElementTree
 
 from bpy.props import StringProperty, EnumProperty, BoolProperty
@@ -111,6 +109,25 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
     bl_region_type = "WINDOW"
     bl_context = "material"
 
+    properties = [
+        ('atk_procedure_type', "Procedure"),
+        ('atk_aerial', "Aerial view path"),
+        ('atk_elevation', "Elevation view path"),
+        ('atk_address1', "Street, Nb"),
+        ('atk_address2', "PostCode City"),
+        ('atk_therm_col', "Use thermic colors"),
+    ]
+
+    document_properties = {
+        "author": 'Maes Thierry',
+        "title": 'Auditeur PAE, Certificateur PEB',
+        "address1": 'Rue Joseph Berger, 6',
+        "address2": 'B-1470 Genappe',
+        "email": 'info@tmaes.be',
+        "phone": '+32 (0)67/ 63 68 50',
+        "gsm": '+32 (0)475/ 30 36 51',
+    }
+
     bpy.types.Scene.atk_aerial \
         = StringProperty(name="Aerial", description="Aerial view path", default="", subtype='FILE_PATH')
     bpy.types.Scene.atk_elevation \
@@ -129,16 +146,17 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
                        default="PEB"
                        )
 
+    def draw_properties(self):
+        for prop in self.properties:
+            row = self.layout.row()
+            row.prop(bpy.context.scene, prop[0], text=prop[1])
+
+    def draw_credits(self, email):
+        row = self.layout.row()
+        icon_artoki = self.layout.icon(bpy.data.images['ArToKi.png'])
+        row.label(text="ArToKi - Energy by tmaes" + 60 * " " + email, icon_value=icon_artoki)
+
     def draw(self, context):
-        document_properties = {
-            "author": 'Maes Thierry',
-            "title": 'Auditeur PAE, Certificateur PEB',
-            "address1": 'Rue Joseph Berger, 6',
-            "address2": 'B-1470 Genappe',
-            "email": 'info@tmaes.be',
-            "phone": '+32 (0)67/ 63 68 50',
-            "gsm": '+32 (0)475/ 30 36 51',
-        }
 
         # préparation du fichier xml et html temporaires
         obj = context.object
@@ -157,7 +175,6 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
 
         # Bases du fichier xml et html
         root = tree.getroot()
-        root_html = tree_html.getroot()
         root.attrib['Version'] = info.VERSION
 
         project = tree.find('Project')
@@ -177,19 +194,19 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
         for material_slot in tree_html.findall(".//td[@class='header_city']"):
             material_slot.text = str(scene.atk_address2)
         for material_slot in tree_html.findall(".//td[@class='aud1']"):
-            material_slot.text = str(document_properties["author"])
+            material_slot.text = str(self.document_properties["author"])
         for material_slot in tree_html.findall(".//td[@class='aud2']"):
-            material_slot.text = str(document_properties["title"])
+            material_slot.text = str(self.document_properties["title"])
         for material_slot in tree_html.findall(".//td[@class='aud3']"):
-            material_slot.text = str(document_properties["address1"])
+            material_slot.text = str(self.document_properties["address1"])
         for material_slot in tree_html.findall(".//td[@class='aud4']"):
-            material_slot.text = str(document_properties["address2"])
+            material_slot.text = str(self.document_properties["address2"])
         for material_slot in tree_html.findall(".//td[@class='aud5']"):
-            material_slot.text = str(document_properties["email"])
+            material_slot.text = str(self.document_properties["email"])
         for material_slot in tree_html.findall(".//td[@class='aud7']"):
-            material_slot.text = str(document_properties["phone"])
+            material_slot.text = str(self.document_properties["phone"])
         for material_slot in tree_html.findall(".//td[@class='aud8']"):
-            material_slot.text = str(document_properties["gsm"])
+            material_slot.text = str(self.document_properties["gsm"])
         for material_slot in tree_html.findall(".//td[@class='date']"):
             material_slot.text = date.strftime("%d/%m/%Y")
 
@@ -203,8 +220,8 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
             if round(math.atan2(a.normal[1], a.normal[2]), 3) == 0:
                 angle_roof = math.atan2(a.normal[0], a.normal[2])
             else:
-                hypoth = math.sqrt(math.pow(a.normal[0], 2) + math.pow(a.normal[1], 2))
-                angle_roof = math.atan2(hypoth, a.normal[2])
+                hypotenuse = math.sqrt(math.pow(a.normal[0], 2) + math.pow(a.normal[1], 2))
+                angle_roof = math.atan2(hypotenuse, a.normal[2])
 
             face = Face(
                 index=a.index,
@@ -219,7 +236,7 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
 
             faces.append(face)
 
-        ### 1.1 LISTE DES MURS SOLS TOITS POUR L'EXPORT XML
+        # 1.1 LISTE DES MURS SOLS TOITS POUR L'EXPORT XML
 
         xml_materials = [
             tree.find('Project/Walls'),
@@ -258,29 +275,17 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
             td_4.attrib["class"] = "mat_surf"
             td_4.text = str(round(xml_surf_mat, 2)) + " m²"
 
-        ### 2 LISTE DES PROJECTIONS ET DES SURFACES
+        self.draw_properties()
 
-        properties = [
-            ('atk_procedure_type', "Procedure"),
-            ('atk_aerial', "Aerial view path"),
-            ('atk_elevation', "Elevation view path"),
-            ('atk_address1', "Street, Nb"),
-            ('atk_address2', "PostCode City"),
-            ('atk_therm_col', "Use thermic colors")
-        ]
+        # 2 LISTE DES PROJECTIONS ET DES SURFACES
 
-        layout = self.layout
-
-        for prop in properties:
-            row = layout.row()
-            row.prop(scene, prop[0], text=prop[1])
-
-        # row = layout.row()
         volume = math.fabs(object_volume(obj))
 
         total_area = 0
         for face in faces:
             total_area += face.area
+
+        layout = self.layout
 
         row = layout.row()
         row.alignment = 'EXPAND'
@@ -501,6 +506,7 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
             for face_proj in faces_roof:
                 if mat_roof.count(str(face_proj.material)) == 0:
                     mat_roof.append(face_proj.material)
+
             for material_proj in sorted(mat_roof):
                 sub_row = column.row(align=True)
                 surf_mat_roof = 0
@@ -519,7 +525,8 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
                 sub_row.label(text='Proj. : ' + str(roof_orientation.name))
                 sub_row.label(text='Angle : ' + str(round(math.fabs(math.degrees(roof_angle)), 1)) + " \xb0")
                 sub_row.label(text='Proj. surf. : ' + str(round(surf_proj_mat_roof, 2)) + " m\xb2")
-                roofpart = SubElement(
+
+                roof_part = SubElement(
                     xml_projections[face_type_id],
                     'RoofPart',
                     Angle=str(round(math.fabs(math.degrees(roof_angle)), 1)),
@@ -587,15 +594,12 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
         row.operator("export.xml", text="Save")
         row.operator("export.html", text="Export to pdf...")
 
-        row = layout.row()
+        # Only line to change for lite version for Windows
+        dirname = os.path.expanduser('~') + '/.blender/ArToKi/labels'
 
-        #### Only line to change for lite version for Windows
-        dirname = os.path.expanduser('~') + '\.blender\ArToKi\labels'
+        img_src = 'ArToKi.png'
+        if bpy.data.images.find(img_src) == -1:
+            img_a_plus = bpy.data.images.load(os.path.join(dirname, img_src))
+            img_a_plus.user_clear()  # Won't get saved into .blend files
 
-        if bpy.data.images.find('ArToKi.png') == -1:
-            img_A_Plus = bpy.data.images.load(os.path.join(dirname, 'ArToKi.png'))
-            # TODO: Uncomment use_alpha, if useful.
-            # img_A_Plus.use_alpha = True
-            img_A_Plus.user_clear()  # Won't get saved into .blend files
-        icon_ArToKi = self.layout.icon(bpy.data.images['ArToKi.png'])
-        row.label(text="ArToKi - Energy by tmaes" + 60 * " " + "info@tmaes.be", icon_value=icon_ArToKi)
+        self.draw_credits(self.document_properties["email"])
