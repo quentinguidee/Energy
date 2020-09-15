@@ -3,6 +3,7 @@ import math
 import os
 from collections import namedtuple
 from enum import Enum
+from typing import overload
 from xml.etree.ElementTree import SubElement, ElementTree
 
 from bpy.props import StringProperty, EnumProperty, BoolProperty
@@ -86,6 +87,24 @@ class Face:
         self.material_name = material_name
 
 
+class Color:
+    def __init__(self, red: int = 0, green: int = 0, blue: int = 0):
+        self.red = red
+        self.green = green
+        self.blue = blue
+
+    def __str__(self):
+        return "rgb(" + str(self.red) + "," + str(self.green) + "," + str(self.blue) + ")"
+
+    @staticmethod
+    def from_8_bits(red: float, green: float, blue: float) -> 'Color':
+        return Color(int(red * 255), int(green * 255), int(blue * 255))
+
+    @staticmethod
+    def from_8_bits_color(color: list) -> 'Color':
+        return Color.from_8_bits(color[0], color[1], color[2])
+
+
 class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
     bl_label = "ArToKi - Energy - Report"
     bl_space_type = "PROPERTIES"
@@ -111,18 +130,20 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
                        )
 
     def draw(self, context):
-        author = 'Maes Thierry'
-        author_titles = 'Auditeur PAE, Certificateur PEB'
-        author_adress_1 = 'Rue Joseph Berger, 6'
-        author_adress_2 = 'B-1470 Genappe'
-        author_e_mail = 'info@tmaes.be'
-        author_phone = '+32 (0)67/ 63 68 50'
-        author_gsm = '+32 (0)475/ 30 36 51'
+        document_properties = {
+            "author": 'Maes Thierry',
+            "title": 'Auditeur PAE, Certificateur PEB',
+            "address1": 'Rue Joseph Berger, 6',
+            "address2": 'B-1470 Genappe',
+            "email": 'info@tmaes.be',
+            "phone": '+32 (0)67/ 63 68 50',
+            "gsm": '+32 (0)475/ 30 36 51',
+        }
 
         # préparation du fichier xml et html temporaires
         obj = context.object
         scene = bpy.context.scene
-        now = datetime.datetime.now()
+        date = datetime.datetime.now()
 
         base_file = os.path.expanduser('~') + '/.blender/ArToKi/artoki_peb_BASE.xml'
         temp_file = os.path.expanduser('~') + '/.blender/ArToKi/artoki_peb_temp.xml'
@@ -141,7 +162,7 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
 
         project = tree.find('Project')
         project.attrib['Name'] = bpy.context.scene.name
-        project.attrib['Date'] = now.strftime("%Y-%m-%d %H:%M")
+        project.attrib['Date'] = date.strftime("%Y-%m-%d %H:%M")
 
         address1 = tree.find('Project/Address1')
         address1.text = str(scene.atk_address1)
@@ -156,23 +177,22 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
         for material_slot in tree_html.findall(".//td[@class='header_city']"):
             material_slot.text = str(scene.atk_address2)
         for material_slot in tree_html.findall(".//td[@class='aud1']"):
-            material_slot.text = str(author)
+            material_slot.text = str(document_properties["author"])
         for material_slot in tree_html.findall(".//td[@class='aud2']"):
-            material_slot.text = str(author_titles)
+            material_slot.text = str(document_properties["title"])
         for material_slot in tree_html.findall(".//td[@class='aud3']"):
-            material_slot.text = str(author_adress_1)
+            material_slot.text = str(document_properties["address1"])
         for material_slot in tree_html.findall(".//td[@class='aud4']"):
-            material_slot.text = str(author_adress_2)
+            material_slot.text = str(document_properties["address2"])
         for material_slot in tree_html.findall(".//td[@class='aud5']"):
-            material_slot.text = str(author_e_mail)
+            material_slot.text = str(document_properties["email"])
         for material_slot in tree_html.findall(".//td[@class='aud7']"):
-            material_slot.text = str(author_phone)
+            material_slot.text = str(document_properties["phone"])
         for material_slot in tree_html.findall(".//td[@class='aud8']"):
-            material_slot.text = str(author_gsm)
+            material_slot.text = str(document_properties["gsm"])
         for material_slot in tree_html.findall(".//td[@class='date']"):
-            material_slot.text = now.strftime("%d/%m/%Y")
+            material_slot.text = date.strftime("%d/%m/%Y")
 
-        layout = self.layout
         faces: [Face] = []
 
         for a in obj.data.polygons:
@@ -221,14 +241,12 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
                     xml_surf_mat += face.area
 
             face_type = FaceType.get_face_type(material_slot.name[0])
+            color = Color.from_8_bits_color(material_slot.material.diffuse_color)
 
             tr = SubElement(html_materials[face_type.get_id()][1], 'tr', id=material_slot.name[0:4])
             td_1 = SubElement(tr, 'td')
             td_1.attrib["class"] = "mat_color"
-            td_1.attrib["style"] = "color:rgb(" + str(
-                int(material_slot.material.diffuse_color[0] * 255)) + "," + str(
-                int(material_slot.material.diffuse_color[1] * 255)) + "," + str(
-                int(material_slot.material.diffuse_color[2] * 255)) + ")"
+            td_1.attrib["style"] = "color:" + str(color)
             td_1.text = "\u25A0"
             td_2 = SubElement(tr, 'td')
             td_2.attrib["class"] = "mat_index"
@@ -242,36 +260,38 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
 
         ### 2 LISTE DES PROJECTIONS ET DES SURFACES
 
-        row = layout.row()
-        row.prop(scene, 'atk_procedure_type', text="Procedure")
-        row = layout.row()
-        row.prop(scene, 'atk_aerial', text="Aerial view path")
-        row = layout.row()
-        row.prop(scene, 'atk_elevation', text="Elevation view path")
-        row = layout.row()
-        row.prop(scene, 'atk_address1', text="Street, Nb")
-        row = layout.row()
-        row.prop(scene, 'atk_address2', text="PostCode City")
-        row = layout.row()
-        row.prop(scene, 'atk_therm_col', text="Use thermic colors")
-        row = layout.row()
+        properties = [
+            ('atk_procedure_type', "Procedure"),
+            ('atk_aerial', "Aerial view path"),
+            ('atk_elevation', "Elevation view path"),
+            ('atk_address1', "Street, Nb"),
+            ('atk_address2', "PostCode City"),
+            ('atk_therm_col', "Use thermic colors")
+        ]
+
+        layout = self.layout
+
+        for prop in properties:
+            row = layout.row()
+            row.prop(scene, prop[0], text=prop[1])
+
+        # row = layout.row()
         volume = math.fabs(object_volume(obj))
 
-        # calcul de la surface totale de l'enveloppe
-
-        surf_tot = 0
+        total_area = 0
         for face in faces:
-            surf_tot += face.area
+            total_area += face.area
 
         row = layout.row()
         row.alignment = 'EXPAND'
+
         box = row.box()
 
         column = box.column()
 
         sub_row = column.row(align=True)
         sub_row.label(text="Volume of the enveloppe:   " + str(round(volume, 2)) + " m\xb3", icon='VIEW3D')
-        sub_row.label(text="Surface of the enveloppe:   " + str(round(surf_tot, 2)) + " m\xb2", icon='MESH_GRID')
+        sub_row.label(text="Surface of the enveloppe:   " + str(round(total_area, 2)) + " m\xb2", icon='MESH_GRID')
 
         xml_volume = tree.find('Project/Volume')
         html_volume = tree_html.find(".//td[@id='general_volume']")
@@ -282,8 +302,8 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
         xml_surf_tot = tree.find('Project/Surf_tot')
         html_surf_tot = tree_html.find(".//td[@id='general_surface']")
 
-        xml_surf_tot.text = str(round(surf_tot, 2))
-        html_surf_tot.text = "Surface totale: " + str(round(surf_tot, 2)) + " m²"
+        xml_surf_tot.text = str(round(total_area, 2))
+        html_surf_tot.text = "Surface totale: " + str(round(total_area, 2)) + " m²"
 
         xml_projections = [
             tree.find('Project/WallProjections'),
@@ -315,8 +335,11 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
             if surf_proj != 0:
                 row = layout.row()
                 row.alignment = 'EXPAND'
+
                 box = row.box()
+
                 column = box.column()
+
                 sub_row = column.row(align=True)
                 sub_row.label(
                     text=str(orientation.name) + " Projection          Surface  : " + str(
@@ -371,12 +394,12 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
                     td_1 = SubElement(tr, 'td')
                     td_1.attrib["class"] = "mat_color"
 
+                    color = Color()
                     for material_slot in bpy.context.object.material_slots:
                         if material_slot.name[0:4] == material_proj:
-                            color = material_slot.material.diffuse_color
+                            color = Color.from_8_bits_color(material_slot.material.diffuse_color)
 
-                    td_1.attrib["style"] = "color:rgb(" + str(int(color[0] * 255)) + "," + str(
-                        int(color[1] * 255)) + "," + str(int(color[2] * 255)) + ")"
+                    td_1.attrib["style"] = "color:" + str(color)
                     td_1.text = "\u25A0"
                     td_2 = SubElement(tr, 'td')
                     td_2.attrib["class"] = "mat_index"
@@ -389,9 +412,12 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
 
         row = layout.row()
         row.alignment = 'EXPAND'
+
         box = row.box()
+
         column = box.column()
-        surf_vert = 0
+
+        area_vert = 0
         faces_vert = []
         mat_vert = []
         face_type_id = FaceType.FLOOR.get_id()
@@ -399,17 +425,17 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
         for face in faces:
             if face.type == FaceType.FLOOR:
                 faces_vert.append(face)
-                surf_vert += face.projection_area
+                area_vert += face.projection_area
 
-        if surf_vert != 0:
+        if area_vert != 0:
             sub_row = column.row(align=True)
-            sub_row.label(text="Floors Projection     Surface : " + str(round(surf_vert, 2)) + " m\xb2", icon="TEXTURE")
+            sub_row.label(text="Floors Projection     Surface : " + str(round(area_vert, 2)) + " m\xb2", icon="TEXTURE")
             sub_row = column.row(align=True)
             sub_row.label(text="" + 75 * "-")
-            xml_projections[face_type_id].attrib['Surf'] = str(round(surf_vert, 2))  #
-            html_projections[face_type_id].attrib['Surf'] = str(round(surf_vert, 2))  #
+            xml_projections[face_type_id].attrib['Surf'] = str(round(area_vert, 2))  #
+            html_projections[face_type_id].attrib['Surf'] = str(round(area_vert, 2))  #
             caption = tree_html.find(".//table[@id='floors_values']/tbody/caption")
-            caption.text = 'Projection Sols: ' + str(round(surf_vert, 2)) + ' m²'
+            caption.text = 'Projection Sols: ' + str(round(area_vert, 2)) + ' m²'
 
             for face_proj in faces_vert:
                 if mat_vert.count(str(face_proj.material)) == 0:
@@ -424,19 +450,17 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
 
                 sub_row.label(text=5 * ' ' + material_proj + ' : ' + str(round(surf_mat_vert, 2)) + " m\xb2",
                               icon="ASSET_MANAGER")
-                floorpart = SubElement(xml_projections[face_type_id], 'FloorPart', Id=str(material_proj),
-                                       Surf=str(round(surf_mat_vert, 2)))
 
                 tr = SubElement(html_projections[face_type_id][0], 'tr')
                 td_1 = SubElement(tr, 'td')
                 td_1.attrib["class"] = "mat_color"
 
+                color = Color()
                 for material_slot in bpy.context.object.material_slots:
                     if material_slot.name[0:4] == material_proj:
-                        color = material_slot.material.diffuse_color
+                        color = Color.from_8_bits_color(material_slot.material.diffuse_color)
 
-                td_1.attrib["style"] = "color:rgb(" + str(int(color[0] * 255)) + "," + str(
-                    int(color[1] * 255)) + "," + str(int(color[2] * 255)) + ")"
+                td_1.attrib["style"] = "color:" + str(color)
                 td_1.text = "\u25A0"
                 td_2 = SubElement(tr, 'td')
                 td_2.attrib["class"] = "mat_index"
@@ -508,11 +532,13 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
                 tr = SubElement(html_projections[face_type_id], 'tr')
                 td_1 = SubElement(tr, 'td')
                 td_1.attrib["class"] = "mat_color"
+
+                color = Color()
                 for material_slot in bpy.context.object.material_slots:
                     if material_slot.name[0:4] == material_proj:
                         color = material_slot.material.diffuse_color
-                td_1.attrib["style"] = "color:rgb(" + str(int(color[0] * 255)) + "," + str(
-                    int(color[1] * 255)) + "," + str(int(color[2] * 255)) + ")"
+
+                td_1.attrib["style"] = "color:" + str(color)
                 td_1.text = "\u25A0"
                 td_2 = SubElement(tr, 'td')
                 td_2.attrib["class"] = "mat_index"
