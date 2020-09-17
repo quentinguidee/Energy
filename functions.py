@@ -1,6 +1,5 @@
 import os
 
-import bmesh
 import bpy
 
 
@@ -45,21 +44,6 @@ def face_projection_area(face, obj):
         area = n.length / 2.0
 
     return area
-
-
-def object_volume(obj):
-    """
-    Calculate the volume of a mesh object.
-    """
-    if obj and obj.type == 'MESH' and obj.data:
-        # New volume method for bmesh 2015 corrected 2017
-
-        bm = bmesh.new()
-        # could also use from_mesh() if you don't care about deformation etc.
-        bm.from_object(obj, bpy.context.evaluated_depsgraph_get())
-        bmesh.ops.triangulate(bm, faces=bm.faces)
-        # print(bm.calc_volume())
-        return bm.calc_volume()
 
 
 def create_xml_file(context, filepath):

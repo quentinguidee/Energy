@@ -4,8 +4,10 @@ import os
 from enum import Enum
 from xml.etree.ElementTree import SubElement, ElementTree
 
+import bmesh
 from bpy.props import StringProperty, EnumProperty, BoolProperty
-from ..functions import face_projection_area, object_volume
+from bpy.types import Panel
+from ..functions import face_projection_area
 from .. import info
 
 import bpy
@@ -103,7 +105,61 @@ class Color:
         return Color.from_8_bits(color[0], color[1], color[2])
 
 
-class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
+class Building:
+    def populate_faces(self, obj):
+        for a in obj.data.polygons:
+            angle_proj = round(math.degrees(math.atan2(a.normal[0], a.normal[1])))
+            angle_proj_orientation = Orientation.get_direction(angle_proj)
+            material_id = obj.material_slots[a.material_index].name[0:1]
+
+            if round(math.atan2(a.normal[1], a.normal[2]), 3) == 0:
+                angle_roof = math.atan2(a.normal[0], a.normal[2])
+            else:
+                hypotenuse = math.sqrt(math.pow(a.normal[0], 2) + math.pow(a.normal[1], 2))
+                angle_roof = math.atan2(hypotenuse, a.normal[2])
+
+            face = Face(
+                index=a.index,
+                area=a.area,
+                orientation=angle_proj_orientation,
+                material=bpy.context.object.material_slots[a.material_index].name[0:4],
+                face_type=FaceType.get_face_type(material_id),
+                angle=angle_roof,
+                projection_area=face_projection_area(a, obj),
+                material_name=bpy.context.object.material_slots[a.material_index].name[5:],
+            )
+
+            self.faces.append(face)
+
+    def __init__(self, obj):
+        self.obj = obj
+        self.faces: [Face] = []
+        self.populate_faces(obj)
+
+    def eval_volume(self):
+        """
+        Calculate the volume of the mesh object.
+        """
+        if self.obj and self.obj.type == 'MESH' and self.obj.data:
+            # New volume method for bmesh 2015 corrected 2017
+            bm = bmesh.new()
+            # could also use from_mesh() if you don't care about deformation etc.
+            bm.from_object(self.obj, bpy.context.evaluated_depsgraph_get())
+            bmesh.ops.triangulate(bm, faces=bm.faces)
+            return math.fabs(bm.calc_volume())
+
+    def eval_area(self):
+        """
+        Calculate the area of the mesh object.
+        """
+        area = 0
+        for face in self.faces:
+            area += face.area
+
+        return area
+
+
+class OBJECT_PT_ArToKi_EnergyReport(Panel):
     bl_label = "ArToKi - Energy - Report"
     bl_space_type = "PROPERTIES"
     bl_region_type = "WINDOW"
@@ -145,16 +201,6 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
                        description="Changes the upper left text logo",
                        default="PEB"
                        )
-
-    def eval_volume(self, obj):
-        return math.fabs(object_volume(obj))
-
-    def eval_area(self, faces):
-        area = 0
-        for face in faces:
-            area += face.area
-
-        return area
 
     def draw_properties(self):
         for prop in self.properties:
@@ -341,8 +387,8 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
         for face in faces:
             if face.type == FaceType.ROOF:
                 faces_roof.append(face)
-                surf_roof = surf_roof + face.area
-                surf_proj_roof = surf_proj_roof + face.projection_area
+                surf_roof += face.area
+                surf_proj_roof += face.projection_area
 
         if surf_roof != 0:
             sub_row = column.row(align=True)
@@ -350,8 +396,10 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
                           icon="LINCURVE")
             sub_row = column.row(align=True)
             sub_row.separator()
+
             xml_projections[face_type_id].attrib['Surf'] = str(round(surf_proj_roof, 2))  #
             html_projections[face_type_id].attrib['Surf'] = str(round(surf_proj_roof, 2))  #
+
             caption = tree_html.find(".//table[@id='roofs_values']/tbody/caption")
             caption.text = 'Projection Toitures: ' + str(round(surf_proj_roof, 2)) + ' m²'
 
@@ -448,7 +496,8 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
         row.label(text="ArToKi - Energy by tmaes" + 60 * " " + email, icon_value=icon_artoki)
 
     def draw(self, context):
-        obj = context.object
+        building = Building(context.object)
+
         scene = bpy.context.scene
         date = datetime.datetime.now()
 
@@ -497,32 +546,6 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
         for material_slot in tree_html.findall(".//td[@class='date']"):
             material_slot.text = date.strftime("%d/%m/%Y")
 
-        faces: [Face] = []
-
-        for a in obj.data.polygons:
-            angle_proj = round(math.degrees(math.atan2(a.normal[0], a.normal[1])))
-            angle_proj_orientation = Orientation.get_direction(angle_proj)
-            material_id = context.object.material_slots[a.material_index].name[0:1]
-
-            if round(math.atan2(a.normal[1], a.normal[2]), 3) == 0:
-                angle_roof = math.atan2(a.normal[0], a.normal[2])
-            else:
-                hypotenuse = math.sqrt(math.pow(a.normal[0], 2) + math.pow(a.normal[1], 2))
-                angle_roof = math.atan2(hypotenuse, a.normal[2])
-
-            face = Face(
-                index=a.index,
-                area=a.area,
-                orientation=angle_proj_orientation,
-                material=bpy.context.object.material_slots[a.material_index].name[0:4],
-                face_type=FaceType.get_face_type(material_id),
-                angle=angle_roof,
-                projection_area=face_projection_area(a, obj),
-                material_name=bpy.context.object.material_slots[a.material_index].name[5:],
-            )
-
-            faces.append(face)
-
         # 1.1 LISTE DES MURS SOLS TOITS POUR L'EXPORT XML
 
         xml_materials = [
@@ -540,7 +563,7 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
         for material_slot in bpy.context.object.material_slots:
             xml_surf_mat = 0
 
-            for face in faces:
+            for face in building.faces:
                 if material_slot.name[0:4] == face.material:
                     xml_surf_mat += face.area
 
@@ -564,13 +587,8 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
 
         self.draw_properties()
 
-        # 2 LISTE DES PROJECTIONS ET DES SURFACES
-
-        volume = math.fabs(object_volume(obj))
-        area = 0
-
-        for face in faces:
-            area += face.area
+        area = building.eval_area()
+        volume = building.eval_volume()
 
         self.draw_volume_and_area(volume, area)
 
@@ -599,20 +617,20 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
         ]
 
         self.draw_subtitle(text=FaceType.WALL.get_name())
-        self.draw_walls(faces, xml_projections, html_projections)
+        self.draw_walls(building.faces, xml_projections, html_projections)
 
         self.draw_subtitle(text=FaceType.FLOOR.get_name())
-        self.draw_floors(faces, xml_projections, html_projections, tree_html)
+        self.draw_floors(building.faces, xml_projections, html_projections, tree_html)
 
         self.draw_subtitle(text=FaceType.ROOF.get_name())
-        self.draw_roofs(faces, xml_projections, html_projections, tree_html)
+        self.draw_roofs(building.faces, xml_projections, html_projections, tree_html)
 
         tree.write(temp_file, encoding="UTF-8")
         tree_html.write(temp_file_html, encoding="UTF-8")
 
         self.layout.separator()
 
-        self.draw_summary(faces)
+        self.draw_summary(building.faces)
         self.draw_exports()
 
         # Only line to change for lite version for Windows
