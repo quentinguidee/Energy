@@ -395,7 +395,7 @@ class OBJECT_PT_ArToKi_EnergyReport(bpy.types.Panel):
                 color = Color()
                 for material_slot in bpy.context.object.material_slots:
                     if material_slot.name[0:4] == material_proj:
-                        color = material_slot.material.diffuse_color
+                        color = Color.from_8_bits_color(material_slot.material.diffuse_color)
 
                 td_1.attrib["style"] = "color:" + str(color)
                 td_1.text = "\u25A0"
