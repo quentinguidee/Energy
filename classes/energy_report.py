@@ -7,7 +7,7 @@ from xml.etree.ElementTree import SubElement, ElementTree
 import bmesh
 from bpy.props import StringProperty, EnumProperty, BoolProperty
 from bpy.types import Panel
-from ..functions import face_projection_area
+from ..functions import face_projection_area, get_path
 from .. import info
 
 import bpy
@@ -69,7 +69,7 @@ class Face:
     index: int
     area: float
     orientation: Orientation
-    material: str  # ?
+    material: str
     type: FaceType
     angle: float
     projection_area: float
@@ -501,12 +501,12 @@ class OBJECT_PT_ArToKi_EnergyReport(Panel):
         scene = bpy.context.scene
         date = datetime.datetime.now()
 
-        base_file = os.path.expanduser('~') + '/.blender/ArToKi/artoki_peb_BASE.xml'
-        temp_file = os.path.expanduser('~') + '/.blender/ArToKi/artoki_peb_temp.xml'
+        base_file = get_path('artoki_peb_BASE.xml')
+        temp_file = get_path('artoki_peb_temp.xml')
         tree = ElementTree(file=base_file)
 
-        base_file_html = os.path.expanduser('~') + '/.blender/ArToKi/artoki_peb_html_BASE.html'
-        temp_file_html = os.path.expanduser('~') + '/.blender/ArToKi/artoki_peb_html_temp.html'
+        base_file_html = get_path('artoki_peb_html_BASE.html')
+        temp_file_html = get_path('artoki_peb_html_temp.html')
         tree_html = ElementTree(file=base_file_html)
 
         # Bases du fichier xml et html
@@ -634,7 +634,7 @@ class OBJECT_PT_ArToKi_EnergyReport(Panel):
         self.draw_exports()
 
         # Only line to change for lite version for Windows
-        dirname = os.path.expanduser('~') + '/.blender/ArToKi/labels'
+        dirname = get_path('labels')
 
         img_src = 'ArToKi.png'
         if bpy.data.images.find(img_src) == -1:

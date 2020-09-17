@@ -1,6 +1,7 @@
 import os
-
 import bpy
+
+from . import info
 
 
 def face_projection_area(face, obj):
@@ -98,3 +99,7 @@ def create_html_file(context, filepath):
     # subprocess.call(('xdg-open', filepath))
 
     return {'FINISHED'}
+
+
+def get_path(file_name: str):
+    return os.path.expanduser('~') + info.INSTALL_PATH + '/' + file_name
