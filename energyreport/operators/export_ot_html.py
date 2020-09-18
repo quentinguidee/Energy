@@ -25,4 +25,4 @@ class EXPORT_OT_HTML(bpy.types.Operator, ExportHelper):
         return context.active_object is not None
 
     def execute(self, context):
-        return create_html_file(context, self.filepath)
+        return create_html_file(self.filepath)

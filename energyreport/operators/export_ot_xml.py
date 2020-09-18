@@ -25,4 +25,4 @@ class EXPORT_OT_XML(bpy.types.Operator, ExportHelper):
         return context.active_object is not None
 
     def execute(self, context):
-        return create_xml_file(context, self.filepath)
+        return create_xml_file(self.filepath)
