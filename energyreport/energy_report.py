@@ -1,162 +1,22 @@
 import datetime
 import math
 import os
-from enum import Enum
+
 from xml.etree.ElementTree import SubElement, ElementTree
 
-import bmesh
 from bpy.props import StringProperty, EnumProperty, BoolProperty
 from bpy.types import Panel
-from ..functions import face_projection_area, get_path
+
+from .classes.building import Building
+from .classes.color import Color
+from .classes.face import Face
+from .classes.face_type import FaceType
+from .classes.orientation import Orientation
+
+from ..functions import get_path
 from .. import info
 
 import bpy
-
-
-class Orientation(Enum):
-    S = (-191.25, -168.75)
-    SSW = (-168.75, -146.25)
-    SW = (-146.25, -123.75)
-    WSW = (-123.75, -101.25)
-    W = (-101.25, -78.75)
-    WNW = (-78.75, -56.25)
-    NW = (-56.25, -33.75)
-    NNW = (-33.75, -11.25)
-    N = (-11.25, 11.25)
-    NNE = (-11.25, 33.75)
-    NE = (33.75, 56.25)
-    ENE = (56.25, 78.75)
-    E = (78.75, 101.25)
-    ESE = (101.25, 123.75)
-    SE = (123.75, 146.25)
-    SSE = (146.25, 168.75)
-
-    @staticmethod
-    def get_direction(angle_proj: float) -> 'Orientation':
-        if 168.75 <= angle_proj < 191.25:
-            return Orientation.S
-
-        for direction in Orientation:
-            if direction.value[0] <= angle_proj < direction.value[1]:
-                return direction
-
-
-class FaceType(Enum):
-    WALL = (0, 'Walls', 'MOD_BUILD', ['M', 'W'])
-    FLOOR = (1, 'Floors', 'TEXTURE', ['S', 'F'])
-    ROOF = (2, 'Roofs', 'LINCURVE', ['T', 'R'])
-
-    def get_id(self):
-        return self.value[0]
-
-    def get_name(self):
-        return self.value[1]
-
-    def get_icon(self):
-        return self.value[2]
-
-    def get_letters(self):
-        return self.value[3]
-
-    @staticmethod
-    def get_face_type(letter: str) -> 'FaceType':
-        for face_type in FaceType:
-            if letter in face_type.get_letters():
-                return face_type
-
-
-class Face:
-    index: int
-    area: float
-    orientation: Orientation
-    material: str
-    type: FaceType
-    angle: float
-    projection_area: float
-    material_name: str
-
-    def __init__(self, index: int, area: float, orientation: Orientation, material: str, face_type: FaceType,
-                 angle: float, projection_area: float, material_name: str):
-        self.index = index
-        self.area = area
-        self.orientation = orientation
-        self.material = material
-        self.type = face_type
-        self.angle = angle
-        self.projection_area = projection_area
-        self.material_name = material_name
-
-
-class Color:
-    def __init__(self, red: int = 0, green: int = 0, blue: int = 0):
-        self.red = red
-        self.green = green
-        self.blue = blue
-
-    def __str__(self):
-        return "rgb(" + str(self.red) + "," + str(self.green) + "," + str(self.blue) + ")"
-
-    @staticmethod
-    def from_8_bits(red: float, green: float, blue: float) -> 'Color':
-        return Color(int(red * 255), int(green * 255), int(blue * 255))
-
-    @staticmethod
-    def from_8_bits_color(color: list) -> 'Color':
-        return Color.from_8_bits(color[0], color[1], color[2])
-
-
-class Building:
-    def populate_faces(self, obj):
-        for a in obj.data.polygons:
-            angle_proj = round(math.degrees(math.atan2(a.normal[0], a.normal[1])))
-            angle_proj_orientation = Orientation.get_direction(angle_proj)
-            material_id = obj.material_slots[a.material_index].name[0:1]
-
-            if round(math.atan2(a.normal[1], a.normal[2]), 3) == 0:
-                angle_roof = math.atan2(a.normal[0], a.normal[2])
-            else:
-                hypotenuse = math.sqrt(math.pow(a.normal[0], 2) + math.pow(a.normal[1], 2))
-                angle_roof = math.atan2(hypotenuse, a.normal[2])
-
-            face = Face(
-                index=a.index,
-                area=a.area,
-                orientation=angle_proj_orientation,
-                material=bpy.context.object.material_slots[a.material_index].name[0:4],
-                face_type=FaceType.get_face_type(material_id),
-                angle=angle_roof,
-                projection_area=face_projection_area(a, obj),
-                material_name=bpy.context.object.material_slots[a.material_index].name[5:],
-            )
-
-            self.faces.append(face)
-
-    def __init__(self, obj):
-        self.obj = obj
-        self.faces: [Face] = []
-        self.populate_faces(obj)
-
-    def eval_volume(self):
-        """
-        Calculate the volume of the mesh object.
-        """
-        if self.obj and self.obj.type == 'MESH' and self.obj.data:
-            # New volume method for bmesh 2015 corrected 2017
-            bm = bmesh.new()
-            # could also use from_mesh() if you don't care about deformation etc.
-            bm.from_object(self.obj, bpy.context.evaluated_depsgraph_get())
-            bmesh.ops.triangulate(bm, faces=bm.faces)
-            return math.fabs(bm.calc_volume())
-
-    def eval_area(self):
-        """
-        Calculate the area of the mesh object.
-        """
-        area = 0
-        for face in self.faces:
-            area += face.area
-
-        return area
 
 
 class OBJECT_PT_ArToKi_EnergyReport(Panel):
