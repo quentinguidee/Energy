@@ -13,7 +13,7 @@ from .classes.face import Face
 from .classes.face_type import FaceType
 from .classes.orientation import Orientation
 
-from ..functions import get_path
+from ..functions import get_path, generate_file
 from .. import info
 
 import bpy
@@ -351,73 +351,48 @@ class OBJECT_PT_ArToKi_EnergyReport(Panel):
         row.operator("export.html", text="Export to pdf...")
 
     def draw_credits(self, email):
+        # Only line to change for lite version for Windows
+        dirname = get_path('labels')
+
+        img_src = 'ArToKi.png'
+        if bpy.data.images.find(img_src) == -1:
+            img_a_plus = bpy.data.images.load(os.path.join(dirname, img_src))
+            img_a_plus.user_clear()  # Won't get saved into .blend files
+
         row = self.layout.row()
-        icon_artoki = self.layout.icon(bpy.data.images['ArToKi.png'])
+        icon_artoki = self.layout.icon(bpy.data.images[img_src])
         row.label(text="ArToKi - Energy by tmaes" + 60 * " " + email, icon_value=icon_artoki)
 
-    def draw(self, context):
-        building = Building(context.object)
-
+    def handle_html(self, building):
         scene = bpy.context.scene
         date = datetime.datetime.now()
 
-        base_file = get_path('artoki_peb_BASE.xml')
-        temp_file = get_path('artoki_peb_temp.xml')
+        base_file = get_path('artoki_peb_html_BASE.html')
+        temp_file = get_path('artoki_peb_html_temp.html')
         tree = ElementTree(file=base_file)
 
-        base_file_html = get_path('artoki_peb_html_BASE.html')
-        temp_file_html = get_path('artoki_peb_html_temp.html')
-        tree_html = ElementTree(file=base_file_html)
-
-        # Bases du fichier xml et html
-        root = tree.getroot()
-        root.attrib['Version'] = info.VERSION
-
-        project = tree.find('Project')
-        project.attrib['Name'] = bpy.context.scene.name
-        project.attrib['Date'] = date.strftime("%Y-%m-%d %H:%M")
-
-        address1 = tree.find('Project/Address1')
-        address1.text = str(scene.atk_address1)
-        address2 = tree.find('Project/Address2')
-        address2.text = str(scene.atk_address2)
-
-        # Place static elements of the HTML (coordinates, date...)
-        for material_slot in tree_html.findall(".//td[@class='header_left']"):
-            material_slot.text = str(scene.atk_procedure_type)
-        for material_slot in tree_html.findall(".//td[@class='header_street']"):
-            material_slot.text = str(scene.atk_address1)
-        for material_slot in tree_html.findall(".//td[@class='header_city']"):
-            material_slot.text = str(scene.atk_address2)
-        for material_slot in tree_html.findall(".//td[@class='aud1']"):
-            material_slot.text = str(self.document_properties["author"])
-        for material_slot in tree_html.findall(".//td[@class='aud2']"):
-            material_slot.text = str(self.document_properties["title"])
-        for material_slot in tree_html.findall(".//td[@class='aud3']"):
-            material_slot.text = str(self.document_properties["address1"])
-        for material_slot in tree_html.findall(".//td[@class='aud4']"):
-            material_slot.text = str(self.document_properties["address2"])
-        for material_slot in tree_html.findall(".//td[@class='aud5']"):
-            material_slot.text = str(self.document_properties["email"])
-        for material_slot in tree_html.findall(".//td[@class='aud7']"):
-            material_slot.text = str(self.document_properties["phone"])
-        for material_slot in tree_html.findall(".//td[@class='aud8']"):
-            material_slot.text = str(self.document_properties["gsm"])
-        for material_slot in tree_html.findall(".//td[@class='date']"):
-            material_slot.text = date.strftime("%d/%m/%Y")
-
-        # 1.1 LISTE DES MURS SOLS TOITS POUR L'EXPORT XML
-
-        xml_materials = [
-            tree.find('Project/Walls'),
-            tree.find('Project/Floors'),
-            tree.find('Project/Roofs'),
+        values = [
+            ("header_left", scene.atk_procedure_type),
+            ("header_street", scene.atk_address1),
+            ("header_city", scene.atk_address2),
+            ("aud1", self.document_properties["author"]),
+            ("aud2", self.document_properties["title"]),
+            ("aud3", self.document_properties["address1"]),
+            ("aud4", self.document_properties["address2"]),
+            ("aud5", self.document_properties["email"]),
+            ("aud7", self.document_properties["phone"]),
+            ("aud8", self.document_properties["gsm"]),
+            ("date", date.strftime("%d/%m/%Y")),
         ]
 
+        for value in values:
+            for material_slot in tree.findall(".//td[@class='" + value[0] + "']"):
+                material_slot.text = str(value[1])
+
         html_materials = [
-            tree_html.find(".//table[@id='Table_Walls']"),
-            tree_html.find(".//table[@id='Table_Floors']"),
-            tree_html.find(".//table[@id='Table_Roofs']"),
+            tree.find(".//table[@id='Table_Walls']"),
+            tree.find(".//table[@id='Table_Floors']"),
+            tree.find(".//table[@id='Table_Roofs']"),
         ]
 
         for material_slot in bpy.context.object.material_slots:
@@ -445,60 +420,85 @@ class OBJECT_PT_ArToKi_EnergyReport(Panel):
             td_4.attrib["class"] = "mat_surf"
             td_4.text = str(round(xml_surf_mat, 2)) + " m²"
 
-        self.draw_properties()
+        html_volume = tree.find(".//td[@id='general_volume']")
+        html_volume.text = "Volume total: " + str(round(building.eval_volume(), 2)) + " m³"
+        html_surf_tot = tree.find(".//td[@id='general_surface']")
+        html_surf_tot.text = "Surface totale: " + str(round(building.eval_area(), 2)) + " m²"
 
-        area = building.eval_area()
-        volume = building.eval_volume()
+        projections = [
+            tree.find(".//table[@id='walls_values']"),
+            tree.find(".//table[@id='floors_projection']"),
+            tree.find(".//table[@id='roofs_projection']"),
+        ]
 
-        self.draw_volume_and_area(volume, area)
+        return projections, tree, temp_file
+
+    def handle_xml(self, building):
+        scene = bpy.context.scene
+        date = datetime.datetime.now()
+
+        base_file = get_path('artoki_peb_BASE.xml')
+        temp_file = get_path('artoki_peb_temp.xml')
+        tree = ElementTree(file=base_file)
+
+        root = tree.getroot()
+        root.attrib['Version'] = info.VERSION
+
+        project = tree.find('Project')
+        project.attrib['Name'] = bpy.context.scene.name
+        project.attrib['Date'] = date.strftime("%Y-%m-%d %H:%M")
+
+        address1 = tree.find('Project/Address1')
+        address1.text = str(scene.atk_address1)
+        address2 = tree.find('Project/Address2')
+        address2.text = str(scene.atk_address2)
+
+        materials = [
+            tree.find('Project/Walls'),
+            tree.find('Project/Floors'),
+            tree.find('Project/Roofs'),
+        ]
 
         xml_volume = tree.find('Project/Volume')
-        html_volume = tree_html.find(".//td[@id='general_volume']")
+        xml_volume.text = str(round(building.eval_volume(), 2))
+        xml_area = tree.find('Project/Surf_tot')
+        xml_area.text = str(round(building.eval_area(), 2))
 
-        xml_volume.text = str(round(volume, 2))
-        html_volume.text = "Volume total: " + str(round(volume, 2)) + " m³"
-
-        xml_surf_tot = tree.find('Project/Surf_tot')
-        html_surf_tot = tree_html.find(".//td[@id='general_surface']")
-
-        xml_surf_tot.text = str(round(area, 2))
-        html_surf_tot.text = "Surface totale: " + str(round(area, 2)) + " m²"
-
-        xml_projections = [
+        projections = [
             tree.find('Project/WallProjections'),
             tree.find('Project/FloorProjections'),
             tree.find('Project/RoofProjections'),
         ]
 
-        html_projections = [
-            tree_html.find(".//table[@id='walls_values']"),
-            tree_html.find(".//table[@id='floors_projection']"),
-            tree_html.find(".//table[@id='roofs_projection']"),
-        ]
+        tree.write(temp_file, encoding="UTF-8")
+
+        return projections, tree, temp_file
+
+    def draw(self, context):
+        building = Building(context.object)
+
+        xml_projections, xml_tree, xml_temp_file = self.handle_xml(building)
+        html_projections, html_tree, html_temp_file = self.handle_html(building)
+
+        self.draw_properties()
+
+        self.draw_volume_and_area(building.eval_volume(), building.eval_area())
 
         self.draw_subtitle(text=FaceType.WALL.get_name())
         self.draw_walls(building.faces, xml_projections, html_projections)
 
         self.draw_subtitle(text=FaceType.FLOOR.get_name())
-        self.draw_floors(building.faces, xml_projections, html_projections, tree_html)
+        self.draw_floors(building.faces, xml_projections, html_projections, html_tree)
 
         self.draw_subtitle(text=FaceType.ROOF.get_name())
-        self.draw_roofs(building.faces, xml_projections, html_projections, tree_html)
+        self.draw_roofs(building.faces, xml_projections, html_projections, html_tree)
 
-        tree.write(temp_file, encoding="UTF-8")
-        tree_html.write(temp_file_html, encoding="UTF-8")
-
-        self.layout.separator()
-
+        self.draw_subtitle(text="Summary")
         self.draw_summary(building.faces)
+
         self.draw_exports()
 
-        # Only line to change for lite version for Windows
-        dirname = get_path('labels')
-
-        img_src = 'ArToKi.png'
-        if bpy.data.images.find(img_src) == -1:
-            img_a_plus = bpy.data.images.load(os.path.join(dirname, img_src))
-            img_a_plus.user_clear()  # Won't get saved into .blend files
-
         self.draw_credits(self.document_properties["email"])
+
+        generate_file(xml_tree, xml_temp_file)
+        generate_file(html_tree, html_temp_file)

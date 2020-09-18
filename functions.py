@@ -103,3 +103,7 @@ def create_html_file(context, filepath):
 
 def get_path(file_name: str):
     return os.path.expanduser('~') + info.INSTALL_PATH + '/' + file_name
+
+
+def generate_file(tree, file):
+    tree.write(file, encoding="UTF-8")
