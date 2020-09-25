@@ -93,14 +93,99 @@ class OBJECT_PT_ArToKi_EnergyDeperditions(bpy.types.Panel):
     bpy.types.Material.materials_9 = bpy.props.EnumProperty(items=materials, name="Materials", default='Free air')
     bpy.types.Material.materials_10 = bpy.props.EnumProperty(items=materials, name="Materials", default='Free air')
 
-    def draw(self, context):
-        layout = self.layout
+    @staticmethod
+    def get_u_ranges(face_type: FaceType):
+        u_ranges = []
+        #                        A++   A+    A     B     C     D     E     F     G
+        #                        |     |     |     |     |     |     |     |     |
+        if face_type == FaceType.WALL:
+            u_ranges = [-math.inf, 0.15, 0.18, 0.24, 0.32, 0.40, 0.60, 0.90, 1.60, math.inf]
+        elif face_type == FaceType.FLOOR:
+            u_ranges = [-math.inf, 0.15, 0.18, 0.30, 0.35, 0.40, 0.60, 0.90, 1.60, math.inf]
+        elif face_type == FaceType.ROOF:
+            u_ranges = [-math.inf, 0.15, 0.18, 0.24, 0.27, 0.30, 0.40, 0.65, 1.80, math.inf]
 
-        material = bpy.context.object.active_material
-        material_type: MaterialType = MaterialType.FREE_AIR
-        face_type: FaceType = FaceType.get_face_type(material.name[0:1])
-        environment_type = EnvironmentType.get_type_of(material.mat_environment)
+        return u_ranges
 
+    def draw_settings(self, material):
+        row = self.layout.row(align=True)
+        row.alignment = 'LEFT'
+        row.label(text="Levels:")
+        row.prop(material, 'mat_layers', text="")
+        row.label(text="Environnement:")
+        row.prop(material, 'mat_environment', text="")
+
+    def draw_level(self, i, material, face_type: FaceType, R_levels):
+        row = self.layout.row()
+        box = row.box()
+        col = box.column()
+        subrow = col.row(align=True)
+        subrow.alignment = 'EXPAND'
+        subrow.label(text="Level " + str(i + 1), icon='SORTSIZE')
+
+        R_mat = 0
+        U_mat = 0
+
+        material_type_name = getattr(material, 'materials_' + str(i + 1))
+        material_depth = getattr(material, 'mat_depth_' + str(i + 1))
+        material_type = MaterialType.get_type_of(material_type_name)
+
+        if material_depth != 0:
+            if material_type == MaterialType.SEMI_STATIC_AIR:
+                if face_type == FaceType.WALL:
+                    R_mat = 0.09
+                elif face_type == FaceType.FLOOR:
+                    R_mat = 0.1
+                elif face_type == FaceType.ROOF:
+                    R_mat = 0.08
+
+            elif material_type == MaterialType.STATIC_AIR:
+                if face_type == FaceType.WALL:
+                    R_mat = 0.18
+                elif face_type == FaceType.FLOOR:
+                    R_mat = 0.19
+                elif face_type == FaceType.ROOF:
+                    R_mat = 0.16
+
+            elif material_type == MaterialType.FREE_AIR:
+                R_mat = 0
+                U_mat = 0
+
+        if getattr(material, 'mat_lambda_i_' + str(i + 1)) != 0:
+            R_mat = \
+                getattr(material, 'mat_depth_' + str(i + 1)) / 100 / getattr(material, 'mat_lambda_i_' + str(i + 1))
+
+        if material_depth != 0 and R_mat != 0:
+            U_mat = 1 / R_mat
+
+        R_levels.append(round(R_mat, 2))
+
+        subrow.label(text="R = " + str(round(R_mat, 3)) + " m².K/W")
+        subrow.prop(material, 'materials_' + str(i + 1), text="")
+
+        row = box.row(align=True)
+        row.alignment = 'LEFT'
+        row.prop(material, 'mat_depth_' + str(i + 1), text="Depth (cm)")
+        row.prop(material, 'mat_lambda_i_' + str(i + 1), text="λi (W/mK)")
+
+    def draw_outside(self, material, face_type: FaceType, R_levels):
+        row = self.layout.row()
+        row.label(text="Outside", icon="LIGHT_SUN")
+
+        for i in range(int(material.mat_layers)):
+            self.draw_level(i, material, face_type, R_levels)
+
+    def draw_peb_icon(self, face_type, U_tot, sub_row):
+        u_ranges = self.get_u_ranges(face_type)
+        u_tot_rounded = round(U_tot, 3)
+
+        i = 0
+        for peb_icon in PEBIcon:
+            if u_ranges[i] < u_tot_rounded <= u_ranges[i + 1]:
+                sub_row.label(text="", icon_value=peb_icon.get_icon(self.layout))
+            i += 1
+
+    def draw_inside(self, material, face_type: FaceType, R_levels):
         R_tot = 0
         U_tot = 0
         W_Rse = 0.13
@@ -109,78 +194,11 @@ class OBJECT_PT_ArToKi_EnergyDeperditions(bpy.types.Panel):
         G_Rsi = 0.17
         R_Rse = 0.1
         R_Rsi = 0.1
-        R_levels = []
 
-        row = layout.row(align=True)
-        row.alignment = 'LEFT'
-        row.label(text="Levels:")
-        row.prop(material, 'mat_layers', text="")
-        row.label(text="Environnement:")
-        row.prop(material, 'mat_environment', text="")
-        row = layout.row()
-        row.label(text="Outside", icon="LIGHT_SUN")
+        environment_type = EnvironmentType.get_type_of(material.mat_environment)
+        material_type: MaterialType = MaterialType.FREE_AIR
 
-        for i in range(int(material.mat_layers)):
-            row = layout.row()
-            box = row.box()
-            col = box.column()
-            subrow = col.row(align=True)
-            subrow.alignment = 'EXPAND'
-            subrow.label(text="Level " + str(i + 1), icon='SORTSIZE')
-            R_mat = 0
-            U_mat = 0
-
-            material_type_name = getattr(material, 'materials_' + str(i + 1))
-            material_depth = getattr(material, 'mat_depth_' + str(i + 1))
-            material_type = MaterialType.get_type_of(material_type_name)
-
-            if material_type == MaterialType.SEMI_STATIC_AIR:
-                if material_depth != 0:
-                    if face_type == FaceType.WALL:
-                        R_mat = 0.09
-                    elif face_type == FaceType.FLOOR:
-                        R_mat = 0.1
-                    elif face_type == FaceType.ROOF:
-                        R_mat = 0.08
-
-            elif material_type == MaterialType.STATIC_AIR:
-                if material_depth != 0:
-                    if face_type == FaceType.WALL:
-                        R_mat = 0.18
-                    elif face_type == FaceType.FLOOR:
-                        R_mat = 0.19
-                    elif face_type == FaceType.ROOF:
-                        R_mat = 0.16
-
-            elif material_type == MaterialType.FREE_AIR:
-                R_mat = 0
-                U_mat = 0
-
-            if getattr(material, 'mat_lambda_i_' + str(i + 1)) != 0:
-                R_mat = \
-                    getattr(material, 'mat_depth_' + str(i + 1)) / 100 / getattr(material, 'mat_lambda_i_' + str(i + 1))
-
-            if material_depth != 0 and R_mat != 0:
-                U_mat = 1 / R_mat
-
-            R_levels.append(round(R_mat, 2))
-
-            subrow.label(text="R = " + str(round(R_mat, 3)) + " m².K/W")  # +"mat_R_"+str(i+1))
-            # subrow.label(text="U = "+str(round(U_mat,2))+" W/m².K")   #+"mat_R_"+str(i+1))
-            subrow.prop(material, 'materials_' + str(i + 1), text="")
-
-            row = box.row(align=True)
-            row.alignment = 'LEFT'
-            row.prop(material, 'mat_depth_' + str(i + 1), text="Depth (cm)")
-            row.prop(material, 'mat_lambda_i_' + str(i + 1), text="λi (W/mK)")
-
-            # for more precision:
-            # row.prop(bpy.data.materials[mat.name],'mat_lambda_e_'+str(i+1),text="λe(W/mK)")# function to precise... λe for humidity
-
-            # for more precision:
-            # row.prop(bpy.data.materials[mat.name],'mat_exterior_'+str(i+1),text="Exterior")
-
-        row = layout.row()
+        row = self.layout.row()
         row.label(text="Inside", icon='UGLYPACKAGE')
 
         if environment_type == EnvironmentType.OUTSIDE or environment_type == EnvironmentType.GROUND:
@@ -190,7 +208,6 @@ class OBJECT_PT_ArToKi_EnergyDeperditions(bpy.types.Panel):
                 R_Rse = 0.04
 
         if sum(R_levels) != 0:
-
             if face_type == FaceType.WALL:
                 R_tot = W_Rse + sum(R_levels) + W_Rsi
             elif face_type == FaceType.FLOOR:
@@ -201,30 +218,23 @@ class OBJECT_PT_ArToKi_EnergyDeperditions(bpy.types.Panel):
             if R_tot != 0:
                 U_tot = 1 / R_tot
 
-        row = layout.row()
+        row = self.layout.row()
         box = row.box()
         col = box.column()
-        subrow = col.row(align=True)
-        subrow.alignment = 'LEFT'
+        sub_row = col.row(align=True)
+        sub_row.alignment = 'LEFT'
 
-        u_ranges = []
+        self.draw_peb_icon(face_type, U_tot, sub_row)
 
-        #                        A++   A+    A     B     C     D     E     F     G
-        #                        |     |     |     |     |     |     |     |     |
-        if face_type == FaceType.WALL:
-            u_ranges = [-math.inf, 0.15, 0.18, 0.24, 0.32, 0.40, 0.60, 0.90, 1.60, math.inf]
-        elif face_type == FaceType.FLOOR:
-            u_ranges = [-math.inf, 0.15, 0.18, 0.30, 0.35, 0.40, 0.60, 0.90, 1.60, math.inf]
-        elif face_type == FaceType.ROOF:
-            u_ranges = [-math.inf, 0.15, 0.18, 0.24, 0.27, 0.30, 0.40, 0.65, 1.80, math.inf]
-
-        u_tot_rounded = round(U_tot, 3)
-
-        i = 0
-        for peb_icon in PEBIcon:
-            if u_ranges[i] < u_tot_rounded <= u_ranges[i + 1]:
-                subrow.label(text="", icon_value=peb_icon.get_icon(layout))
-            i += 1
-
-        subrow.label(text="  Rt = " + str(round(R_tot, 3)) + " m².K/W             U= " + str(
+        sub_row.label(text="  Rt = " + str(round(R_tot, 3)) + " m².K/W             U= " + str(
             round(U_tot, 3)) + " W/m².K          ")
+
+    def draw(self, context):
+        material = bpy.context.object.active_material
+        face_type: FaceType = FaceType.get_face_type(material.name[0:1])
+
+        R_levels = []
+
+        self.draw_settings(material)
+        self.draw_outside(material, face_type, R_levels)
+        self.draw_inside(material, face_type, R_levels)
