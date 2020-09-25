@@ -128,6 +128,7 @@ class OBJECT_PT_ArToKi_EnergyDeperditions(bpy.types.Panel):
 
         material_type_name = getattr(material, 'materials_' + str(i + 1))
         material_depth = getattr(material, 'mat_depth_' + str(i + 1))
+        material_lambda_i = getattr(material, 'mat_lambda_i_' + str(i + 1))
         material_type = MaterialType.get_type_of(material_type_name)
 
         if material_depth != 0:
@@ -151,9 +152,8 @@ class OBJECT_PT_ArToKi_EnergyDeperditions(bpy.types.Panel):
                 R_mat = 0
                 U_mat = 0
 
-        if getattr(material, 'mat_lambda_i_' + str(i + 1)) != 0:
-            R_mat = \
-                getattr(material, 'mat_depth_' + str(i + 1)) / 100 / getattr(material, 'mat_lambda_i_' + str(i + 1))
+        if material_lambda_i != 0:
+            R_mat = material_depth / 100 / material_lambda_i
 
         if material_depth != 0 and R_mat != 0:
             U_mat = 1 / R_mat
