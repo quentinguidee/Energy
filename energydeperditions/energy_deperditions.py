@@ -1,8 +1,8 @@
 import os
 import bpy
 
-from .classes.EnvironmentType import EnvironmentType
-from .classes.MaterialType import MaterialType
+from .classes.environment_type import EnvironmentType
+from .classes.material_type import MaterialType
 
 from .. import info
 from ..classes.face_type import FaceType
