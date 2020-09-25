@@ -1,10 +1,11 @@
-import os
+import math
+
 import bpy
 
 from .classes.environment_type import EnvironmentType
 from .classes.material_type import MaterialType
+from .classes.peb_icon import PEBIcon
 
-from .. import info
 from ..classes.face_type import FaceType
 
 
@@ -119,22 +120,6 @@ class OBJECT_PT_ArToKi_EnergyDeperditions(bpy.types.Panel):
         row = layout.row()
         row.label(text="Outside", icon="LIGHT_SUN")
 
-        dirname = os.path.expanduser('~') + info.INSTALL_PATH + '/labels'
-
-        # Those should be serialized:
-
-        images_src = [
-            'ArToKi',
-            'A_Plus_Plus',
-            'A_Plus',
-            'A', 'B', 'C', 'D', 'E', 'F', 'G'
-        ]
-
-        for image_src in images_src:
-            if bpy.data.images.find(image_src + ".png") == -1:
-                img = bpy.data.images.load(os.path.join(dirname, image_src + ".png"))
-                img.user_clear()  # Won't get saved into .blend files
-
         for i in range(int(material.mat_layers)):
             row = layout.row()
             box = row.box()
@@ -222,77 +207,24 @@ class OBJECT_PT_ArToKi_EnergyDeperditions(bpy.types.Panel):
         subrow = col.row(align=True)
         subrow.alignment = 'LEFT'
 
-        icon_a_plus_plus = self.layout.icon(bpy.data.images['A_Plus_Plus.png'])
-        icon_a_plus = self.layout.icon(bpy.data.images['A_Plus.png'])
-        icon_a = self.layout.icon(bpy.data.images['A.png'])
-        icon_b = self.layout.icon(bpy.data.images['B.png'])
-        icon_c = self.layout.icon(bpy.data.images['C.png'])
-        icon_d = self.layout.icon(bpy.data.images['D.png'])
-        icon_e = self.layout.icon(bpy.data.images['E.png'])
-        icon_f = self.layout.icon(bpy.data.images['F.png'])
-        icon_g = self.layout.icon(bpy.data.images['G.png'])
+        u_ranges = []
 
-        # Label assign
-
+        #                        A++   A+    A     B     C     D     E     F     G
+        #                        |     |     |     |     |     |     |     |     |
         if face_type == FaceType.WALL:
-            if round(U_tot, 3) <= 0.15:
-                subrow.label(text="", icon_value=icon_a_plus_plus)
-            elif 0.15 < round(U_tot, 3) <= 0.18:
-                subrow.label(text="", icon_value=icon_a_plus)
-            elif 0.18 < round(U_tot, 3) <= 0.24:
-                subrow.label(text="", icon_value=icon_a)
-            elif 0.24 < round(U_tot, 3) <= 0.32:
-                subrow.label(text="", icon_value=icon_b)
-            elif 0.32 < round(U_tot, 3) <= 0.40:
-                subrow.label(text="", icon_value=icon_c)
-            elif 0.40 < round(U_tot, 3) <= 0.60:
-                subrow.label(text="", icon_value=icon_d)
-            elif 0.60 < round(U_tot, 3) <= 0.90:
-                subrow.label(text="", icon_value=icon_e)
-            elif 0.90 < round(U_tot, 3) <= 1.6:
-                subrow.label(text="", icon_value=icon_f)
-            elif 1.6 < round(U_tot, 3):
-                subrow.label(text="", icon_value=icon_g)
+            u_ranges = [-math.inf, 0.15, 0.18, 0.24, 0.32, 0.40, 0.60, 0.90, 1.60, math.inf]
+        elif face_type == FaceType.FLOOR:
+            u_ranges = [-math.inf, 0.15, 0.18, 0.30, 0.35, 0.40, 0.60, 0.90, 1.60, math.inf]
+        elif face_type == FaceType.ROOF:
+            u_ranges = [-math.inf, 0.15, 0.18, 0.24, 0.27, 0.30, 0.40, 0.65, 1.80, math.inf]
 
-        if face_type == FaceType.FLOOR:
-            if round(U_tot, 3) <= 0.15:
-                subrow.label(text="", icon_value=icon_a_plus_plus)
-            elif 0.15 < round(U_tot, 3) <= 0.18:
-                subrow.label(text="", icon_value=icon_a_plus)
-            elif 0.18 < round(U_tot, 3) <= 0.30:
-                subrow.label(text="", icon_value=icon_a)
-            elif 0.30 < round(U_tot, 3) <= 0.35:
-                subrow.label(text="", icon_value=icon_b)
-            elif 0.35 < round(U_tot, 3) <= 0.40:
-                subrow.label(text="", icon_value=icon_c)
-            elif 0.40 < round(U_tot, 3) <= 0.60:
-                subrow.label(text="", icon_value=icon_d)
-            elif 0.60 < round(U_tot, 3) <= 0.90:
-                subrow.label(text="", icon_value=icon_e)
-            elif 0.90 < round(U_tot, 3) <= 1.6:
-                subrow.label(text="", icon_value=icon_f)
-            elif 1.6 < round(U_tot, 3):
-                subrow.label(text="", icon_value=icon_g)
+        u_tot_rounded = round(U_tot, 3)
 
-        if face_type == FaceType.ROOF:
-            if round(U_tot, 3) <= 0.15:
-                subrow.label(text="", icon_value=icon_a_plus_plus)
-            elif 0.15 < round(U_tot, 3) <= 0.18:
-                subrow.label(text="", icon_value=icon_a_plus)
-            elif 0.18 < round(U_tot, 3) <= 0.24:
-                subrow.label(text="", icon_value=icon_a)
-            elif 0.24 < round(U_tot, 3) <= 0.27:
-                subrow.label(text="", icon_value=icon_b)
-            elif 0.27 < round(U_tot, 3) <= 0.30:
-                subrow.label(text="", icon_value=icon_c)
-            elif 0.30 < round(U_tot, 3) <= 0.40:
-                subrow.label(text="", icon_value=icon_d)
-            elif 0.40 < round(U_tot, 3) <= 0.65:
-                subrow.label(text="", icon_value=icon_e)
-            elif 0.65 < round(U_tot, 3) <= 1.80:
-                subrow.label(text="", icon_value=icon_f)
-            elif 1.8 < round(U_tot, 3):
-                subrow.label(text="", icon_value=icon_g)
+        i = 0
+        for peb_icon in PEBIcon:
+            if u_ranges[i] < u_tot_rounded <= u_ranges[i + 1]:
+                subrow.label(text="", icon_value=peb_icon.get_icon(layout))
+            i += 1
 
         subrow.label(text="  Rt = " + str(round(R_tot, 3)) + " m².K/W             U= " + str(
             round(U_tot, 3)) + " W/m².K          ")
