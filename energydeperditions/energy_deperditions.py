@@ -1,6 +1,8 @@
 import os
 import bpy
 
+from .classes.MaterialType import MaterialType
+
 from .. import info
 from ..classes.face_type import FaceType
 
@@ -14,30 +16,32 @@ class OBJECT_PT_ArToKi_EnergyDeperditions(bpy.types.Panel):
     levels = []
     for i in range(0, 11):
         levels.append((str(i), str(i), "Layers composing walls, roofs etc..."))
+
     environnement = [
         ('Outside', 'Outside', 'Outside'),
         ('Unprotected space', 'Unprotected space', 'Unprotected space'),
         ('Protected space (no freeze)', 'Protected space (no freeze)', 'Protected space (no freeze)'),
-        ('Ground', 'Ground', 'Ground'), ('Heated space', 'Heated space', 'Heated space')
+        ('Ground', 'Ground', 'Ground'),
+        ('Heated space', 'Heated space', 'Heated space')
     ]
 
-    materials = [
-        ('Free air', 'Free air', 'Free air', 0),
-        ('Semi Static air', 'Semi Static air', 'Semi Static air', 1),
-        ('Static air', 'Static air', 'Static air', 2),
-        ('Masonry', 'Masonry', 'Masonry', 3),
-        ('Wood', 'Wood', 'Wood', 4),
-        ('Insulation', 'Insulation', 'Insulation', 5),
-    ]
+    materials = MaterialType.as_blender_enum()
 
-    bpy.types.Material.mat_color = bpy.types.Material.myColor = bpy.props.FloatVectorProperty(name="myColor",
-                                                                                              subtype="COLOR", size=4,
-                                                                                              min=0.0, max=1.0,
-                                                                                              default=(
-                                                                                                  0.75, 0.0, 0.8, 1.0))
-    bpy.types.Material.mat_layers = bpy.props.EnumProperty(items=levels, name="Material layers", default='0')
-    bpy.types.Material.mat_environnement = bpy.props.EnumProperty(items=environnement, name="Outside conditions",
-                                                                  default='Outside')
+    bpy.types.Material.mat_color = bpy.types.Material.myColor = bpy.props.FloatVectorProperty(
+        name="myColor",
+        subtype="COLOR", size=4,
+        min=0.0, max=1.0,
+        default=(0.75, 0.0, 0.8, 1.0))
+
+    bpy.types.Material.mat_layers = bpy.props.EnumProperty(
+        items=levels,
+        name="Material layers",
+        default='0')
+
+    bpy.types.Material.mat_environnement = bpy.props.EnumProperty(
+        items=environnement,
+        name="Outside conditions",
+        default='Outside')
 
     bpy.types.Material.mat_depth_1 = bpy.props.FloatProperty(name="Material 1 depth", precision=1)
     bpy.types.Material.mat_depth_2 = bpy.props.FloatProperty(name="Material 2 depth", precision=1)
@@ -96,11 +100,13 @@ class OBJECT_PT_ArToKi_EnergyDeperditions(bpy.types.Panel):
 
     def draw(self, context):
         layout = self.layout
+
         material = bpy.context.object.active_material
+        material_type: MaterialType = MaterialType.FreeAir
+        face_type: FaceType = FaceType.get_face_type(material.name[0:1])
 
         R_tot = 0
         U_tot = 0
-        air = 0
         W_Rse = 0.13
         W_Rsi = 0.13
         G_Rse = 0.17
@@ -143,66 +149,41 @@ class OBJECT_PT_ArToKi_EnergyDeperditions(bpy.types.Panel):
             subrow.label(text="Level " + str(i + 1), icon='SORTSIZE')
             R_mat = 0
             U_mat = 0
-            if material.name[0:1] in FaceType.WALL.get_letters():
-                if getattr(material, 'materials_' + str(i + 1)) == 'Semi Static air':
-                    air = 1
-                    if getattr(material, 'mat_depth_' + str(i + 1)) != 0:
+
+            material_type_name = getattr(material, 'materials_' + str(i + 1))
+            material_depth = getattr(material, 'mat_depth_' + str(i + 1))
+
+            if material_type_name == MaterialType.SemiStaticAir.get_name():
+                material_type = MaterialType.SemiStaticAir
+                if material_depth != 0:
+                    if face_type == FaceType.WALL:
                         R_mat = 0.09
-                        U_mat = 1 / R_mat
-
-                elif getattr(material, 'materials_' + str(i + 1)) == 'Static air':
-                    air = 2
-                    if getattr(material, 'mat_depth_' + str(i + 1)) != 0:
-                        R_mat = 0.18
-                        U_mat = 1 / R_mat
-                elif getattr(material, 'materials_' + str(i + 1)) == 'Free air':
-                    air = 0
-                    if getattr(material, 'mat_depth_' + str(i + 1)) != 0:
-                        R_mat = 0
-                        U_mat = 0
-
-            elif material.name[0:1] in FaceType.FLOOR.get_letters():
-                if getattr(material, 'materials_' + str(i + 1)) == 'Semi Static air':
-                    air = 1
-                    if getattr(material, 'mat_depth_' + str(i + 1)) != 0:
+                    elif face_type == FaceType.FLOOR:
                         R_mat = 0.1
-                        U_mat = 1 / R_mat
-
-                elif getattr(material, 'materials_' + str(i + 1)) == 'Static air':
-                    air = 2
-                    if getattr(material, 'mat_depth_' + str(i + 1)) != 0:
-                        R_mat = 0.19
-                        U_mat = 1 / R_mat
-                elif getattr(material, 'materials_' + str(i + 1)) == 'Free air':
-                    air = 0
-                    if getattr(material, 'mat_depth_' + str(i + 1)) != 0:
-                        R_mat = 0
-                        U_mat = 0
-
-            elif material.name[0:1] in FaceType.ROOF.get_letters():
-                if getattr(material, 'materials_' + str(i + 1)) == 'Semi Static air':
-                    air = 1
-                    if getattr(material, 'mat_depth_' + str(i + 1)) != 0:
+                    elif face_type == FaceType.ROOF:
                         R_mat = 0.08
-                        U_mat = 1 / R_mat
 
-                elif getattr(material, 'materials_' + str(i + 1)) == 'Static air':
-                    air = 2
-                    if getattr(material, 'mat_depth_' + str(i + 1)) != 0:
+            elif material_type_name == MaterialType.StaticAir.get_name():
+                material_type = MaterialType.StaticAir
+                if material_depth != 0:
+                    if face_type == FaceType.WALL:
+                        R_mat = 0.18
+                    elif face_type == FaceType.FLOOR:
+                        R_mat = 0.19
+                    elif face_type == FaceType.ROOF:
                         R_mat = 0.16
-                        U_mat = 1 / R_mat
-                elif getattr(material, 'materials_' + str(i + 1)) == 'Free air':
-                    air = 0
-                    if getattr(material, 'mat_depth_' + str(i + 1)) != 0:
-                        R_mat = 0
-                        U_mat = 0
+
+            elif getattr(material, 'materials_' + str(i + 1)) == MaterialType.FreeAir.get_name():
+                material_type = MaterialType.FreeAir
+                R_mat = 0
+                U_mat = 0
 
             if getattr(material, 'mat_lambda_i_' + str(i + 1)) != 0:
-                R_mat = getattr(material, 'mat_depth_' + str(i + 1)) / 100 / getattr(material,
-                                                                                     'mat_lambda_i_' + str(i + 1))
+                R_mat = \
+                    getattr(material, 'mat_depth_' + str(i + 1)) / 100 / getattr(material, 'mat_lambda_i_' + str(i + 1))
 
-                if getattr(material, 'mat_depth_' + str(i + 1)) != 0:
-                    U_mat = 1 / R_mat
+            if material_depth != 0 and R_mat != 0:
+                U_mat = 1 / R_mat
 
             R_levels.append(round(R_mat, 2))
 
@@ -215,26 +196,29 @@ class OBJECT_PT_ArToKi_EnergyDeperditions(bpy.types.Panel):
             row.prop(material, 'mat_depth_' + str(i + 1), text="Depth (cm)")
             row.prop(material, 'mat_lambda_i_' + str(i + 1), text="λi (W/mK)")
 
-            # for more precision #row.prop(bpy.data.materials[mat.name],'mat_lambda_e_'+str(i+1),text="λe(W/mK)")# function to precise... λe for humidity
-            # for more precision #row.prop(bpy.data.materials[mat.name],'mat_exterior_'+str(i+1),text="Exterior")
+            # for more precision:
+            # row.prop(bpy.data.materials[mat.name],'mat_lambda_e_'+str(i+1),text="λe(W/mK)")# function to precise... λe for humidity
+
+            # for more precision:
+            # row.prop(bpy.data.materials[mat.name],'mat_exterior_'+str(i+1),text="Exterior")
 
         row = layout.row()
         row.label(text="Inside", icon='UGLYPACKAGE')
         if material.mat_environnement == 'Outside' or material.mat_environnement == 'Ground':
-            if air == 1 or air == 2:
+            if material_type == MaterialType.SemiStaticAir or material_type == MaterialType.StaticAir:
                 W_Rse = 0.04
                 G_Rse = 0.04
                 R_Rse = 0.04
 
-                # Rtot calculation
-
         if sum(R_levels) != 0:
-            if material.name[0:1] in FaceType.WALL.get_letters():
+
+            if face_type == FaceType.WALL:
                 R_tot = W_Rse + sum(R_levels) + W_Rsi
-            if material.name[0:1] in FaceType.FLOOR.get_letters():
+            elif face_type == FaceType.FLOOR:
                 R_tot = G_Rse + sum(R_levels) + G_Rsi
-            if material.name[0:1] in FaceType.ROOF.get_letters():
+            elif face_type == FaceType.ROOF:
                 R_tot = R_Rse + sum(R_levels) + R_Rsi
+
             if R_tot != 0:
                 U_tot = 1 / R_tot
 
@@ -256,7 +240,7 @@ class OBJECT_PT_ArToKi_EnergyDeperditions(bpy.types.Panel):
 
         # Label assign
 
-        if material.name[0:1] in FaceType.WALL.get_letters():
+        if face_type == FaceType.WALL:
             if round(U_tot, 3) <= 0.15:
                 subrow.label(text="", icon_value=icon_a_plus_plus)
             #                if scene.atk_therm_col == True:
@@ -280,7 +264,7 @@ class OBJECT_PT_ArToKi_EnergyDeperditions(bpy.types.Panel):
             elif 1.6 < round(U_tot, 3):
                 subrow.label(text="", icon_value=icon_g)
 
-        if material.name[0:1] in FaceType.FLOOR.get_letters():
+        if face_type == FaceType.FLOOR:
             if round(U_tot, 3) <= 0.15:
                 subrow.label(text="", icon_value=icon_a_plus_plus)
                 # mat.diffuse_color=((0,0.215686275,0.090196078))
@@ -303,7 +287,7 @@ class OBJECT_PT_ArToKi_EnergyDeperditions(bpy.types.Panel):
             elif 1.6 < round(U_tot, 3):
                 subrow.label(text="", icon_value=icon_g)
 
-        if material.name[0:1] in FaceType.ROOF.get_letters():
+        if face_type == FaceType.ROOF:
             if round(U_tot, 3) <= 0.15:
                 subrow.label(text="", icon_value=icon_a_plus_plus)
                 # mat.diffuse_color=((0,0.215686275,0.090196078))
