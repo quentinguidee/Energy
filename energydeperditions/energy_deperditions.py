@@ -1,6 +1,9 @@
 import os
 import bpy
 
+from .. import info
+from ..classes.face_type import FaceType
+
 
 class OBJECT_PT_ArToKi_EnergyDeperditions(bpy.types.Panel):
     bl_label = "ArToKi - Energy - Deperditions (alpha)"
@@ -93,11 +96,11 @@ class OBJECT_PT_ArToKi_EnergyDeperditions(bpy.types.Panel):
 
     def draw(self, context):
         layout = self.layout
-        scene = bpy.context.scene
-        mat = bpy.context.object.active_material
+        material = bpy.context.object.active_material
+
         R_tot = 0
         U_tot = 0
-        Air = 0
+        air = 0
         W_Rse = 0.13
         W_Rsi = 0.13
         G_Rse = 0.17
@@ -105,71 +108,33 @@ class OBJECT_PT_ArToKi_EnergyDeperditions(bpy.types.Panel):
         R_Rse = 0.1
         R_Rsi = 0.1
         R_levels = []
+
         row = layout.row(align=True)
         row.alignment = 'LEFT'
         row.label(text="Levels:")
-        row.prop(mat, 'mat_layers', text="")
+        row.prop(material, 'mat_layers', text="")
         row.label(text="Environnement:")
-        row.prop(mat, 'mat_environnement', text="")
+        row.prop(material, 'mat_environnement', text="")
         row = layout.row()
         row.label(text="Outside", icon="LIGHT_SUN")
 
-        dirname = os.path.expanduser('~') + '/.blender/ArToKi/labels'
+        dirname = os.path.expanduser('~') + info.INSTALL_PATH + '/labels'
 
         # Those should be serialized:
 
-        # TODO: Uncomment use_alpha, if useful.
-        if bpy.data.images.find('ArToKi.png') == -1:
-            img = bpy.data.images.load(os.path.join(dirname, 'ArToKi.png'))
-            # img.use_alpha = True
-            img.user_clear()  # Won't get saved into .blend files
+        images_src = [
+            'ArToKi',
+            'A_Plus_Plus',
+            'A_Plus',
+            'A', 'B', 'C', 'D', 'E', 'F', 'G'
+        ]
 
-        if bpy.data.images.find('A_Plus_Plus.png') == -1:
-            img = bpy.data.images.load(os.path.join(dirname, 'A_Plus_Plus.png'))
-            # img.use_alpha = True
-            img.user_clear()  # Won't get saved into .blend files
+        for image_src in images_src:
+            if bpy.data.images.find(image_src + ".png") == -1:
+                img = bpy.data.images.load(os.path.join(dirname, image_src + ".png"))
+                img.user_clear()  # Won't get saved into .blend files
 
-        if bpy.data.images.find('A_Plus.png') == -1:
-            img = bpy.data.images.load(os.path.join(dirname, 'A_Plus.png'))
-            # img.use_alpha = True
-            img.user_clear()  # Won't get saved into .blend files
-
-        if bpy.data.images.find('A.png') == -1:
-            img = bpy.data.images.load(os.path.join(dirname, 'A.png'))
-            # img.use_alpha = True
-            img.user_clear()  # Won't get saved into .blend files
-
-        if bpy.data.images.find('B.png') == -1:
-            img = bpy.data.images.load(os.path.join(dirname, 'B.png'))
-            # img.use_alpha = True
-            img.user_clear()  # Won't get saved into .blend files
-
-        if bpy.data.images.find('C.png') == -1:
-            img = bpy.data.images.load(os.path.join(dirname, 'C.png'))
-            # img.use_alpha = True
-            img.user_clear()  # Won't get saved into .blend files
-
-        if bpy.data.images.find('D.png') == -1:
-            img = bpy.data.images.load(os.path.join(dirname, 'D.png'))
-            # img.use_alpha = True
-            img.user_clear()  # Won't get saved into .blend files
-
-        if bpy.data.images.find('E.png') == -1:
-            img = bpy.data.images.load(os.path.join(dirname, 'E.png'))
-            # img.use_alpha = True
-            img.user_clear()  # Won't get saved into .blend files
-
-        if bpy.data.images.find('F.png') == -1:
-            img = bpy.data.images.load(os.path.join(dirname, 'F.png'))
-            # img.use_alpha = True
-            img.user_clear()  # Won't get saved into .blend files
-
-        if bpy.data.images.find('G.png') == -1:
-            img = bpy.data.images.load(os.path.join(dirname, 'G.png'))
-            # img.use_alpha = True
-            img.user_clear()  # Won't get saved into .blend files
-
-        for i in range(int(mat.mat_layers)):
+        for i in range(int(material.mat_layers)):
             row = layout.row()
             box = row.box()
             col = box.column()
@@ -178,80 +143,85 @@ class OBJECT_PT_ArToKi_EnergyDeperditions(bpy.types.Panel):
             subrow.label(text="Level " + str(i + 1), icon='SORTSIZE')
             R_mat = 0
             U_mat = 0
-            if mat.name[0:1] == 'M' or mat.name[0:1] == 'W':
-                if getattr(mat, 'materials_' + str(i + 1)) == 'Semi Static air':
-                    Air = 1
-                    if getattr(mat, 'mat_depth_' + str(i + 1)) != 0:
+            if material.name[0:1] in FaceType.WALL.get_letters():
+                if getattr(material, 'materials_' + str(i + 1)) == 'Semi Static air':
+                    air = 1
+                    if getattr(material, 'mat_depth_' + str(i + 1)) != 0:
                         R_mat = 0.09
                         U_mat = 1 / R_mat
 
-                elif getattr(mat, 'materials_' + str(i + 1)) == 'Static air':
-                    Air = 2
-                    if getattr(mat, 'mat_depth_' + str(i + 1)) != 0:
+                elif getattr(material, 'materials_' + str(i + 1)) == 'Static air':
+                    air = 2
+                    if getattr(material, 'mat_depth_' + str(i + 1)) != 0:
                         R_mat = 0.18
                         U_mat = 1 / R_mat
-                elif getattr(mat, 'materials_' + str(i + 1)) == 'Free air':
-                    Air = 0
-                    if getattr(mat, 'mat_depth_' + str(i + 1)) != 0:
+                elif getattr(material, 'materials_' + str(i + 1)) == 'Free air':
+                    air = 0
+                    if getattr(material, 'mat_depth_' + str(i + 1)) != 0:
                         R_mat = 0
                         U_mat = 0
-            if mat.name[0:1] == 'S' or mat.name[0:1] == 'F':
-                if getattr(mat, 'materials_' + str(i + 1)) == 'Semi Static air':
-                    Air = 1
-                    if getattr(mat, 'mat_depth_' + str(i + 1)) != 0:
+
+            elif material.name[0:1] in FaceType.FLOOR.get_letters():
+                if getattr(material, 'materials_' + str(i + 1)) == 'Semi Static air':
+                    air = 1
+                    if getattr(material, 'mat_depth_' + str(i + 1)) != 0:
                         R_mat = 0.1
                         U_mat = 1 / R_mat
 
-                elif getattr(mat, 'materials_' + str(i + 1)) == 'Static air':
-                    Air = 2
-                    if getattr(mat, 'mat_depth_' + str(i + 1)) != 0:
+                elif getattr(material, 'materials_' + str(i + 1)) == 'Static air':
+                    air = 2
+                    if getattr(material, 'mat_depth_' + str(i + 1)) != 0:
                         R_mat = 0.19
                         U_mat = 1 / R_mat
-                elif getattr(mat, 'materials_' + str(i + 1)) == 'Free air':
-                    Air = 0
-                    if getattr(mat, 'mat_depth_' + str(i + 1)) != 0:
+                elif getattr(material, 'materials_' + str(i + 1)) == 'Free air':
+                    air = 0
+                    if getattr(material, 'mat_depth_' + str(i + 1)) != 0:
                         R_mat = 0
                         U_mat = 0
-            if mat.name[0:1] == 'T' or mat.name[0:1] == 'R':
-                if getattr(mat, 'materials_' + str(i + 1)) == 'Semi Static air':
-                    Air = 1
-                    if getattr(mat, 'mat_depth_' + str(i + 1)) != 0:
+
+            elif material.name[0:1] in FaceType.ROOF.get_letters():
+                if getattr(material, 'materials_' + str(i + 1)) == 'Semi Static air':
+                    air = 1
+                    if getattr(material, 'mat_depth_' + str(i + 1)) != 0:
                         R_mat = 0.08
                         U_mat = 1 / R_mat
 
-                elif getattr(mat, 'materials_' + str(i + 1)) == 'Static air':
-                    Air = 2
-                    if getattr(mat, 'mat_depth_' + str(i + 1)) != 0:
+                elif getattr(material, 'materials_' + str(i + 1)) == 'Static air':
+                    air = 2
+                    if getattr(material, 'mat_depth_' + str(i + 1)) != 0:
                         R_mat = 0.16
                         U_mat = 1 / R_mat
-                elif getattr(mat, 'materials_' + str(i + 1)) == 'Free air':
-                    Air = 0
-                    if getattr(mat, 'mat_depth_' + str(i + 1)) != 0:
+                elif getattr(material, 'materials_' + str(i + 1)) == 'Free air':
+                    air = 0
+                    if getattr(material, 'mat_depth_' + str(i + 1)) != 0:
                         R_mat = 0
                         U_mat = 0
-            if getattr(mat, 'mat_lambda_i_' + str(i + 1)) != 0:
-                R_mat = getattr(mat, 'mat_depth_' + str(i + 1)) / 100 / getattr(mat, 'mat_lambda_i_' + str(i + 1))
 
-                if getattr(mat, 'mat_depth_' + str(i + 1)) != 0:
+            if getattr(material, 'mat_lambda_i_' + str(i + 1)) != 0:
+                R_mat = getattr(material, 'mat_depth_' + str(i + 1)) / 100 / getattr(material,
+                                                                                     'mat_lambda_i_' + str(i + 1))
+
+                if getattr(material, 'mat_depth_' + str(i + 1)) != 0:
                     U_mat = 1 / R_mat
+
             R_levels.append(round(R_mat, 2))
 
             subrow.label(text="R = " + str(round(R_mat, 3)) + " m².K/W")  # +"mat_R_"+str(i+1))
             # subrow.label(text="U = "+str(round(U_mat,2))+" W/m².K")   #+"mat_R_"+str(i+1))
-            subrow.prop(mat, 'materials_' + str(i + 1), text="")
+            subrow.prop(material, 'materials_' + str(i + 1), text="")
 
             row = box.row(align=True)
             row.alignment = 'LEFT'
-            row.prop(mat, 'mat_depth_' + str(i + 1), text="Depth (cm)")
-            row.prop(mat, 'mat_lambda_i_' + str(i + 1), text="λi (W/mK)")
+            row.prop(material, 'mat_depth_' + str(i + 1), text="Depth (cm)")
+            row.prop(material, 'mat_lambda_i_' + str(i + 1), text="λi (W/mK)")
 
             # for more precision #row.prop(bpy.data.materials[mat.name],'mat_lambda_e_'+str(i+1),text="λe(W/mK)")# function to precise... λe for humidity
             # for more precision #row.prop(bpy.data.materials[mat.name],'mat_exterior_'+str(i+1),text="Exterior")
 
         row = layout.row()
         row.label(text="Inside", icon='UGLYPACKAGE')
-        if mat.mat_environnement == 'Outside' or mat.mat_environnement == 'Ground':
-            if Air == 1 or Air == 2:
+        if material.mat_environnement == 'Outside' or material.mat_environnement == 'Ground':
+            if air == 1 or air == 2:
                 W_Rse = 0.04
                 G_Rse = 0.04
                 R_Rse = 0.04
@@ -259,107 +229,102 @@ class OBJECT_PT_ArToKi_EnergyDeperditions(bpy.types.Panel):
                 # Rtot calculation
 
         if sum(R_levels) != 0:
-            if mat.name[0:1] == 'M' or mat.name[0:1] == 'W':
+            if material.name[0:1] in FaceType.WALL.get_letters():
                 R_tot = W_Rse + sum(R_levels) + W_Rsi
-            if mat.name[0:1] == 'S' or mat.name[0:1] == 'F':
+            if material.name[0:1] in FaceType.FLOOR.get_letters():
                 R_tot = G_Rse + sum(R_levels) + G_Rsi
-            if mat.name[0:1] == 'T' or mat.name[0:1] == 'R':
+            if material.name[0:1] in FaceType.ROOF.get_letters():
                 R_tot = R_Rse + sum(R_levels) + R_Rsi
             if R_tot != 0:
                 U_tot = 1 / R_tot
+
         row = layout.row()
         box = row.box()
         col = box.column()
         subrow = col.row(align=True)
         subrow.alignment = 'LEFT'
-        icon_A_Plus_Plus = self.layout.icon(bpy.data.images['A_Plus_Plus.png'])
-        icon_A_Plus = self.layout.icon(bpy.data.images['A_Plus.png'])
-        icon_A = self.layout.icon(bpy.data.images['A.png'])
-        icon_B = self.layout.icon(bpy.data.images['B.png'])
-        icon_C = self.layout.icon(bpy.data.images['C.png'])
-        icon_D = self.layout.icon(bpy.data.images['D.png'])
-        icon_E = self.layout.icon(bpy.data.images['E.png'])
-        icon_F = self.layout.icon(bpy.data.images['F.png'])
-        icon_G = self.layout.icon(bpy.data.images['G.png'])
+
+        icon_a_plus_plus = self.layout.icon(bpy.data.images['A_Plus_Plus.png'])
+        icon_a_plus = self.layout.icon(bpy.data.images['A_Plus.png'])
+        icon_a = self.layout.icon(bpy.data.images['A.png'])
+        icon_b = self.layout.icon(bpy.data.images['B.png'])
+        icon_c = self.layout.icon(bpy.data.images['C.png'])
+        icon_d = self.layout.icon(bpy.data.images['D.png'])
+        icon_e = self.layout.icon(bpy.data.images['E.png'])
+        icon_f = self.layout.icon(bpy.data.images['F.png'])
+        icon_g = self.layout.icon(bpy.data.images['G.png'])
 
         # Label assign
 
-        if mat.name[0:1] == 'M' or mat.name[0:1] == 'W':
+        if material.name[0:1] in FaceType.WALL.get_letters():
             if round(U_tot, 3) <= 0.15:
-                subrow.label(text="", icon_value=icon_A_Plus_Plus)
+                subrow.label(text="", icon_value=icon_a_plus_plus)
             #                if scene.atk_therm_col == True:
             #                    mat.diffuse_color=((0,0.215686275,0.090196078))
             elif 0.15 < round(U_tot, 3) <= 0.18:
-                subrow.label(text="", icon_value=icon_A_Plus)
+                subrow.label(text="", icon_value=icon_a_plus)
                 # mat.diffuse_color=((0.02,0.41,0.19))
             elif 0.18 < round(U_tot, 3) <= 0.24:
-                subrow.label(text="", icon_value=icon_A)
+                subrow.label(text="", icon_value=icon_a)
                 # mat.diffuse_color=((0.26,0.54,0.01))
             elif 0.24 < round(U_tot, 3) <= 0.32:
-                subrow.label(text="", icon_value=icon_B)
+                subrow.label(text="", icon_value=icon_b)
             elif 0.32 < round(U_tot, 3) <= 0.40:
-                subrow.label(text="", icon_value=icon_C)
+                subrow.label(text="", icon_value=icon_c)
             elif 0.40 < round(U_tot, 3) <= 0.60:
-                subrow.label(text="", icon_value=icon_D)
+                subrow.label(text="", icon_value=icon_d)
             elif 0.60 < round(U_tot, 3) <= 0.90:
-                subrow.label(text="", icon_value=icon_E)
+                subrow.label(text="", icon_value=icon_e)
             elif 0.90 < round(U_tot, 3) <= 1.6:
-                subrow.label(text="", icon_value=icon_F)
+                subrow.label(text="", icon_value=icon_f)
             elif 1.6 < round(U_tot, 3):
-                subrow.label(text="", icon_value=icon_G)
+                subrow.label(text="", icon_value=icon_g)
 
-        if mat.name[0:1] == 'S' or mat.name[0:1] == 'F':
+        if material.name[0:1] in FaceType.FLOOR.get_letters():
             if round(U_tot, 3) <= 0.15:
-                subrow.label(text="", icon_value=icon_A_Plus_Plus)
+                subrow.label(text="", icon_value=icon_a_plus_plus)
                 # mat.diffuse_color=((0,0.215686275,0.090196078))
             elif 0.15 < round(U_tot, 3) <= 0.18:
-                subrow.label(text="", icon_value=icon_A_Plus)
+                subrow.label(text="", icon_value=icon_a_plus)
                 # mat.diffuse_color=((0.02,0.41,0.19))
             elif 0.18 < round(U_tot, 3) <= 0.30:
-                subrow.label(text="", icon_value=icon_A)
+                subrow.label(text="", icon_value=icon_a)
                 # mat.diffuse_color=((0.26,0.54,0.01))
             elif 0.30 < round(U_tot, 3) <= 0.35:
-                subrow.label(text="", icon_value=icon_B)
+                subrow.label(text="", icon_value=icon_b)
             elif 0.35 < round(U_tot, 3) <= 0.40:
-                subrow.label(text="", icon_value=icon_C)
+                subrow.label(text="", icon_value=icon_c)
             elif 0.40 < round(U_tot, 3) <= 0.60:
-                subrow.label(text="", icon_value=icon_D)
+                subrow.label(text="", icon_value=icon_d)
             elif 0.60 < round(U_tot, 3) <= 0.90:
-                subrow.label(text="", icon_value=icon_E)
+                subrow.label(text="", icon_value=icon_e)
             elif 0.90 < round(U_tot, 3) <= 1.6:
-                subrow.label(text="", icon_value=icon_F)
+                subrow.label(text="", icon_value=icon_f)
             elif 1.6 < round(U_tot, 3):
-                subrow.label(text="", icon_value=icon_G)
+                subrow.label(text="", icon_value=icon_g)
 
-        if mat.name[0:1] == 'T' or mat.name[0:1] == 'R':
+        if material.name[0:1] in FaceType.ROOF.get_letters():
             if round(U_tot, 3) <= 0.15:
-                subrow.label(text="", icon_value=icon_A_Plus_Plus)
+                subrow.label(text="", icon_value=icon_a_plus_plus)
                 # mat.diffuse_color=((0,0.215686275,0.090196078))
             elif 0.15 < round(U_tot, 3) <= 0.18:
-                subrow.label(text="", icon_value=icon_A_Plus)
+                subrow.label(text="", icon_value=icon_a_plus)
                 # mat.diffuse_color=((0.02,0.41,0.19))
             elif 0.18 < round(U_tot, 3) <= 0.24:
-                subrow.label(text="", icon_value=icon_A)
+                subrow.label(text="", icon_value=icon_a)
                 # mat.diffuse_color=((0.26,0.54,0.01))
             elif 0.24 < round(U_tot, 3) <= 0.27:
-                subrow.label(text="", icon_value=icon_B)
+                subrow.label(text="", icon_value=icon_b)
             elif 0.27 < round(U_tot, 3) <= 0.30:
-                subrow.label(text="", icon_value=icon_C)
+                subrow.label(text="", icon_value=icon_c)
             elif 0.30 < round(U_tot, 3) <= 0.40:
-                subrow.label(text="", icon_value=icon_D)
+                subrow.label(text="", icon_value=icon_d)
             elif 0.40 < round(U_tot, 3) <= 0.65:
-                subrow.label(text="", icon_value=icon_E)
+                subrow.label(text="", icon_value=icon_e)
             elif 0.65 < round(U_tot, 3) <= 1.80:
-                subrow.label(text="", icon_value=icon_F)
+                subrow.label(text="", icon_value=icon_f)
             elif 1.8 < round(U_tot, 3):
-                subrow.label(text="", icon_value=icon_G)
+                subrow.label(text="", icon_value=icon_g)
 
-        subrow.label(text="  Rt = " + str(round(R_tot, 3)) + " m².K/W             U= " + str(round(U_tot,
-                                                                                                   3)) + " W/m².K          ")  # +str(mat.mat_layers)  +str(W_Rse)+"    "+str(W_Rsi)+"    "+str(Air)+"    "+str(R_levels) )
-
-#        subrow = col.row(align=True)
-#        subrow.label(text="#dev Levels: "+str(mat.mat_layers)  +"     W_R se: "+str(W_Rse)+"     W_R si: "+str(W_Rsi)+"     Air : "+str(Air)+"     R levels: "+str(R_levels))
-#        subrow = col.row(align=True)
-#        subrow.label(text="#dev Levels: "+str(mat.mat_layers)  +"     G_R se: "+str(G_Rse)+"     G_R si: "+str(G_Rsi)+"     Air : "+str(Air)+"     R levels: "+str(R_levels))
-#        subrow = col.row(align=True)
-#        subrow.label(text="#dev Levels: "+str(mat.mat_layers)  +"     R_R se: "+str(R_Rse)+"     R_R si: "+str(R_Rsi)+"     Air : "+str(Air)+"     R levels: "+str(R_levels))
+        subrow.label(text="  Rt = " + str(round(R_tot, 3)) + " m².K/W             U= " + str(
+            round(U_tot, 3)) + " W/m².K          ")

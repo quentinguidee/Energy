@@ -7,7 +7,7 @@ from xml.etree.ElementTree import ElementTree, SubElement
 from . import info
 
 from .energyreport.classes.color import Color
-from .energyreport.classes.face_type import FaceType
+from .classes.face_type import FaceType
 
 
 def face_projection_area(face, obj):

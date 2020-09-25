@@ -1,5 +1,5 @@
 from .orientation import Orientation
-from .face_type import FaceType
+from ...classes.face_type import FaceType
 
 
 class Face:

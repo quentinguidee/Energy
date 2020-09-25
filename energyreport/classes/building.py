@@ -6,7 +6,7 @@ import bpy
 from ...functions import face_projection_area
 
 from .face import Face
-from .face_type import FaceType
+from ...classes.face_type import FaceType
 from .orientation import Orientation
 
 
