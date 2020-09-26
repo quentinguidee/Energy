@@ -192,11 +192,11 @@ class OBJECT_PT_ArToKi_EnergyDeperditions(bpy.types.Panel):
         rsi = 0
 
         if face_type == FaceType.WALL:
-            rse, rsi = 0.13, 0.13
+            rse = rsi = 0.13
         elif face_type == FaceType.FLOOR:
-            rse, rsi = 0.17, 0.17
+            rse = rsi = 0.17
         elif face_type == FaceType.ROOF:
-            rse, rsi = 0.1, 0.1
+            rse = rsi = 0.1
 
         environment_type = EnvironmentType.get_type_of(material.mat_environment)
         material_type: MaterialType = MaterialType.FREE_AIR
