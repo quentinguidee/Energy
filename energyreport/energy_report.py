@@ -87,7 +87,7 @@ class OBJECT_PT_ArToKi_EnergyReport(Panel):
         sub_row.label(text="Volume of the enveloppe:   " + str(round(volume, 2)) + " m\xb3", icon='VIEW3D')
         sub_row.label(text="Surface of the enveloppe:   " + str(round(area, 2)) + " m\xb2", icon='MESH_GRID')
 
-    def draw_walls(self, faces, xml_projections, html_projections):
+    def draw_walls(self, walls, xml_projections, html_projections):
         projection_id = 0
         face_type_id = FaceType.WALL.get_id()
 
@@ -96,11 +96,10 @@ class OBJECT_PT_ArToKi_EnergyReport(Panel):
             materials_projections = []
             area_projection = 0
 
-            # déterminer les faces de la projection et la surface de la projection
-            for face in faces:
-                if face.orientation == orientation and face.type == FaceType.WALL:
-                    faces_projections.append(face)
-                    area_projection += face.area
+            for wall in walls:
+                if wall.orientation == orientation:
+                    faces_projections.append(wall)
+                    area_projection += wall.area
 
             if area_projection != 0:
                 row = self.layout.row()
@@ -179,7 +178,7 @@ class OBJECT_PT_ArToKi_EnergyReport(Panel):
                     td_3.attrib["class"] = "mat_surf"
                     td_3.text = str(round(material_area, 2)) + " m²"
 
-    def draw_floors(self, faces, xml_projections, html_projections, tree_html):
+    def draw_floors(self, floors: [Face], xml_projections, html_projections, tree_html):
         row = self.layout.row()
         row.alignment = 'EXPAND'
 
@@ -187,14 +186,11 @@ class OBJECT_PT_ArToKi_EnergyReport(Panel):
         column = box.column()
 
         area = 0
-        faces_vert = []
         mat_vert = []
         face_type_id = FaceType.FLOOR.get_id()
 
-        for face in faces:
-            if face.type == FaceType.FLOOR:
-                faces_vert.append(face)
-                area += face.projection_area
+        for floor in floors:
+            area += floor.projection_area
 
         if area != 0:
             sub_row = column.row(align=True)
@@ -208,14 +204,14 @@ class OBJECT_PT_ArToKi_EnergyReport(Panel):
             caption = tree_html.find(".//table[@id='floors_values']/tbody/caption")
             caption.text = 'Projection Sols: ' + str(round(area, 2)) + ' m²'
 
-            for face_proj in faces_vert:
+            for face_proj in floors:
                 if mat_vert.count(str(face_proj.material)) == 0:
                     mat_vert.append(face_proj.material)
 
             for material_proj in sorted(mat_vert):
                 sub_row = column.row(align=True)
                 surf_mat_vert = 0
-                for face_proj in faces_vert:
+                for face_proj in floors:
                     if face_proj.material == material_proj:
                         surf_mat_vert += face_proj.projection_area
 
@@ -240,7 +236,7 @@ class OBJECT_PT_ArToKi_EnergyReport(Panel):
                 td_3.attrib["class"] = "mat_surf"
                 td_3.text = str(round(surf_mat_vert, 2)) + " m²"
 
-    def draw_roofs(self, faces, xml_projections, html_projections, tree_html):
+    def draw_roofs(self, roofs: [Face], xml_projections, html_projections, tree_html):
         row = self.layout.row()
         row.alignment = 'EXPAND'
 
@@ -249,16 +245,13 @@ class OBJECT_PT_ArToKi_EnergyReport(Panel):
 
         area = 0
         area_projection = 0
-        faces_roof = []
         materials = []
 
         face_type_id = FaceType.ROOF.get_id()
 
-        for face in faces:
-            if face.type == FaceType.ROOF:
-                faces_roof.append(face)
-                area += face.area
-                area_projection += face.projection_area
+        for face in roofs:
+            area += face.area
+            area_projection += face.projection_area
 
         if area != 0:
             sub_row = column.row(align=True)
@@ -273,7 +266,7 @@ class OBJECT_PT_ArToKi_EnergyReport(Panel):
             caption = tree_html.find(".//table[@id='roofs_values']/tbody/caption")
             caption.text = 'Projection Toitures: ' + str(round(area_projection, 2)) + ' m²'
 
-            for face_proj in faces_roof:
+            for face_proj in roofs:
                 if materials.count(str(face_proj.material)) == 0:
                     materials.append(face_proj.material)
 
@@ -284,7 +277,7 @@ class OBJECT_PT_ArToKi_EnergyReport(Panel):
                 roof_angle = 0
                 roof_orientation = ''
 
-                for face_proj in faces_roof:
+                for face_proj in roofs:
                     if face_proj.material == material_proj:
                         area_material_roof += face_proj.area
                         area_projection_material_roof += face_proj.projection_area
@@ -385,13 +378,13 @@ class OBJECT_PT_ArToKi_EnergyReport(Panel):
         self.draw_volume_and_area(building.eval_volume(), building.eval_area())
 
         self.draw_subtitle(text=FaceType.WALL.get_name())
-        self.draw_walls(building.faces, xml_projections, html_projections)
+        self.draw_walls(building.get_faces(FaceType.WALL), xml_projections, html_projections)
 
         self.draw_subtitle(text=FaceType.FLOOR.get_name())
-        self.draw_floors(building.faces, xml_projections, html_projections, html_tree)
+        self.draw_floors(building.get_faces(FaceType.FLOOR), xml_projections, html_projections, html_tree)
 
         self.draw_subtitle(text=FaceType.ROOF.get_name())
-        self.draw_roofs(building.faces, xml_projections, html_projections, html_tree)
+        self.draw_roofs(building.get_faces(FaceType.ROOF), xml_projections, html_projections, html_tree)
 
         self.draw_subtitle(text="Summary")
         self.draw_summary(building.faces)
