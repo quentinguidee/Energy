@@ -1,0 +1,89 @@
+<com.hemmis.mrw.pace.model.skin.RoofPlane id="460">
+    <skin reference="225"/>
+    <state>UNCHANGED</state>
+    <isAnnexPlane>false</isAnnexPlane>
+    <shortDescription>Pan de toit 1</shortDescription>
+    <isLossPlaneManually id="461" v="2">
+        <INITIAL class="java.lang.Boolean">false</INITIAL>
+    </isLossPlaneManually>
+    <isLossPlane id="462" v="2">
+        <INITIAL class="java.lang.Boolean">false</INITIAL>
+    </isLossPlane>
+    <heightManually id="463" v="2">
+        <INITIAL class="java.lang.Boolean">true</INITIAL>
+    </heightManually>
+    <height id="464" v="2">
+        <INITIAL/>
+    </height>
+    <widthManually id="465" v="2">
+        <INITIAL class="java.lang.Boolean">true</INITIAL>
+    </widthManually>
+    <width id="466" v="2">
+        <INITIAL/>
+    </width>
+    <grossSurfaceManually id="467" v="2">
+        <INITIAL class="java.lang.Boolean">false</INITIAL>
+    </grossSurfaceManually>
+    <grossSurface id="468" v="2">
+        <INITIAL/>
+    </grossSurface>
+    <additionalSurfaceManually id="469" v="2">
+        <INITIAL class="java.lang.Boolean">false</INITIAL>
+    </additionalSurfaceManually>
+    <additionalSurface id="470" v="2">
+        <INITIAL/>
+    </additionalSurface>
+    <restSurfaceManually id="471" v="2">
+        <INITIAL class="java.lang.Boolean">false</INITIAL>
+    </restSurfaceManually>
+    <restSurface id="472" v="2">
+        <INITIAL/>
+    </restSurface>
+    <slopeManually id="473" v="2">
+        <INITIAL class="java.lang.Boolean">true</INITIAL>
+    </slopeManually>
+    <slope id="474" v="2">
+        <INITIAL/>
+    </slope>
+    <orientationManually id="475" v="2">
+        <INITIAL class="java.lang.Boolean">true</INITIAL>
+    </orientationManually>
+    <orientation id="476" v="2">
+        <INITIAL/>
+    </orientation>
+    <projectionSurfaceManually id="477" v="2">
+        <INITIAL class="java.lang.Boolean">false</INITIAL>
+    </projectionSurfaceManually>
+    <projectionSurface id="478" v="2">
+        <INITIAL/>
+    </projectionSurface>
+    <roofInstances
+            class="com.hemmis.mrw.pace.model.skin.AbstractPlane$AbstractPlaneOpaqueInstanceSituationListProperty"
+            id="479" v="2">
+        <parent class="com.hemmis.mrw.pace.model.skin.RoofPlane" reference="460"/>
+        <INITIAL class="com.hemmis.mrw.pace.util.ObservableArrayList" id="480"/>
+    </roofInstances>
+    <annexes class="com.hemmis.mrw.pace.model.skin.AbstractPlane$AbstractPlaneAnnexSituationListProperty" id="481"
+             v="2">
+        <parent class="com.hemmis.mrw.pace.model.skin.RoofPlane" reference="460"/>
+        <INITIAL class="com.hemmis.mrw.pace.util.ObservableArrayList" id="482"/>
+    </annexes>
+    <basePlane class="com.hemmis.mrw.pace.model.skin.AbstractPlane$AbstractPlaneBasePlaneSituationReferenceProperty"
+               id="483" v="2">
+        <owner class="com.hemmis.mrw.pace.model.skin.RoofPlane" reference="460"/>
+        <INITIAL/>
+    </basePlane>
+    <lossPlanes class="com.hemmis.mrw.pace.model.skin.AbstractPlane$AbstractPlaneLossPlaneSituationListProperty"
+                id="484" v="2">
+        <parent class="com.hemmis.mrw.pace.model.skin.RoofPlane" reference="460"/>
+        <INITIAL class="com.hemmis.mrw.pace.util.ObservableArrayList" id="485"/>
+        <SECOND class="com.hemmis.mrw.pace.util.ObservableArrayList" id="486"/>
+    </lossPlanes>
+    <roofLossInstances
+            class="com.hemmis.mrw.pace.model.skin.AbstractPlane$AbstractPlaneOpaqueLossInstanceSituationListProperty"
+            id="487" v="2">
+        <parent class="com.hemmis.mrw.pace.model.skin.RoofPlane" reference="460"/>
+        <INITIAL class="com.hemmis.mrw.pace.util.ObservableArrayList" id="488"/>
+        <SECOND class="com.hemmis.mrw.pace.util.ObservableArrayList" id="489"/>
+    </roofLossInstances>
+</com.hemmis.mrw.pace.model.skin.RoofPlane>
