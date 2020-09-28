@@ -6,9 +6,12 @@ from info import DEBUG
 
 
 class Roof:
-    def __init__(self, name: str, orientation: Orientation):
+    def __init__(self, name: str, orientation: Orientation, angle: float, width: float, height: float):
         self.name = name
         self.orientation = orientation
+        self.angle = angle
+        self.width = width
+        self.height = height
 
 
 class PaceExporter:
@@ -38,6 +41,21 @@ class PaceExporter:
         root_orientation = roof_planes_template_root.find('orientation/INITIAL')
         root_orientation.set('class', 'com.hemmis.mrw.pace.model.enums.Orientation')
         root_orientation.text = roof.orientation.name
+
+        root_angle = roof_planes_template_root.find('slope/INITIAL')
+        root_angle.set('class', 'java.math.BigDecimal')
+        root_angle.text = str(roof.angle)  # !! format: 32.00
+
+        root_width = roof_planes_template_root.find('width/INITIAL')
+        root_width.set('class', 'java.math.BigDecimal')
+        root_width.text = str(roof.width)
+
+        root_height = roof_planes_template_root.find('height/INITIAL')
+        root_height.set('class', 'java.math.BigDecimal')
+        root_height.text = str(roof.height)
+
+        # AUTO: ProjectionSurface
+        # AUTO: Rest
 
         initial.append(roof_planes_template_root)
 
