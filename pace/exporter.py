@@ -14,6 +14,14 @@ class Roof:
         self.height = height
 
 
+class Wall:
+    def __init__(self, name: str, orientation: Orientation, width: float, height: float):
+        self.name = name
+        self.orientation = orientation
+        self.width = width
+        self.height = height
+
+
 class PaceExporter:
     def __init__(self):
         self.tree: ElementTree = ET.parse('templates/blank.xml')
@@ -26,6 +34,34 @@ class PaceExporter:
     def fix_ids(self):
         # Rewrite all ids
         pass
+
+    def register_new_wall(self, wall: Wall):
+        wall_planes = self.root.find('./building/skin/wallPlanes')
+        initial = wall_planes.find('INITIAL')
+
+        # Load wallplane.xml
+        wall_planes_template = ET.parse('templates/wallplane.xml')
+        wall_planes_template_root = wall_planes_template.getroot()
+
+        # Set info
+        wall_planes_template_root.find('shortDescription').text = wall.name
+
+        root_orientation = wall_planes_template_root.find('orientation/INITIAL')
+        root_orientation.set('class', 'com.hemmis.mrw.pace.model.enums.Orientation')
+        root_orientation.text = wall.orientation.name
+
+        root_width = wall_planes_template_root.find('width/INITIAL')
+        root_width.set('class', 'java.math.BigDecimal')
+        root_width.text = str(wall.width)
+
+        root_height = wall_planes_template_root.find('height/INITIAL')
+        root_height.set('class', 'java.math.BigDecimal')
+        root_height.text = str(wall.height)
+
+        initial.append(wall_planes_template_root)
+
+        if DEBUG:
+            ElementTree(wall_planes).write('debug/walls.xml')
 
     def register_new_roof(self, roof: Roof):
         roof_planes = self.root.find("./building/skin/roofPlanes")
