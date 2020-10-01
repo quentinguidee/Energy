@@ -34,34 +34,6 @@ class PaceExporter:
     def export(self, filename: str):
         self.tree.write(filename)
 
-    # OLD SYSTEM: Replacing ids in the entire document.
-    # def fix_ids(self, filename):
-    #     """
-    #     Rewrite all ids. This considers that there is only one ID in each line.
-    #     """
-    #     with open(filename) as file:
-    #         lines = file.read().splitlines()
-    #
-    #     with open(filename, 'w') as file:
-    #         for line in lines:
-    #             if 'id=\"' in line:
-    #                 start = line.index('id="')
-    #                 end = line.index('"', start + 4) + 1
-    #                 old_id = line[start:end]
-    #                 new_id = 'id="' + str(self.next_id()) + '"'
-    #                 new_line = line.replace(old_id, new_id)
-    #
-    #                 # if DEBUG:
-    #                 if False:
-    #                     print(old_id + " with " + str(start) + " and " + str(end))
-    #                     print(new_id)
-    #                     print("New line: " + new_line)
-    #
-    #             else:
-    #                 new_line = line
-    #
-    #             file.write(new_line + "\n")
-
     def fix_ids(self, lines):
         """
         Rewrite all ids. This considers that there is only one ID in each line.
@@ -100,73 +72,72 @@ class PaceExporter:
         return self.current_id
 
     def register_new_wall(self, wall: Wall):
-        wall_planes = self.root.find('./building/skin/wallPlanes')
-        initial = wall_planes.find('INITIAL')
-
-        # Load wallplane.xml
-        wall_planes_template = ET.parse('templates/wallplane.xml')
-        wall_planes_template_root = wall_planes_template.getroot()
-
-        # Set info
-        wall_planes_template_root.find('shortDescription').text = wall.name
-
-        root_orientation = wall_planes_template_root.find('orientation/INITIAL')
-        root_orientation.set('class', 'com.hemmis.mrw.pace.model.enums.Orientation')
-        root_orientation.text = wall.orientation.name
-
-        root_width = wall_planes_template_root.find('width/INITIAL')
-        root_width.set('class', 'java.math.BigDecimal')
-        root_width.text = str(wall.width)
-
-        root_height = wall_planes_template_root.find('height/INITIAL')
-        root_height.set('class', 'java.math.BigDecimal')
-        root_height.text = str(wall.height)
-
-        # Fix ids
-        lines = ET.tostringlist(wall_planes_template_root, encoding='unicode', method='xml')
-        self.fix_ids(lines)
-
-        initial.append(ET.fromstringlist(lines))
-
-        if DEBUG:
-            print(lines)
+        self.populate_template(
+            template_filename='templates/wallplane.xml',
+            find='./building/skin/wallPlanes/INITIAL',
+            replace_queries={
+                'shortDescription': {
+                    'value': wall.name
+                },
+                'orientation/INITIAL': {
+                    'class': 'com.hemmis.mrw.pace.model.enums.Orientation',
+                    'value': wall.orientation.name
+                },
+                'width/INITIAL': {
+                    'class': 'java.math.BigDecimal',
+                    'value': wall.width
+                },
+                'height/INITIAL': {
+                    'class': 'java.math.BigDecimal',
+                    'value': wall.height
+                }
+            })
 
     def register_new_roof(self, roof: Roof):
-        roof_planes = self.root.find("./building/skin/roofPlanes")
-        initial = roof_planes.find('INITIAL')
-
-        # Load roofplane.xml
-        roof_planes_template = ET.parse('templates/roofplane.xml')
-        roof_planes_template_root = roof_planes_template.getroot()
-
-        # Set info
-        roof_planes_template_root.find('shortDescription').text = roof.name
-
-        root_orientation = roof_planes_template_root.find('orientation/INITIAL')
-        root_orientation.set('class', 'com.hemmis.mrw.pace.model.enums.Orientation')
-        root_orientation.text = roof.orientation.name
-
-        root_angle = roof_planes_template_root.find('slope/INITIAL')
-        root_angle.set('class', 'java.math.BigDecimal')
-        root_angle.text = str(roof.angle)  # !! format: 32.00
-
-        root_width = roof_planes_template_root.find('width/INITIAL')
-        root_width.set('class', 'java.math.BigDecimal')
-        root_width.text = str(roof.width)
-
-        root_height = roof_planes_template_root.find('height/INITIAL')
-        root_height.set('class', 'java.math.BigDecimal')
-        root_height.text = str(roof.height)
-
+        self.populate_template(
+            template_filename='templates/roofplane.xml',
+            find='./building/skin/roofPlanes/INITIAL',
+            replace_queries={
+                'shortDescription': {
+                    'value': roof.name
+                },
+                'orientation/INITIAL': {
+                    'class': 'com.hemmis.mrw.pace.model.enums.Orientation',
+                    'value': roof.orientation.name
+                },
+                'slope/INITIAL': {
+                    'class': 'java.math.BigDecimal',
+                    'value': roof.angle
+                },
+                'width/INITIAL': {
+                    'class': 'java.math.BigDecimal',
+                    'value': roof.width
+                },
+                'height/INITIAL': {
+                    'class': 'java.math.BigDecimal',
+                    'value': roof.height
+                }
+            }
+        )
         # AUTO: ProjectionSurface
         # AUTO: Rest
 
-        # Fix ids
-        lines = ET.tostringlist(roof_planes_template_root, encoding='unicode', method='xml')
-        self.fix_ids(lines)
+    def populate_template(self, template_filename: str, find: str, replace_queries: dict):
+        template_root = ET.parse(template_filename).getroot()
+        root = self.root.find(find)
 
-        initial.append(ET.fromstringlist(lines))
+        for query_key, query_item in replace_queries.items():
+            element = template_root.find(query_key)
+            for key, value in query_item.items():
+                if key == 'value':
+                    element.text = str(value)
+                else:
+                    element.set(key, value)
+
+        # Fix ids
+        lines = ET.tostringlist(template_root, encoding='unicode', method='xml')
+        self.fix_ids(lines)
+        root.append(ET.fromstringlist(lines))
 
         if DEBUG:
-            print(ET.fromstringlist(lines).getchildren())
             print(lines)

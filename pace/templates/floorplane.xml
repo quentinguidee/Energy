@@ -1,0 +1,56 @@
+<com.hemmis.mrw.pace.model.skin.FloorInstance id="503">
+    <state>UNCHANGED</state>
+    <shortDescription>Plancher 1</shortDescription>
+    <heightManually id="504" v="2">
+        <INITIAL class="java.lang.Boolean">true</INITIAL>
+    </heightManually>
+    <height id="505" v="2">
+        <INITIAL/>
+    </height>
+    <widthManually id="506" v="2">
+        <INITIAL class="java.lang.Boolean">true</INITIAL>
+    </widthManually>
+    <width id="507" v="2">
+        <INITIAL/>
+    </width>
+    <grossSurfaceManually id="508" v="2">
+        <INITIAL class="java.lang.Boolean">false</INITIAL>
+    </grossSurfaceManually>
+    <grossSurface id="509" v="2">
+        <INITIAL/>
+    </grossSurface>
+    <netSurfaceManually id="510" v="2">
+        <INITIAL class="java.lang.Boolean">false</INITIAL>
+    </netSurfaceManually>
+    <netSurface id="511" v="2">
+        <INITIAL/>
+    </netSurface>
+    <unshadManually id="512" v="2">
+        <INITIAL class="java.lang.Boolean">false</INITIAL>
+    </unshadManually>
+    <openings class="com.hemmis.mrw.pace.model.skin.OpaqueInstance$OpaqueInstanceOpeningSituationListProperty" id="513"
+              v="2">
+        <parent class="com.hemmis.mrw.pace.model.skin.FloorInstance" reference="503"/>
+        <INITIAL class="com.hemmis.mrw.pace.util.ObservableArrayList" id="514"/>
+    </openings>
+    <opaqueLossInstances
+            class="com.hemmis.mrw.pace.model.skin.OpaqueInstance$OpaqueInstanceOpaqueLossInstanceSituationListProperty"
+            id="515" v="2">
+        <parent class="com.hemmis.mrw.pace.model.skin.FloorInstance" reference="503"/>
+        <INITIAL class="com.hemmis.mrw.pace.util.ObservableArrayList" id="516"/>
+        <SECOND class="com.hemmis.mrw.pace.util.ObservableArrayList" id="517"/>
+    </opaqueLossInstances>
+    <plane reference="486"/>
+    <slope id="518" v="2">
+        <INITIAL class="java.math.BigDecimal">0</INITIAL>
+    </slope>
+    <slopeAngle id="519" v="2">
+        <INITIAL class="com.hemmis.mrw.pace.model.enums.Angle">DEGREES_0</INITIAL>
+    </slopeAngle>
+    <opaqueElement
+            class="com.hemmis.mrw.pace.model.skin.OpaqueInstance$OpaqueInstanceOpaqueElementSituationReferenceProperty"
+            id="520" v="2">
+        <owner class="com.hemmis.mrw.pace.model.skin.FloorInstance" reference="503"/>
+        <INITIAL/>
+    </opaqueElement>
+</com.hemmis.mrw.pace.model.skin.FloorInstance>
