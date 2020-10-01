@@ -1,11 +1,32 @@
 import xml.etree.ElementTree as ET
+from abc import abstractmethod, ABCMeta
 from xml.etree.ElementTree import Element, ElementTree
 
 from energyreport.classes.orientation import Orientation
 from info import DEBUG
 
 
-class Roof:
+class PaceObject(metaclass=ABCMeta):
+    @property
+    @abstractmethod
+    def template_filename(self) -> str:
+        pass
+
+    @property
+    @abstractmethod
+    def path(self) -> str:
+        pass
+
+    @property
+    @abstractmethod
+    def replace_queries(self) -> dict:
+        pass
+
+
+class Roof(PaceObject):
+    template_filename = 'templates/roofplane.xml'
+    path = './building/skin/roofPlanes/INITIAL'
+
     def __init__(self, name: str, orientation: Orientation, angle: float, width: float, height: float):
         self.name = name
         self.orientation = orientation
@@ -13,13 +34,60 @@ class Roof:
         self.width = width
         self.height = height
 
+    @property
+    def replace_queries(self):
+        return {
+            'shortDescription': {
+                'value': self.name
+            },
+            'orientation/INITIAL': {
+                'class': 'com.hemmis.mrw.pace.model.enums.Orientation',
+                'value': self.orientation.name
+            },
+            'slope/INITIAL': {
+                'class': 'java.math.BigDecimal',
+                'value': self.angle
+            },
+            'width/INITIAL': {
+                'class': 'java.math.BigDecimal',
+                'value': self.width
+            },
+            'height/INITIAL': {
+                'class': 'java.math.BigDecimal',
+                'value': self.height
+            }
+        }
 
-class Wall:
+
+class Wall(PaceObject):
+    template_filename = 'templates/wallplane.xml'
+    path = './building/skin/wallPlanes/INITIAL'
+
     def __init__(self, name: str, orientation: Orientation, width: float, height: float):
         self.name = name
         self.orientation = orientation
         self.width = width
         self.height = height
+
+    @property
+    def replace_queries(self) -> dict:
+        return {
+            'shortDescription': {
+                'value': self.name
+            },
+            'orientation/INITIAL': {
+                'class': 'com.hemmis.mrw.pace.model.enums.Orientation',
+                'value': self.orientation.name
+            },
+            'width/INITIAL': {
+                'class': 'java.math.BigDecimal',
+                'value': self.width
+            },
+            'height/INITIAL': {
+                'class': 'java.math.BigDecimal',
+                'value': self.height
+            }
+        }
 
 
 class PaceExporter:
@@ -71,56 +139,11 @@ class PaceExporter:
         self.current_id += 1
         return self.current_id
 
-    def register_new_wall(self, wall: Wall):
+    def register(self, pace_object: PaceObject):
         self.populate_template(
-            template_filename='templates/wallplane.xml',
-            find='./building/skin/wallPlanes/INITIAL',
-            replace_queries={
-                'shortDescription': {
-                    'value': wall.name
-                },
-                'orientation/INITIAL': {
-                    'class': 'com.hemmis.mrw.pace.model.enums.Orientation',
-                    'value': wall.orientation.name
-                },
-                'width/INITIAL': {
-                    'class': 'java.math.BigDecimal',
-                    'value': wall.width
-                },
-                'height/INITIAL': {
-                    'class': 'java.math.BigDecimal',
-                    'value': wall.height
-                }
-            })
-
-    def register_new_roof(self, roof: Roof):
-        self.populate_template(
-            template_filename='templates/roofplane.xml',
-            find='./building/skin/roofPlanes/INITIAL',
-            replace_queries={
-                'shortDescription': {
-                    'value': roof.name
-                },
-                'orientation/INITIAL': {
-                    'class': 'com.hemmis.mrw.pace.model.enums.Orientation',
-                    'value': roof.orientation.name
-                },
-                'slope/INITIAL': {
-                    'class': 'java.math.BigDecimal',
-                    'value': roof.angle
-                },
-                'width/INITIAL': {
-                    'class': 'java.math.BigDecimal',
-                    'value': roof.width
-                },
-                'height/INITIAL': {
-                    'class': 'java.math.BigDecimal',
-                    'value': roof.height
-                }
-            }
-        )
-        # AUTO: ProjectionSurface
-        # AUTO: Rest
+            template_filename=pace_object.template_filename,
+            find=pace_object.path,
+            replace_queries=pace_object.replace_queries)
 
     def populate_template(self, template_filename: str, find: str, replace_queries: dict):
         template_root = ET.parse(template_filename).getroot()
