@@ -61,21 +61,48 @@ class PaceExporter:
             replace_queries=pace_object.replace_queries)
 
     def populate_template(self, template_filename: str, find: str, replace_queries: dict):
-        template_root = ET.parse(template_filename).getroot()
-        root = self.root.find(find)
+        template_root = ''
+        root = ''
 
-        for query_key, query_item in replace_queries.items():
-            element = template_root.find(query_key)
-            for key, value in query_item.items():
-                if key == 'value':
-                    element.text = str(value)
-                else:
-                    element.set(key, value)
+        if template_filename is not None:
+            template_root = ET.parse(template_filename).getroot()
+            root = self.root.find(find)
 
-        # Fix ids
-        lines = ET.tostringlist(template_root, encoding='unicode', method='xml')
-        self.fix_ids(lines)
-        root.append(ET.fromstringlist(lines))
+            for query_key, query_item in replace_queries.items():
+                element = template_root.find(query_key)
+                if query_key != 'MORE':
+                    for key, value in query_item.items():
+                        if key == 'value':
+                            element.text = str(value)
+                        else:
+                            element.set(key, value)
 
-        if DEBUG:
-            print(lines)
+        if 'MORE' in replace_queries.keys():
+            more_queries = replace_queries['MORE']
+            for path, queries in more_queries.items():
+                more_root = self.root.find(path)
+
+                for key, value in queries.items():
+                    element = more_root.find(key)
+
+                    if element is None:
+                        ET.SubElement(more_root, key)
+                        element = more_root.find(key)
+
+                    for k, v in value.items():
+                        if k == 'value':
+                            element.text = str(v)
+                        else:
+                            if v == 'CURRENT_ID':
+                                element.set(k, str(self.current_id + 1))
+                            else:
+                                element.set(k, v)
+
+        if template_filename is not None:
+            # Fix ids
+            lines = ET.tostringlist(template_root, encoding='unicode', method='xml')
+            self.fix_ids(lines)
+            root.append(ET.fromstringlist(lines))
+
+            if DEBUG:
+                print(lines)
