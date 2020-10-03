@@ -41,6 +41,14 @@ class Building:
         self.faces: [Face] = []
         self.populate_faces(obj)
 
+    def get_faces(self, face_type: FaceType) -> [Face]:
+        fcs = []
+        for face in self.faces:
+            if face.type == face_type:
+                fcs.append(face)
+
+        return fcs
+
     def eval_volume(self):
         """
         Calculate the volume of the mesh object.
