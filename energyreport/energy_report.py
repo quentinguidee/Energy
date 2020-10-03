@@ -1,7 +1,7 @@
 import math
 import os
 
-from xml.etree.ElementTree import SubElement, ElementTree
+from xml.etree.ElementTree import SubElement
 
 from bpy.props import StringProperty, EnumProperty, BoolProperty
 from bpy.types import Panel
@@ -9,11 +9,10 @@ from bpy.types import Panel
 from .classes.building import Building
 from .classes.color import Color
 from .classes.face import Face
-from .classes.face_type import FaceType
 from .classes.orientation import Orientation
 
+from ..classes.face_type import FaceType
 from ..functions import get_path, generate_file, handle_xml, handle_html
-from .. import info
 
 import bpy
 
