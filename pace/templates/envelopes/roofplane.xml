@@ -10,13 +10,13 @@
         <INITIAL class="java.lang.Boolean">false</INITIAL>
     </isLossPlane>
     <heightManually id="463" v="2">
-        <INITIAL class="java.lang.Boolean">true</INITIAL>
+        <INITIAL class="java.lang.Boolean">false</INITIAL>
     </heightManually>
     <height id="464" v="2">
         <INITIAL/>
     </height>
     <widthManually id="465" v="2">
-        <INITIAL class="java.lang.Boolean">true</INITIAL>
+        <INITIAL class="java.lang.Boolean">false</INITIAL>
     </widthManually>
     <width id="466" v="2">
         <INITIAL/>
@@ -52,7 +52,7 @@
         <INITIAL/>
     </orientation>
     <projectionSurfaceManually id="477" v="2">
-        <INITIAL class="java.lang.Boolean">false</INITIAL>
+        <INITIAL class="java.lang.Boolean">true</INITIAL>
     </projectionSurfaceManually>
     <projectionSurface id="478" v="2">
         <INITIAL/>

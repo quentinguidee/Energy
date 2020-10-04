@@ -7,11 +7,10 @@ class Wall(PaceObject):
     template_filename = 'templates/envelopes/wallplane.xml'
     path = './building/skin/wallPlanes/INITIAL'
 
-    def __init__(self, name: str, orientation: Orientation, width: float, height: float):
+    def __init__(self, name: str, orientation: Orientation, surface: float):
         self.name = name
         self.orientation = orientation
-        self.width = width
-        self.height = height
+        self.surface = surface
 
     @property
     def replace_queries(self) -> dict:
@@ -23,12 +22,8 @@ class Wall(PaceObject):
                 'class': 'com.hemmis.mrw.pace.model.enums.Orientation',
                 'value': self.orientation.name
             },
-            'width/INITIAL': {
+            'grossSurface/INITIAL': {
                 'class': 'java.math.BigDecimal',
-                'value': self.width
-            },
-            'height/INITIAL': {
-                'class': 'java.math.BigDecimal',
-                'value': self.height
+                'value': self.surface
             }
         }

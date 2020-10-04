@@ -1726,19 +1726,19 @@
           <INITIAL class="java.lang.Boolean">false</INITIAL>
         </isLossPlane>
         <heightManually id="435" v="2">
-          <INITIAL class="java.lang.Boolean">true</INITIAL>
+          <INITIAL class="java.lang.Boolean">false</INITIAL>
         </heightManually>
         <height id="436" v="2">
           <INITIAL/>
         </height>
         <widthManually id="437" v="2">
-          <INITIAL class="java.lang.Boolean">true</INITIAL>
+          <INITIAL class="java.lang.Boolean">false</INITIAL>
         </widthManually>
         <width id="438" v="2">
           <INITIAL/>
         </width>
         <grossSurfaceManually id="439" v="2">
-          <INITIAL class="java.lang.Boolean">false</INITIAL>
+          <INITIAL class="java.lang.Boolean">true</INITIAL>
         </grossSurfaceManually>
         <grossSurface id="440" v="2">
           <INITIAL/>

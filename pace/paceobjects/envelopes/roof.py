@@ -7,12 +7,11 @@ class Roof(PaceObject):
     template_filename = 'templates/envelopes/roofplane.xml'
     path = './building/skin/roofPlanes/INITIAL'
 
-    def __init__(self, name: str, orientation: Orientation, angle: float, width: float, height: float):
+    def __init__(self, name: str, orientation: Orientation, angle: float, surface: float):
         self.name = name
         self.orientation = orientation
         self.angle = angle
-        self.width = width
-        self.height = height
+        self.surface = surface
 
     @property
     def replace_queries(self):
@@ -28,12 +27,8 @@ class Roof(PaceObject):
                 'class': 'java.math.BigDecimal',
                 'value': self.angle
             },
-            'width/INITIAL': {
+            'projectionSurface/INITIAL': {
                 'class': 'java.math.BigDecimal',
-                'value': self.width
-            },
-            'height/INITIAL': {
-                'class': 'java.math.BigDecimal',
-                'value': self.height
+                'value': self.surface
             }
         }

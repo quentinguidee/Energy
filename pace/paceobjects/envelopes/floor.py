@@ -5,24 +5,17 @@ class Floor(PaceObject):
     template_filename = None
     path = None
 
-    def __init__(self, height: float, width: float):
-        self.height = height
-        self.width = width
+    def __init__(self, surface: float):
+        self.surface = surface
 
     @property
     def replace_queries(self) -> dict:
         return {
             'MORE': {
-                './building/skin/floorPlane/height': {
+                './building/skin/floorPlane/grossSurface': {
                     'INITIAL': {
                         'class': 'java.math.BigDecimal',
-                        'value': self.height
-                    }
-                },
-                './building/skin/floorPlane/width': {
-                    'INITIAL': {
-                        'class': 'java.math.BigDecimal',
-                        'value': self.width
+                        'value': self.surface
                     }
                 }
             }
