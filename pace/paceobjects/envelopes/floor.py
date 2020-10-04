@@ -1,4 +1,4 @@
-from .pace_object import PaceObject
+from ..pace_object import PaceObject
 
 
 class Floor(PaceObject):

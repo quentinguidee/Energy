@@ -1,21 +1,20 @@
 from energyreport.classes.orientation import Orientation
 
-from .pace_object import PaceObject
+from ..pace_object import PaceObject
 
 
-class Roof(PaceObject):
-    template_filename = 'templates/roofplane.xml'
-    path = './building/skin/roofPlanes/INITIAL'
+class Wall(PaceObject):
+    template_filename = 'templates/envelopes/wallplane.xml'
+    path = './building/skin/wallPlanes/INITIAL'
 
-    def __init__(self, name: str, orientation: Orientation, angle: float, width: float, height: float):
+    def __init__(self, name: str, orientation: Orientation, width: float, height: float):
         self.name = name
         self.orientation = orientation
-        self.angle = angle
         self.width = width
         self.height = height
 
     @property
-    def replace_queries(self):
+    def replace_queries(self) -> dict:
         return {
             'shortDescription': {
                 'value': self.name
@@ -23,10 +22,6 @@ class Roof(PaceObject):
             'orientation/INITIAL': {
                 'class': 'com.hemmis.mrw.pace.model.enums.Orientation',
                 'value': self.orientation.name
-            },
-            'slope/INITIAL': {
-                'class': 'java.math.BigDecimal',
-                'value': self.angle
             },
             'width/INITIAL': {
                 'class': 'java.math.BigDecimal',
