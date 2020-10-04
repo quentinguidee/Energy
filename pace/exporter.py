@@ -79,15 +79,15 @@ class PaceExporter:
 
         if 'MORE' in replace_queries.keys():
             more_queries = replace_queries['MORE']
+
             for path, queries in more_queries.items():
                 more_root = self.root.find(path)
 
                 for key, value in queries.items():
-                    element = more_root.find(key)
+                    # element = more_root.find(key)
 
-                    if element is None:
-                        ET.SubElement(more_root, key)
-                        element = more_root.find(key)
+                    # if element is None:
+                    element = ET.SubElement(more_root, key)
 
                     for k, v in value.items():
                         if k == 'value':
