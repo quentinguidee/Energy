@@ -1,0 +1,1592 @@
+<com.hemmis.mrw.pace.model.skin.Roof id="1519">
+    <skin reference="225"/>
+    <reference>T1</reference>
+    <shortDescription/>
+    <isDummyElement id="1520" v="2">
+        <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+    </isDummyElement>
+    <netSurfaceManually id="1521" v="2">
+        <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="1522" v="2">
+            <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+        </INITIAL>
+    </netSurfaceManually>
+    <netSurface id="1523" v="2">
+        <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="1524" v="2">
+            <CURRENT__STATE class="java.math.BigDecimal">0</CURRENT__STATE>
+        </INITIAL>
+    </netSurface>
+    <netSurfaceValidationOk>false</netSurfaceValidationOk>
+    <techniques class="tree-map" id="1525">
+        <no-comparator/>
+        <entry>
+            <com.hemmis.mrw.pace.model.enums.RenovationTechnique>INSIDE_INSULATION</com.hemmis.mrw.pace.model.enums.RenovationTechnique>
+            <com.hemmis.mrw.pace.model.renovation.Technique id="1526">
+                <renovatable class="com.hemmis.mrw.pace.model.skin.Roof" reference="1519"/>
+                <technique>INSIDE_INSULATION</technique>
+                <applicableManually id="1527" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicableManually>
+                <applicable id="1528" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </applicable>
+                <advisedManually id="1529" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advisedManually>
+                <advised id="1530" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advised>
+                <compatible id="1531" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </compatible>
+                <hasRenovation id="1532" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovation>
+                <hasRenovationValidationOk id="1533" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovationValidationOk>
+                <renovations class="com.hemmis.mrw.pace.model.renovation.Technique$RenovationSpecProperty" id="1534" v="2">
+                    <CURRENT__STATE/>
+                    <SCENARIO__1/>
+                    <SCENARIO__2/>
+                </renovations>
+            </com.hemmis.mrw.pace.model.renovation.Technique>
+        </entry>
+        <entry>
+            <com.hemmis.mrw.pace.model.enums.RenovationTechnique>COMPLETE_REPLACEMENT</com.hemmis.mrw.pace.model.enums.RenovationTechnique>
+            <com.hemmis.mrw.pace.model.renovation.Technique id="1535">
+                <renovatable class="com.hemmis.mrw.pace.model.skin.Roof" reference="1519"/>
+                <technique>COMPLETE_REPLACEMENT</technique>
+                <applicableManually id="1536" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicableManually>
+                <applicable id="1537" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </applicable>
+                <advisedManually id="1538" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advisedManually>
+                <advised id="1539" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advised>
+                <compatible id="1540" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </compatible>
+                <hasRenovation id="1541" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovation>
+                <hasRenovationValidationOk id="1542" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovationValidationOk>
+                <renovations class="com.hemmis.mrw.pace.model.renovation.Technique$RenovationSpecProperty" id="1543" v="2">
+                    <CURRENT__STATE/>
+                    <SCENARIO__1/>
+                    <SCENARIO__2/>
+                </renovations>
+            </com.hemmis.mrw.pace.model.renovation.Technique>
+        </entry>
+        <entry>
+            <com.hemmis.mrw.pace.model.enums.RenovationTechnique>WARM_ROOF</com.hemmis.mrw.pace.model.enums.RenovationTechnique>
+            <com.hemmis.mrw.pace.model.renovation.Technique id="1544">
+                <renovatable class="com.hemmis.mrw.pace.model.skin.Roof" reference="1519"/>
+                <technique>WARM_ROOF</technique>
+                <applicableManually id="1545" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicableManually>
+                <applicable id="1546" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </applicable>
+                <advisedManually id="1547" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advisedManually>
+                <advised id="1548" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advised>
+                <compatible id="1549" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </compatible>
+                <hasRenovation id="1550" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovation>
+                <hasRenovationValidationOk id="1551" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovationValidationOk>
+                <renovations class="com.hemmis.mrw.pace.model.renovation.Technique$RenovationSpecProperty" id="1552" v="2">
+                    <CURRENT__STATE/>
+                    <SCENARIO__1/>
+                    <SCENARIO__2/>
+                </renovations>
+            </com.hemmis.mrw.pace.model.renovation.Technique>
+        </entry>
+        <entry>
+            <com.hemmis.mrw.pace.model.enums.RenovationTechnique>INVERTED_ROOF</com.hemmis.mrw.pace.model.enums.RenovationTechnique>
+            <com.hemmis.mrw.pace.model.renovation.Technique id="1553">
+                <renovatable class="com.hemmis.mrw.pace.model.skin.Roof" reference="1519"/>
+                <technique>INVERTED_ROOF</technique>
+                <applicableManually id="1554" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicableManually>
+                <applicable id="1555" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </applicable>
+                <advisedManually id="1556" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advisedManually>
+                <advised id="1557" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advised>
+                <compatible id="1558" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </compatible>
+                <hasRenovation id="1559" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovation>
+                <hasRenovationValidationOk id="1560" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovationValidationOk>
+                <renovations class="com.hemmis.mrw.pace.model.renovation.Technique$RenovationSpecProperty" id="1561" v="2">
+                    <CURRENT__STATE/>
+                    <SCENARIO__1/>
+                    <SCENARIO__2/>
+                </renovations>
+            </com.hemmis.mrw.pace.model.renovation.Technique>
+        </entry>
+        <entry>
+            <com.hemmis.mrw.pace.model.enums.RenovationTechnique>COMBINED_ROOF</com.hemmis.mrw.pace.model.enums.RenovationTechnique>
+            <com.hemmis.mrw.pace.model.renovation.Technique id="1562">
+                <renovatable class="com.hemmis.mrw.pace.model.skin.Roof" reference="1519"/>
+                <technique>COMBINED_ROOF</technique>
+                <applicableManually id="1563" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicableManually>
+                <applicable id="1564" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </applicable>
+                <advisedManually id="1565" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advisedManually>
+                <advised id="1566" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advised>
+                <compatible id="1567" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </compatible>
+                <hasRenovation id="1568" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovation>
+                <hasRenovationValidationOk id="1569" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovationValidationOk>
+                <renovations class="com.hemmis.mrw.pace.model.renovation.Technique$RenovationSpecProperty" id="1570" v="2">
+                    <CURRENT__STATE/>
+                    <SCENARIO__1/>
+                    <SCENARIO__2/>
+                </renovations>
+            </com.hemmis.mrw.pace.model.renovation.Technique>
+        </entry>
+        <entry>
+            <com.hemmis.mrw.pace.model.enums.RenovationTechnique>SARKING_ROOF</com.hemmis.mrw.pace.model.enums.RenovationTechnique>
+            <com.hemmis.mrw.pace.model.renovation.Technique id="1571">
+                <renovatable class="com.hemmis.mrw.pace.model.skin.Roof" reference="1519"/>
+                <technique>SARKING_ROOF</technique>
+                <applicableManually id="1572" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicableManually>
+                <applicable id="1573" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </applicable>
+                <advisedManually id="1574" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advisedManually>
+                <advised id="1575" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advised>
+                <compatible id="1576" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </compatible>
+                <hasRenovation id="1577" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovation>
+                <hasRenovationValidationOk id="1578" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovationValidationOk>
+                <renovations class="com.hemmis.mrw.pace.model.renovation.Technique$RenovationSpecProperty" id="1579" v="2">
+                    <CURRENT__STATE/>
+                    <SCENARIO__1/>
+                    <SCENARIO__2/>
+                </renovations>
+            </com.hemmis.mrw.pace.model.renovation.Technique>
+        </entry>
+        <entry>
+            <com.hemmis.mrw.pace.model.enums.RenovationTechnique>ATTIC_FLOOR_INSULATION</com.hemmis.mrw.pace.model.enums.RenovationTechnique>
+            <com.hemmis.mrw.pace.model.renovation.Technique id="1580">
+                <renovatable class="com.hemmis.mrw.pace.model.skin.Roof" reference="1519"/>
+                <technique>ATTIC_FLOOR_INSULATION</technique>
+                <applicableManually id="1581" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicableManually>
+                <applicable id="1582" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </applicable>
+                <advisedManually id="1583" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advisedManually>
+                <advised id="1584" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advised>
+                <compatible id="1585" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </compatible>
+                <hasRenovation id="1586" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovation>
+                <hasRenovationValidationOk id="1587" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovationValidationOk>
+                <renovations class="com.hemmis.mrw.pace.model.renovation.Technique$RenovationSpecProperty" id="1588" v="2">
+                    <CURRENT__STATE/>
+                    <SCENARIO__1/>
+                    <SCENARIO__2/>
+                </renovations>
+            </com.hemmis.mrw.pace.model.renovation.Technique>
+        </entry>
+        <entry>
+            <com.hemmis.mrw.pace.model.enums.RenovationTechnique>ASBESTOS_RESOLVE</com.hemmis.mrw.pace.model.enums.RenovationTechnique>
+            <com.hemmis.mrw.pace.model.renovation.Technique id="1589">
+                <renovatable class="com.hemmis.mrw.pace.model.skin.Roof" reference="1519"/>
+                <technique>ASBESTOS_RESOLVE</technique>
+                <applicableManually id="1590" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicableManually>
+                <applicable id="1591" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicable>
+                <advisedManually id="1592" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advisedManually>
+                <advised id="1593" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advised>
+                <compatible id="1594" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </compatible>
+                <hasRenovation id="1595" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovation>
+                <hasRenovationValidationOk id="1596" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovationValidationOk>
+                <renovations class="com.hemmis.mrw.pace.model.renovation.Technique$RenovationSpecProperty" id="1597" v="2">
+                    <CURRENT__STATE/>
+                    <SCENARIO__1/>
+                    <SCENARIO__2/>
+                </renovations>
+            </com.hemmis.mrw.pace.model.renovation.Technique>
+        </entry>
+        <entry>
+            <com.hemmis.mrw.pace.model.enums.RenovationTechnique>HUMIDITY_REPAIR</com.hemmis.mrw.pace.model.enums.RenovationTechnique>
+            <com.hemmis.mrw.pace.model.renovation.Technique id="1598">
+                <renovatable class="com.hemmis.mrw.pace.model.skin.Roof" reference="1519"/>
+                <technique>HUMIDITY_REPAIR</technique>
+                <applicableManually id="1599" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicableManually>
+                <applicable id="1600" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicable>
+                <advisedManually id="1601" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advisedManually>
+                <advised id="1602" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advised>
+                <compatible id="1603" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </compatible>
+                <hasRenovation id="1604" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovation>
+                <hasRenovationValidationOk id="1605" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovationValidationOk>
+                <renovations class="com.hemmis.mrw.pace.model.renovation.Technique$RenovationSpecProperty" id="1606" v="2">
+                    <CURRENT__STATE/>
+                    <SCENARIO__1/>
+                    <SCENARIO__2/>
+                </renovations>
+            </com.hemmis.mrw.pace.model.renovation.Technique>
+        </entry>
+        <entry>
+            <com.hemmis.mrw.pace.model.enums.RenovationTechnique>HUMIDITY_RESOLVE</com.hemmis.mrw.pace.model.enums.RenovationTechnique>
+            <com.hemmis.mrw.pace.model.renovation.Technique id="1607">
+                <renovatable class="com.hemmis.mrw.pace.model.skin.Roof" reference="1519"/>
+                <technique>HUMIDITY_RESOLVE</technique>
+                <applicableManually id="1608" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicableManually>
+                <applicable id="1609" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicable>
+                <advisedManually id="1610" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advisedManually>
+                <advised id="1611" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advised>
+                <compatible id="1612" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </compatible>
+                <hasRenovation id="1613" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovation>
+                <hasRenovationValidationOk id="1614" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovationValidationOk>
+                <renovations class="com.hemmis.mrw.pace.model.renovation.Technique$RenovationSpecProperty" id="1615" v="2">
+                    <CURRENT__STATE/>
+                    <SCENARIO__1/>
+                    <SCENARIO__2/>
+                </renovations>
+            </com.hemmis.mrw.pace.model.renovation.Technique>
+        </entry>
+        <entry>
+            <com.hemmis.mrw.pace.model.enums.RenovationTechnique>HUMIDITY_CHECK</com.hemmis.mrw.pace.model.enums.RenovationTechnique>
+            <com.hemmis.mrw.pace.model.renovation.Technique id="1616">
+                <renovatable class="com.hemmis.mrw.pace.model.skin.Roof" reference="1519"/>
+                <technique>HUMIDITY_CHECK</technique>
+                <applicableManually id="1617" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicableManually>
+                <applicable id="1618" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicable>
+                <advisedManually id="1619" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advisedManually>
+                <advised id="1620" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advised>
+                <compatible id="1621" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </compatible>
+                <hasRenovation id="1622" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovation>
+                <hasRenovationValidationOk id="1623" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovationValidationOk>
+                <renovations class="com.hemmis.mrw.pace.model.renovation.Technique$RenovationSpecProperty" id="1624" v="2">
+                    <CURRENT__STATE/>
+                    <SCENARIO__1/>
+                    <SCENARIO__2/>
+                </renovations>
+            </com.hemmis.mrw.pace.model.renovation.Technique>
+        </entry>
+        <entry>
+            <com.hemmis.mrw.pace.model.enums.RenovationTechnique>HUMIDITY_INFILTRATION_ROOF_REPAIR</com.hemmis.mrw.pace.model.enums.RenovationTechnique>
+            <com.hemmis.mrw.pace.model.renovation.Technique id="1625">
+                <renovatable class="com.hemmis.mrw.pace.model.skin.Roof" reference="1519"/>
+                <technique>HUMIDITY_INFILTRATION_ROOF_REPAIR</technique>
+                <applicableManually id="1626" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicableManually>
+                <applicable id="1627" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicable>
+                <advisedManually id="1628" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advisedManually>
+                <advised id="1629" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advised>
+                <compatible id="1630" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </compatible>
+                <hasRenovation id="1631" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovation>
+                <hasRenovationValidationOk id="1632" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovationValidationOk>
+                <renovations class="com.hemmis.mrw.pace.model.renovation.Technique$RenovationSpecProperty" id="1633" v="2">
+                    <CURRENT__STATE/>
+                    <SCENARIO__1/>
+                    <SCENARIO__2/>
+                </renovations>
+            </com.hemmis.mrw.pace.model.renovation.Technique>
+        </entry>
+        <entry>
+            <com.hemmis.mrw.pace.model.enums.RenovationTechnique>HUMIDITY_INFILTRATION_ROOF_RESOLVE</com.hemmis.mrw.pace.model.enums.RenovationTechnique>
+            <com.hemmis.mrw.pace.model.renovation.Technique id="1634">
+                <renovatable class="com.hemmis.mrw.pace.model.skin.Roof" reference="1519"/>
+                <technique>HUMIDITY_INFILTRATION_ROOF_RESOLVE</technique>
+                <applicableManually id="1635" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicableManually>
+                <applicable id="1636" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicable>
+                <advisedManually id="1637" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advisedManually>
+                <advised id="1638" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advised>
+                <compatible id="1639" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </compatible>
+                <hasRenovation id="1640" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovation>
+                <hasRenovationValidationOk id="1641" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovationValidationOk>
+                <renovations class="com.hemmis.mrw.pace.model.renovation.Technique$RenovationSpecProperty" id="1642" v="2">
+                    <CURRENT__STATE/>
+                    <SCENARIO__1/>
+                    <SCENARIO__2/>
+                </renovations>
+            </com.hemmis.mrw.pace.model.renovation.Technique>
+        </entry>
+        <entry>
+            <com.hemmis.mrw.pace.model.enums.RenovationTechnique>HUMIDITY_INFILTRATION_ROOF_CHECK</com.hemmis.mrw.pace.model.enums.RenovationTechnique>
+            <com.hemmis.mrw.pace.model.renovation.Technique id="1643">
+                <renovatable class="com.hemmis.mrw.pace.model.skin.Roof" reference="1519"/>
+                <technique>HUMIDITY_INFILTRATION_ROOF_CHECK</technique>
+                <applicableManually id="1644" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicableManually>
+                <applicable id="1645" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicable>
+                <advisedManually id="1646" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advisedManually>
+                <advised id="1647" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advised>
+                <compatible id="1648" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </compatible>
+                <hasRenovation id="1649" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovation>
+                <hasRenovationValidationOk id="1650" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovationValidationOk>
+                <renovations class="com.hemmis.mrw.pace.model.renovation.Technique$RenovationSpecProperty" id="1651" v="2">
+                    <CURRENT__STATE/>
+                    <SCENARIO__1/>
+                    <SCENARIO__2/>
+                </renovations>
+            </com.hemmis.mrw.pace.model.renovation.Technique>
+        </entry>
+        <entry>
+            <com.hemmis.mrw.pace.model.enums.RenovationTechnique>HUMIDITY_ASCENDING_REPAIR</com.hemmis.mrw.pace.model.enums.RenovationTechnique>
+            <com.hemmis.mrw.pace.model.renovation.Technique id="1652">
+                <renovatable class="com.hemmis.mrw.pace.model.skin.Roof" reference="1519"/>
+                <technique>HUMIDITY_ASCENDING_REPAIR</technique>
+                <applicableManually id="1653" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicableManually>
+                <applicable id="1654" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicable>
+                <advisedManually id="1655" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advisedManually>
+                <advised id="1656" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advised>
+                <compatible id="1657" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </compatible>
+                <hasRenovation id="1658" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovation>
+                <hasRenovationValidationOk id="1659" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovationValidationOk>
+                <renovations class="com.hemmis.mrw.pace.model.renovation.Technique$RenovationSpecProperty" id="1660" v="2">
+                    <CURRENT__STATE/>
+                    <SCENARIO__1/>
+                    <SCENARIO__2/>
+                </renovations>
+            </com.hemmis.mrw.pace.model.renovation.Technique>
+        </entry>
+        <entry>
+            <com.hemmis.mrw.pace.model.enums.RenovationTechnique>HUMIDITY_ASCENDING_RESOLVE</com.hemmis.mrw.pace.model.enums.RenovationTechnique>
+            <com.hemmis.mrw.pace.model.renovation.Technique id="1661">
+                <renovatable class="com.hemmis.mrw.pace.model.skin.Roof" reference="1519"/>
+                <technique>HUMIDITY_ASCENDING_RESOLVE</technique>
+                <applicableManually id="1662" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicableManually>
+                <applicable id="1663" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicable>
+                <advisedManually id="1664" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advisedManually>
+                <advised id="1665" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advised>
+                <compatible id="1666" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </compatible>
+                <hasRenovation id="1667" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovation>
+                <hasRenovationValidationOk id="1668" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovationValidationOk>
+                <renovations class="com.hemmis.mrw.pace.model.renovation.Technique$RenovationSpecProperty" id="1669" v="2">
+                    <CURRENT__STATE/>
+                    <SCENARIO__1/>
+                    <SCENARIO__2/>
+                </renovations>
+            </com.hemmis.mrw.pace.model.renovation.Technique>
+        </entry>
+        <entry>
+            <com.hemmis.mrw.pace.model.enums.RenovationTechnique>HUMIDITY_ASCENDING_CHECK</com.hemmis.mrw.pace.model.enums.RenovationTechnique>
+            <com.hemmis.mrw.pace.model.renovation.Technique id="1670">
+                <renovatable class="com.hemmis.mrw.pace.model.skin.Roof" reference="1519"/>
+                <technique>HUMIDITY_ASCENDING_CHECK</technique>
+                <applicableManually id="1671" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicableManually>
+                <applicable id="1672" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicable>
+                <advisedManually id="1673" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advisedManually>
+                <advised id="1674" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advised>
+                <compatible id="1675" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </compatible>
+                <hasRenovation id="1676" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovation>
+                <hasRenovationValidationOk id="1677" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovationValidationOk>
+                <renovations class="com.hemmis.mrw.pace.model.renovation.Technique$RenovationSpecProperty" id="1678" v="2">
+                    <CURRENT__STATE/>
+                    <SCENARIO__1/>
+                    <SCENARIO__2/>
+                </renovations>
+            </com.hemmis.mrw.pace.model.renovation.Technique>
+        </entry>
+        <entry>
+            <com.hemmis.mrw.pace.model.enums.RenovationTechnique>HUMIDITY_CONDENSATION_REPAIR</com.hemmis.mrw.pace.model.enums.RenovationTechnique>
+            <com.hemmis.mrw.pace.model.renovation.Technique id="1679">
+                <renovatable class="com.hemmis.mrw.pace.model.skin.Roof" reference="1519"/>
+                <technique>HUMIDITY_CONDENSATION_REPAIR</technique>
+                <applicableManually id="1680" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicableManually>
+                <applicable id="1681" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicable>
+                <advisedManually id="1682" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advisedManually>
+                <advised id="1683" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advised>
+                <compatible id="1684" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </compatible>
+                <hasRenovation id="1685" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovation>
+                <hasRenovationValidationOk id="1686" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovationValidationOk>
+                <renovations class="com.hemmis.mrw.pace.model.renovation.Technique$RenovationSpecProperty" id="1687" v="2">
+                    <CURRENT__STATE/>
+                    <SCENARIO__1/>
+                    <SCENARIO__2/>
+                </renovations>
+            </com.hemmis.mrw.pace.model.renovation.Technique>
+        </entry>
+        <entry>
+            <com.hemmis.mrw.pace.model.enums.RenovationTechnique>HUMIDITY_CONDENSATION_RESOLVE</com.hemmis.mrw.pace.model.enums.RenovationTechnique>
+            <com.hemmis.mrw.pace.model.renovation.Technique id="1688">
+                <renovatable class="com.hemmis.mrw.pace.model.skin.Roof" reference="1519"/>
+                <technique>HUMIDITY_CONDENSATION_RESOLVE</technique>
+                <applicableManually id="1689" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicableManually>
+                <applicable id="1690" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicable>
+                <advisedManually id="1691" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advisedManually>
+                <advised id="1692" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advised>
+                <compatible id="1693" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </compatible>
+                <hasRenovation id="1694" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovation>
+                <hasRenovationValidationOk id="1695" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovationValidationOk>
+                <renovations class="com.hemmis.mrw.pace.model.renovation.Technique$RenovationSpecProperty" id="1696" v="2">
+                    <CURRENT__STATE/>
+                    <SCENARIO__1/>
+                    <SCENARIO__2/>
+                </renovations>
+            </com.hemmis.mrw.pace.model.renovation.Technique>
+        </entry>
+        <entry>
+            <com.hemmis.mrw.pace.model.enums.RenovationTechnique>HUMIDITY_CONDENSATION_CHECK</com.hemmis.mrw.pace.model.enums.RenovationTechnique>
+            <com.hemmis.mrw.pace.model.renovation.Technique id="1697">
+                <renovatable class="com.hemmis.mrw.pace.model.skin.Roof" reference="1519"/>
+                <technique>HUMIDITY_CONDENSATION_CHECK</technique>
+                <applicableManually id="1698" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicableManually>
+                <applicable id="1699" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicable>
+                <advisedManually id="1700" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advisedManually>
+                <advised id="1701" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advised>
+                <compatible id="1702" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </compatible>
+                <hasRenovation id="1703" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovation>
+                <hasRenovationValidationOk id="1704" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovationValidationOk>
+                <renovations class="com.hemmis.mrw.pace.model.renovation.Technique$RenovationSpecProperty" id="1705" v="2">
+                    <CURRENT__STATE/>
+                    <SCENARIO__1/>
+                    <SCENARIO__2/>
+                </renovations>
+            </com.hemmis.mrw.pace.model.renovation.Technique>
+        </entry>
+        <entry>
+            <com.hemmis.mrw.pace.model.enums.RenovationTechnique>HUMIDITY_ANALYZE_SAMPLE</com.hemmis.mrw.pace.model.enums.RenovationTechnique>
+            <com.hemmis.mrw.pace.model.renovation.Technique id="1706">
+                <renovatable class="com.hemmis.mrw.pace.model.skin.Roof" reference="1519"/>
+                <technique>HUMIDITY_ANALYZE_SAMPLE</technique>
+                <applicableManually id="1707" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicableManually>
+                <applicable id="1708" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicable>
+                <advisedManually id="1709" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advisedManually>
+                <advised id="1710" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advised>
+                <compatible id="1711" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </compatible>
+                <hasRenovation id="1712" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovation>
+                <hasRenovationValidationOk id="1713" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovationValidationOk>
+                <renovations class="com.hemmis.mrw.pace.model.renovation.Technique$RenovationSpecProperty" id="1714" v="2">
+                    <CURRENT__STATE/>
+                    <SCENARIO__1/>
+                    <SCENARIO__2/>
+                </renovations>
+            </com.hemmis.mrw.pace.model.renovation.Technique>
+        </entry>
+        <entry>
+            <com.hemmis.mrw.pace.model.enums.RenovationTechnique>STRUCT_GROUND_REPAIR</com.hemmis.mrw.pace.model.enums.RenovationTechnique>
+            <com.hemmis.mrw.pace.model.renovation.Technique id="1715">
+                <renovatable class="com.hemmis.mrw.pace.model.skin.Roof" reference="1519"/>
+                <technique>STRUCT_GROUND_REPAIR</technique>
+                <applicableManually id="1716" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicableManually>
+                <applicable id="1717" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicable>
+                <advisedManually id="1718" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advisedManually>
+                <advised id="1719" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advised>
+                <compatible id="1720" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </compatible>
+                <hasRenovation id="1721" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovation>
+                <hasRenovationValidationOk id="1722" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovationValidationOk>
+                <renovations class="com.hemmis.mrw.pace.model.renovation.Technique$RenovationSpecProperty" id="1723" v="2">
+                    <CURRENT__STATE/>
+                    <SCENARIO__1/>
+                    <SCENARIO__2/>
+                </renovations>
+            </com.hemmis.mrw.pace.model.renovation.Technique>
+        </entry>
+        <entry>
+            <com.hemmis.mrw.pace.model.enums.RenovationTechnique>STRUCT_GROUND_RESOLVE</com.hemmis.mrw.pace.model.enums.RenovationTechnique>
+            <com.hemmis.mrw.pace.model.renovation.Technique id="1724">
+                <renovatable class="com.hemmis.mrw.pace.model.skin.Roof" reference="1519"/>
+                <technique>STRUCT_GROUND_RESOLVE</technique>
+                <applicableManually id="1725" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicableManually>
+                <applicable id="1726" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicable>
+                <advisedManually id="1727" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advisedManually>
+                <advised id="1728" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advised>
+                <compatible id="1729" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </compatible>
+                <hasRenovation id="1730" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovation>
+                <hasRenovationValidationOk id="1731" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovationValidationOk>
+                <renovations class="com.hemmis.mrw.pace.model.renovation.Technique$RenovationSpecProperty" id="1732" v="2">
+                    <CURRENT__STATE/>
+                    <SCENARIO__1/>
+                    <SCENARIO__2/>
+                </renovations>
+            </com.hemmis.mrw.pace.model.renovation.Technique>
+        </entry>
+        <entry>
+            <com.hemmis.mrw.pace.model.enums.RenovationTechnique>STRUCT_GROUND_CHECK</com.hemmis.mrw.pace.model.enums.RenovationTechnique>
+            <com.hemmis.mrw.pace.model.renovation.Technique id="1733">
+                <renovatable class="com.hemmis.mrw.pace.model.skin.Roof" reference="1519"/>
+                <technique>STRUCT_GROUND_CHECK</technique>
+                <applicableManually id="1734" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicableManually>
+                <applicable id="1735" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicable>
+                <advisedManually id="1736" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advisedManually>
+                <advised id="1737" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advised>
+                <compatible id="1738" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </compatible>
+                <hasRenovation id="1739" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovation>
+                <hasRenovationValidationOk id="1740" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovationValidationOk>
+                <renovations class="com.hemmis.mrw.pace.model.renovation.Technique$RenovationSpecProperty" id="1741" v="2">
+                    <CURRENT__STATE/>
+                    <SCENARIO__1/>
+                    <SCENARIO__2/>
+                </renovations>
+            </com.hemmis.mrw.pace.model.renovation.Technique>
+        </entry>
+        <entry>
+            <com.hemmis.mrw.pace.model.enums.RenovationTechnique>STRUCT_MUSHROOM_REPAIR</com.hemmis.mrw.pace.model.enums.RenovationTechnique>
+            <com.hemmis.mrw.pace.model.renovation.Technique id="1742">
+                <renovatable class="com.hemmis.mrw.pace.model.skin.Roof" reference="1519"/>
+                <technique>STRUCT_MUSHROOM_REPAIR</technique>
+                <applicableManually id="1743" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicableManually>
+                <applicable id="1744" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicable>
+                <advisedManually id="1745" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advisedManually>
+                <advised id="1746" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advised>
+                <compatible id="1747" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </compatible>
+                <hasRenovation id="1748" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovation>
+                <hasRenovationValidationOk id="1749" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovationValidationOk>
+                <renovations class="com.hemmis.mrw.pace.model.renovation.Technique$RenovationSpecProperty" id="1750" v="2">
+                    <CURRENT__STATE/>
+                    <SCENARIO__1/>
+                    <SCENARIO__2/>
+                </renovations>
+            </com.hemmis.mrw.pace.model.renovation.Technique>
+        </entry>
+        <entry>
+            <com.hemmis.mrw.pace.model.enums.RenovationTechnique>STRUCT_MUSHROOM_RESOLVE</com.hemmis.mrw.pace.model.enums.RenovationTechnique>
+            <com.hemmis.mrw.pace.model.renovation.Technique id="1751">
+                <renovatable class="com.hemmis.mrw.pace.model.skin.Roof" reference="1519"/>
+                <technique>STRUCT_MUSHROOM_RESOLVE</technique>
+                <applicableManually id="1752" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicableManually>
+                <applicable id="1753" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicable>
+                <advisedManually id="1754" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advisedManually>
+                <advised id="1755" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advised>
+                <compatible id="1756" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </compatible>
+                <hasRenovation id="1757" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovation>
+                <hasRenovationValidationOk id="1758" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovationValidationOk>
+                <renovations class="com.hemmis.mrw.pace.model.renovation.Technique$RenovationSpecProperty" id="1759" v="2">
+                    <CURRENT__STATE/>
+                    <SCENARIO__1/>
+                    <SCENARIO__2/>
+                </renovations>
+            </com.hemmis.mrw.pace.model.renovation.Technique>
+        </entry>
+        <entry>
+            <com.hemmis.mrw.pace.model.enums.RenovationTechnique>STRUCT_MUSHROOM_CHECK</com.hemmis.mrw.pace.model.enums.RenovationTechnique>
+            <com.hemmis.mrw.pace.model.renovation.Technique id="1760">
+                <renovatable class="com.hemmis.mrw.pace.model.skin.Roof" reference="1519"/>
+                <technique>STRUCT_MUSHROOM_CHECK</technique>
+                <applicableManually id="1761" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicableManually>
+                <applicable id="1762" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicable>
+                <advisedManually id="1763" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advisedManually>
+                <advised id="1764" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advised>
+                <compatible id="1765" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </compatible>
+                <hasRenovation id="1766" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovation>
+                <hasRenovationValidationOk id="1767" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovationValidationOk>
+                <renovations class="com.hemmis.mrw.pace.model.renovation.Technique$RenovationSpecProperty" id="1768" v="2">
+                    <CURRENT__STATE/>
+                    <SCENARIO__1/>
+                    <SCENARIO__2/>
+                </renovations>
+            </com.hemmis.mrw.pace.model.renovation.Technique>
+        </entry>
+        <entry>
+            <com.hemmis.mrw.pace.model.enums.RenovationTechnique>STRUCT_STABILITY_REPAIR</com.hemmis.mrw.pace.model.enums.RenovationTechnique>
+            <com.hemmis.mrw.pace.model.renovation.Technique id="1769">
+                <renovatable class="com.hemmis.mrw.pace.model.skin.Roof" reference="1519"/>
+                <technique>STRUCT_STABILITY_REPAIR</technique>
+                <applicableManually id="1770" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicableManually>
+                <applicable id="1771" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicable>
+                <advisedManually id="1772" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advisedManually>
+                <advised id="1773" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advised>
+                <compatible id="1774" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </compatible>
+                <hasRenovation id="1775" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovation>
+                <hasRenovationValidationOk id="1776" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovationValidationOk>
+                <renovations class="com.hemmis.mrw.pace.model.renovation.Technique$RenovationSpecProperty" id="1777" v="2">
+                    <CURRENT__STATE/>
+                    <SCENARIO__1/>
+                    <SCENARIO__2/>
+                </renovations>
+            </com.hemmis.mrw.pace.model.renovation.Technique>
+        </entry>
+        <entry>
+            <com.hemmis.mrw.pace.model.enums.RenovationTechnique>STRUCT_STABILITY_RESOLVE</com.hemmis.mrw.pace.model.enums.RenovationTechnique>
+            <com.hemmis.mrw.pace.model.renovation.Technique id="1778">
+                <renovatable class="com.hemmis.mrw.pace.model.skin.Roof" reference="1519"/>
+                <technique>STRUCT_STABILITY_RESOLVE</technique>
+                <applicableManually id="1779" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicableManually>
+                <applicable id="1780" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicable>
+                <advisedManually id="1781" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advisedManually>
+                <advised id="1782" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advised>
+                <compatible id="1783" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </compatible>
+                <hasRenovation id="1784" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovation>
+                <hasRenovationValidationOk id="1785" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovationValidationOk>
+                <renovations class="com.hemmis.mrw.pace.model.renovation.Technique$RenovationSpecProperty" id="1786" v="2">
+                    <CURRENT__STATE/>
+                    <SCENARIO__1/>
+                    <SCENARIO__2/>
+                </renovations>
+            </com.hemmis.mrw.pace.model.renovation.Technique>
+        </entry>
+        <entry>
+            <com.hemmis.mrw.pace.model.enums.RenovationTechnique>STRUCT_STABILITY_CHECK</com.hemmis.mrw.pace.model.enums.RenovationTechnique>
+            <com.hemmis.mrw.pace.model.renovation.Technique id="1787">
+                <renovatable class="com.hemmis.mrw.pace.model.skin.Roof" reference="1519"/>
+                <technique>STRUCT_STABILITY_CHECK</technique>
+                <applicableManually id="1788" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicableManually>
+                <applicable id="1789" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </applicable>
+                <advisedManually id="1790" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advisedManually>
+                <advised id="1791" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </advised>
+                <compatible id="1792" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">true</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">true</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">true</SCENARIO__2>
+                </compatible>
+                <hasRenovation id="1793" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovation>
+                <hasRenovationValidationOk id="1794" v="2">
+                    <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+                    <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+                </hasRenovationValidationOk>
+                <renovations class="com.hemmis.mrw.pace.model.renovation.Technique$RenovationSpecProperty" id="1795" v="2">
+                    <CURRENT__STATE/>
+                    <SCENARIO__1/>
+                    <SCENARIO__2/>
+                </renovations>
+            </com.hemmis.mrw.pace.model.renovation.Technique>
+        </entry>
+    </techniques>
+    <techniquesAsList class="com.hemmis.mrw.pace.util.ObservableArrayList" id="1796">
+        <com.hemmis.mrw.pace.model.renovation.Technique reference="1544"/>
+        <com.hemmis.mrw.pace.model.renovation.Technique reference="1553"/>
+        <com.hemmis.mrw.pace.model.renovation.Technique reference="1562"/>
+        <com.hemmis.mrw.pace.model.renovation.Technique reference="1526"/>
+        <com.hemmis.mrw.pace.model.renovation.Technique reference="1571"/>
+        <com.hemmis.mrw.pace.model.renovation.Technique reference="1580"/>
+        <com.hemmis.mrw.pace.model.renovation.Technique reference="1535"/>
+        <com.hemmis.mrw.pace.model.renovation.Technique reference="1589"/>
+        <com.hemmis.mrw.pace.model.renovation.Technique reference="1598"/>
+        <com.hemmis.mrw.pace.model.renovation.Technique reference="1607"/>
+        <com.hemmis.mrw.pace.model.renovation.Technique reference="1616"/>
+        <com.hemmis.mrw.pace.model.renovation.Technique reference="1625"/>
+        <com.hemmis.mrw.pace.model.renovation.Technique reference="1634"/>
+        <com.hemmis.mrw.pace.model.renovation.Technique reference="1643"/>
+        <com.hemmis.mrw.pace.model.renovation.Technique reference="1652"/>
+        <com.hemmis.mrw.pace.model.renovation.Technique reference="1661"/>
+        <com.hemmis.mrw.pace.model.renovation.Technique reference="1670"/>
+        <com.hemmis.mrw.pace.model.renovation.Technique reference="1679"/>
+        <com.hemmis.mrw.pace.model.renovation.Technique reference="1688"/>
+        <com.hemmis.mrw.pace.model.renovation.Technique reference="1697"/>
+        <com.hemmis.mrw.pace.model.renovation.Technique reference="1706"/>
+        <com.hemmis.mrw.pace.model.renovation.Technique reference="1715"/>
+        <com.hemmis.mrw.pace.model.renovation.Technique reference="1724"/>
+        <com.hemmis.mrw.pace.model.renovation.Technique reference="1733"/>
+        <com.hemmis.mrw.pace.model.renovation.Technique reference="1742"/>
+        <com.hemmis.mrw.pace.model.renovation.Technique reference="1751"/>
+        <com.hemmis.mrw.pace.model.renovation.Technique reference="1760"/>
+        <com.hemmis.mrw.pace.model.renovation.Technique reference="1769"/>
+        <com.hemmis.mrw.pace.model.renovation.Technique reference="1778"/>
+        <com.hemmis.mrw.pace.model.renovation.Technique reference="1787"/>
+    </techniquesAsList>
+    <hasAppliedTechniques id="1797" v="2">
+        <CURRENT__STATE/>
+        <SCENARIO__1 class="java.lang.Boolean">false</SCENARIO__1>
+        <SCENARIO__2 class="java.lang.Boolean">false</SCENARIO__2>
+    </hasAppliedTechniques>
+    <appliedRenovationTechniques class="enum-map" id="1798" enum-type="com.hemmis.mrw.pace.model.enums.SpecType">
+        <entry>
+            <com.hemmis.mrw.pace.model.enums.SpecType>SCENARIO_1</com.hemmis.mrw.pace.model.enums.SpecType>
+            <com.jgoodies.binding.list.ArrayListModel id="1799"/>
+        </entry>
+        <entry>
+            <com.hemmis.mrw.pace.model.enums.SpecType>SCENARIO_2</com.hemmis.mrw.pace.model.enums.SpecType>
+            <com.jgoodies.binding.list.ArrayListModel id="1800"/>
+        </entry>
+    </appliedRenovationTechniques>
+    <affectingProblems class="com.hemmis.mrw.pace.util.ObservableArrayList" id="1801"/>
+    <threateningProblems class="com.hemmis.mrw.pace.util.ObservableArrayList" id="1802"/>
+    <buildOrRenovationPeriodManually>false</buildOrRenovationPeriodManually>
+    <bioBasedRenovation>false</bioBasedRenovation>
+    <grossSurfaceManually id="1803" v="2">
+        <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="1804" v="2">
+            <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+        </INITIAL>
+    </grossSurfaceManually>
+    <grossSurface id="1805" v="2">
+        <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="1806" v="2">
+            <CURRENT__STATE class="java.math.BigDecimal">0</CURRENT__STATE>
+        </INITIAL>
+    </grossSurface>
+    <openings class="com.hemmis.mrw.pace.model.skin.OpaqueElement$OpaqueElementOpeningSituationListProperty" id="1807" v="2">
+        <parent class="com.hemmis.mrw.pace.model.skin.Roof" reference="1519"/>
+        <INITIAL class="com.hemmis.mrw.pace.util.ObservableArrayList" id="1808"/>
+        <SECOND class="com.hemmis.mrw.pace.util.ObservableArrayList" id="1809"/>
+    </openings>
+    <opaqueElementType>ROOF</opaqueElementType>
+    <rvalueSolManually>false</rvalueSolManually>
+    <roofInstances class="com.hemmis.mrw.pace.model.skin.OpaqueElement$OpaqueElementOpaqueInstanceSituationListProperty" id="1810" v="2">
+        <parent class="com.hemmis.mrw.pace.model.skin.Roof" reference="1519"/>
+        <INITIAL class="com.hemmis.mrw.pace.util.ObservableArrayList" id="1811"/>
+        <SECOND class="com.hemmis.mrw.pace.util.ObservableArrayList" id="1812"/>
+    </roofInstances>
+    <roofSpecs id="1813" v="2">
+        <CURRENT__STATE class="com.hemmis.mrw.pace.model.skin.RoofSpec" id="1814">
+            <announcementItems class="com.hemmis.mrw.pace.util.ObservableArrayList" id="1815"/>
+            <specType>CURRENT_STATE</specType>
+            <rvalueInManually>false</rvalueInManually>
+            <rvalueIn>0.10</rvalueIn>
+            <rvalueOutManually>false</rvalueOutManually>
+            <rvalueOut>0.10</rvalueOut>
+            <uvalueManually>false</uvalueManually>
+            <uvalueValidationOk>false</uvalueValidationOk>
+            <environmentWeightFactorManually>false</environmentWeightFactorManually>
+            <htManually id="1816" v="2">
+                <INITIAL class="java.lang.Boolean">false</INITIAL>
+            </htManually>
+            <ht id="1817" v="2">
+                <INITIAL class="java.math.BigDecimal">0</INITIAL>
+            </ht>
+            <insulationClazzManually>false</insulationClazzManually>
+            <opaqueComposition id="1818">
+                <id>17</id>
+                <shortDescriptions id="1819">
+                    <entry>
+                        <string>de</string>
+                        <string>Standard</string>
+                    </entry>
+                    <entry>
+                        <string>fr</string>
+                        <string>Standard</string>
+                    </entry>
+                    <entry>
+                        <string>nl</string>
+                        <string>Andere</string>
+                    </entry>
+                </shortDescriptions>
+                <isLamdaComposition>false</isLamdaComposition>
+                <isRvalueComposition>false</isRvalueComposition>
+                <rvalueManually>false</rvalueManually>
+                <cellularConcrete>false</cellularConcrete>
+                <heavyBlockConcrete>false</heavyBlockConcrete>
+            </opaqueComposition>
+            <lamdaBaseManually>false</lamdaBaseManually>
+            <rvalueBaseManually>false</rvalueBaseManually>
+            <hasStrongVentilationCavity>false</hasStrongVentilationCavity>
+            <hasNoneOrWeakVentilationCavity>UNKNOWN</hasNoneOrWeakVentilationCavity>
+            <rvalueCavityManually>false</rvalueCavityManually>
+            <rvalueCavity>0</rvalueCavity>
+            <cellularConcrete>false</cellularConcrete>
+            <hasInsulation1>UNKNOWN</hasInsulation1>
+            <rvalueInsulation1Manually>false</rvalueInsulation1Manually>
+            <rvalueInsulation1>0</rvalueInsulation1>
+            <rvalueInsulation1ValidationOk>false</rvalueInsulation1ValidationOk>
+            <thicknessInsulation1Manually>false</thicknessInsulation1Manually>
+            <thicknessInsulation1ValidationOk>false</thicknessInsulation1ValidationOk>
+            <typeInsulation1Manually>false</typeInsulation1Manually>
+            <lamdaInsulation1ValidationOk>false</lamdaInsulation1ValidationOk>
+            <hasInsulation2>false</hasInsulation2>
+            <rvalueInsulation2Manually>false</rvalueInsulation2Manually>
+            <rvalueInsulation2>0</rvalueInsulation2>
+            <rvalueInsulation2ValidationOk>false</rvalueInsulation2ValidationOk>
+            <thicknessInsulation2Manually>false</thicknessInsulation2Manually>
+            <thicknessInsulation2ValidationOk>false</thicknessInsulation2ValidationOk>
+            <typeInsulation2Manually>false</typeInsulation2Manually>
+            <lamdaInsulation2ValidationOk>false</lamdaInsulation2ValidationOk>
+            <rvalueInAdviceManually>false</rvalueInAdviceManually>
+            <rvalueInAdvice>0.10</rvalueInAdvice>
+            <rvalueManually>false</rvalueManually>
+            <rvalueValidationOk>false</rvalueValidationOk>
+            <rvalueAdviceManually>false</rvalueAdviceManually>
+            <rvalueAdvice>0</rvalueAdvice>
+            <rvalueOutAdviceManually>false</rvalueOutAdviceManually>
+            <rvalueOutAdvice>0.10</rvalueOutAdvice>
+            <rvalueTotalManually>false</rvalueTotalManually>
+            <rvalueTotalAdviceManually>false</rvalueTotalAdviceManually>
+            <uvalueAdviceManually>false</uvalueAdviceManually>
+            <opaqueStructure id="1820">
+                <spec class="com.hemmis.mrw.pace.model.skin.RoofSpec" reference="1814"/>
+                <opaqueElementType>ROOF</opaqueElementType>
+                <hasCavityManually>false</hasCavityManually>
+                <hasCavity>false</hasCavity>
+                <rvalueManually>false</rvalueManually>
+                <rvalue>0</rvalue>
+                <layers class="com.hemmis.mrw.pace.util.ObservableArrayList" id="1821"/>
+            </opaqueStructure>
+            <heating>false</heating>
+            <constructionElement reference="1519"/>
+        </CURRENT__STATE>
+    </roofSpecs>
+</com.hemmis.mrw.pace.model.skin.Roof>
