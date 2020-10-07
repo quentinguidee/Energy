@@ -55,6 +55,7 @@ class PaceExporter:
         return self.current_id
 
     def register(self, pace_object: PaceObject):
+        pace_object.id = self.current_id + 1
         self.populate_template(
             template_filename=pace_object.template_filename,
             find=pace_object.path,
@@ -75,7 +76,7 @@ class PaceExporter:
                         if key == 'value':
                             element.text = str(value)
                         else:
-                            element.set(key, value)
+                            element.set(key, str(value))
 
         if 'MORE' in replace_queries.keys():
             more_queries = replace_queries['MORE']
@@ -85,7 +86,6 @@ class PaceExporter:
 
                 for key, value in queries.items():
                     # element = more_root.find(key)
-
                     # if element is None:
                     element = ET.SubElement(more_root, key)
 
@@ -95,8 +95,11 @@ class PaceExporter:
                         else:
                             if v == 'CURRENT_ID':
                                 element.set(k, str(self.current_id + 1))
+                            elif 'CURRENT_ID' in str(v):
+                                i = self.current_id + int(v[v.index('+') + 1:]) + 1
+                                element.set(k, str(i))
                             else:
-                                element.set(k, v)
+                                element.set(k, str(v))
 
         if template_filename is not None:
             # Fix ids

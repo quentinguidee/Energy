@@ -1,0 +1,501 @@
+<com.hemmis.mrw.pace.model.skin.WallInstance id="692">
+    <state>UNCHANGED</state>
+    <shortDescription>Mur 1</shortDescription>
+    <heightManually id="693" v="2">
+        <INITIAL class="java.lang.Boolean">true</INITIAL>
+    </heightManually>
+    <height id="694" v="2">
+        <INITIAL/>
+    </height>
+    <widthManually id="695" v="2">
+        <INITIAL class="java.lang.Boolean">true</INITIAL>
+    </widthManually>
+    <width id="696" v="2">
+        <INITIAL/>
+    </width>
+    <grossSurfaceManually id="697" v="2">
+        <INITIAL class="java.lang.Boolean">false</INITIAL>
+    </grossSurfaceManually>
+    <grossSurface id="698" v="2">
+        <INITIAL/>
+    </grossSurface>
+    <netSurfaceManually id="699" v="2">
+        <INITIAL class="java.lang.Boolean">false</INITIAL>
+    </netSurfaceManually>
+    <netSurface id="700" v="2">
+        <INITIAL/>
+    </netSurface>
+    <unshadManually id="701" v="2">
+        <INITIAL class="java.lang.Boolean">false</INITIAL>
+    </unshadManually>
+    <openings class="com.hemmis.mrw.pace.model.skin.OpaqueInstance$OpaqueInstanceOpeningSituationListProperty" id="702" v="2">
+        <parent class="com.hemmis.mrw.pace.model.skin.WallInstance" reference="692"/>
+        <INITIAL class="com.hemmis.mrw.pace.util.ObservableArrayList" id="703"/>
+    </openings>
+    <opaqueLossInstances class="com.hemmis.mrw.pace.model.skin.OpaqueInstance$OpaqueInstanceOpaqueLossInstanceSituationListProperty" id="704" v="2">
+        <parent class="com.hemmis.mrw.pace.model.skin.WallInstance" reference="692"/>
+        <INITIAL class="com.hemmis.mrw.pace.util.ObservableArrayList" id="705"/>
+        <SECOND class="com.hemmis.mrw.pace.util.ObservableArrayList" id="706"/>
+    </opaqueLossInstances>
+    <plane id="707">
+        <skin reference="225"/>
+        <state>UNCHANGED</state>
+        <isAnnexPlane>false</isAnnexPlane>
+        <isLossPlaneManually id="708" v="2">
+            <INITIAL class="java.lang.Boolean">false</INITIAL>
+        </isLossPlaneManually>
+        <isLossPlane id="709" v="2">
+            <INITIAL class="java.lang.Boolean">false</INITIAL>
+        </isLossPlane>
+        <heightManually id="710" v="2">
+            <INITIAL class="java.lang.Boolean">false</INITIAL>
+        </heightManually>
+        <height id="711" v="2">
+            <INITIAL/>
+        </height>
+        <widthManually id="712" v="2">
+            <INITIAL class="java.lang.Boolean">false</INITIAL>
+        </widthManually>
+        <width id="713" v="2">
+            <INITIAL/>
+        </width>
+        <grossSurfaceManually id="714" v="2">
+            <INITIAL class="java.lang.Boolean">true</INITIAL>
+        </grossSurfaceManually>
+        <grossSurface id="715" v="2">
+            <INITIAL class="java.math.BigDecimal">30.00</INITIAL>
+        </grossSurface>
+        <additionalSurfaceManually id="716" v="2">
+            <INITIAL class="java.lang.Boolean">false</INITIAL>
+        </additionalSurfaceManually>
+        <additionalSurface id="717" v="2">
+            <INITIAL class="java.math.BigDecimal">30.00</INITIAL>
+        </additionalSurface>
+        <restSurfaceManually id="718" v="2">
+            <INITIAL class="java.lang.Boolean">false</INITIAL>
+        </restSurfaceManually>
+        <restSurface id="719" v="2">
+            <INITIAL class="java.math.BigDecimal">30.00</INITIAL>
+        </restSurface>
+        <slope id="720" v="2">
+            <INITIAL class="java.math.BigDecimal">90</INITIAL>
+        </slope>
+        <orientationManually id="721" v="2">
+            <INITIAL class="java.lang.Boolean">true</INITIAL>
+        </orientationManually>
+        <orientation id="722" v="2">
+            <INITIAL/>
+        </orientation>
+        <wallInstances class="com.hemmis.mrw.pace.model.skin.AbstractPlane$AbstractPlaneOpaqueInstanceSituationListProperty" id="723" v="2">
+            <parent class="com.hemmis.mrw.pace.model.skin.WallPlane" reference="707"/>
+            <INITIAL class="com.hemmis.mrw.pace.util.ObservableArrayList" id="724">
+                <com.hemmis.mrw.pace.model.skin.WallInstance reference="692"/>
+            </INITIAL>
+        </wallInstances>
+        <annexes class="com.hemmis.mrw.pace.model.skin.AbstractPlane$AbstractPlaneAnnexSituationListProperty" id="725" v="2">
+            <parent class="com.hemmis.mrw.pace.model.skin.WallPlane" reference="707"/>
+            <INITIAL class="com.hemmis.mrw.pace.util.ObservableArrayList" id="726"/>
+        </annexes>
+        <basePlane class="com.hemmis.mrw.pace.model.skin.AbstractPlane$AbstractPlaneBasePlaneSituationReferenceProperty" id="727" v="2">
+            <owner class="com.hemmis.mrw.pace.model.skin.WallPlane" reference="707"/>
+            <INITIAL/>
+        </basePlane>
+        <lossPlanes class="com.hemmis.mrw.pace.model.skin.AbstractPlane$AbstractPlaneLossPlaneSituationListProperty" id="728" v="2">
+            <parent class="com.hemmis.mrw.pace.model.skin.WallPlane" reference="707"/>
+            <INITIAL class="com.hemmis.mrw.pace.util.ObservableArrayList" id="729"/>
+            <SECOND class="com.hemmis.mrw.pace.util.ObservableArrayList" id="730"/>
+        </lossPlanes>
+        <wallLossInstances class="com.hemmis.mrw.pace.model.skin.AbstractPlane$AbstractPlaneOpaqueLossInstanceSituationListProperty" id="731" v="2">
+            <parent class="com.hemmis.mrw.pace.model.skin.WallPlane" reference="707"/>
+            <INITIAL class="com.hemmis.mrw.pace.util.ObservableArrayList" id="732"/>
+            <SECOND class="com.hemmis.mrw.pace.util.ObservableArrayList" id="733"/>
+        </wallLossInstances>
+    </plane>
+    <slope id="734" v="2">
+        <INITIAL class="java.math.BigDecimal">90</INITIAL>
+    </slope>
+    <slopeAngle id="735" v="2">
+        <INITIAL class="com.hemmis.mrw.pace.model.enums.Angle">DEGREES_90</INITIAL>
+    </slopeAngle>
+    <opaqueElement class="com.hemmis.mrw.pace.model.skin.OpaqueInstance$OpaqueInstanceOpaqueElementSituationReferenceProperty" id="736" v="2">
+        <owner class="com.hemmis.mrw.pace.model.skin.WallInstance" reference="692"/>
+        <INITIAL class="com.hemmis.mrw.pace.model.skin.Wall" reference="426"/>
+    </opaqueElement>
+    <monthlyWallInstanceResults class="tree-map" id="737">
+        <no-comparator/>
+        <entry>
+            <com.hemmis.util.Month>JANUARY</com.hemmis.util.Month>
+            <com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult id="738">
+                <opaqueInstance class="com.hemmis.mrw.pace.model.skin.WallInstance" reference="692"/>
+                <month>JANUARY</month>
+                <unshad id="739" v="2">
+                    <INITIAL/>
+                </unshad>
+                <solarGainOverHeatManually id="740" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="741" v="2">
+                        <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    </INITIAL>
+                </solarGainOverHeatManually>
+                <solarGainOverHeat id="742" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="743" v="2">
+                        <CURRENT__STATE/>
+                    </INITIAL>
+                </solarGainOverHeat>
+                <finalSolarGainOverHeatManually id="744" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="745" v="2">
+                        <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    </INITIAL>
+                </finalSolarGainOverHeatManually>
+                <finalSolarGainOverHeat id="746" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="747" v="2">
+                        <CURRENT__STATE/>
+                    </INITIAL>
+                </finalSolarGainOverHeat>
+            </com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult>
+        </entry>
+        <entry>
+            <com.hemmis.util.Month>FEBRUARY</com.hemmis.util.Month>
+            <com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult id="748">
+                <opaqueInstance class="com.hemmis.mrw.pace.model.skin.WallInstance" reference="692"/>
+                <month>FEBRUARY</month>
+                <unshad id="749" v="2">
+                    <INITIAL/>
+                </unshad>
+                <solarGainOverHeatManually id="750" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="751" v="2">
+                        <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    </INITIAL>
+                </solarGainOverHeatManually>
+                <solarGainOverHeat id="752" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="753" v="2">
+                        <CURRENT__STATE/>
+                    </INITIAL>
+                </solarGainOverHeat>
+                <finalSolarGainOverHeatManually id="754" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="755" v="2">
+                        <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    </INITIAL>
+                </finalSolarGainOverHeatManually>
+                <finalSolarGainOverHeat id="756" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="757" v="2">
+                        <CURRENT__STATE/>
+                    </INITIAL>
+                </finalSolarGainOverHeat>
+            </com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult>
+        </entry>
+        <entry>
+            <com.hemmis.util.Month>MARCH</com.hemmis.util.Month>
+            <com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult id="758">
+                <opaqueInstance class="com.hemmis.mrw.pace.model.skin.WallInstance" reference="692"/>
+                <month>MARCH</month>
+                <unshad id="759" v="2">
+                    <INITIAL/>
+                </unshad>
+                <solarGainOverHeatManually id="760" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="761" v="2">
+                        <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    </INITIAL>
+                </solarGainOverHeatManually>
+                <solarGainOverHeat id="762" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="763" v="2">
+                        <CURRENT__STATE/>
+                    </INITIAL>
+                </solarGainOverHeat>
+                <finalSolarGainOverHeatManually id="764" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="765" v="2">
+                        <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    </INITIAL>
+                </finalSolarGainOverHeatManually>
+                <finalSolarGainOverHeat id="766" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="767" v="2">
+                        <CURRENT__STATE/>
+                    </INITIAL>
+                </finalSolarGainOverHeat>
+            </com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult>
+        </entry>
+        <entry>
+            <com.hemmis.util.Month>APRIL</com.hemmis.util.Month>
+            <com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult id="768">
+                <opaqueInstance class="com.hemmis.mrw.pace.model.skin.WallInstance" reference="692"/>
+                <month>APRIL</month>
+                <unshad id="769" v="2">
+                    <INITIAL/>
+                </unshad>
+                <solarGainOverHeatManually id="770" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="771" v="2">
+                        <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    </INITIAL>
+                </solarGainOverHeatManually>
+                <solarGainOverHeat id="772" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="773" v="2">
+                        <CURRENT__STATE/>
+                    </INITIAL>
+                </solarGainOverHeat>
+                <finalSolarGainOverHeatManually id="774" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="775" v="2">
+                        <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    </INITIAL>
+                </finalSolarGainOverHeatManually>
+                <finalSolarGainOverHeat id="776" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="777" v="2">
+                        <CURRENT__STATE/>
+                    </INITIAL>
+                </finalSolarGainOverHeat>
+            </com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult>
+        </entry>
+        <entry>
+            <com.hemmis.util.Month>MAY</com.hemmis.util.Month>
+            <com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult id="778">
+                <opaqueInstance class="com.hemmis.mrw.pace.model.skin.WallInstance" reference="692"/>
+                <month>MAY</month>
+                <unshad id="779" v="2">
+                    <INITIAL/>
+                </unshad>
+                <solarGainOverHeatManually id="780" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="781" v="2">
+                        <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    </INITIAL>
+                </solarGainOverHeatManually>
+                <solarGainOverHeat id="782" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="783" v="2">
+                        <CURRENT__STATE/>
+                    </INITIAL>
+                </solarGainOverHeat>
+                <finalSolarGainOverHeatManually id="784" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="785" v="2">
+                        <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    </INITIAL>
+                </finalSolarGainOverHeatManually>
+                <finalSolarGainOverHeat id="786" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="787" v="2">
+                        <CURRENT__STATE/>
+                    </INITIAL>
+                </finalSolarGainOverHeat>
+            </com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult>
+        </entry>
+        <entry>
+            <com.hemmis.util.Month>JUNE</com.hemmis.util.Month>
+            <com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult id="788">
+                <opaqueInstance class="com.hemmis.mrw.pace.model.skin.WallInstance" reference="692"/>
+                <month>JUNE</month>
+                <unshad id="789" v="2">
+                    <INITIAL/>
+                </unshad>
+                <solarGainOverHeatManually id="790" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="791" v="2">
+                        <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    </INITIAL>
+                </solarGainOverHeatManually>
+                <solarGainOverHeat id="792" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="793" v="2">
+                        <CURRENT__STATE/>
+                    </INITIAL>
+                </solarGainOverHeat>
+                <finalSolarGainOverHeatManually id="794" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="795" v="2">
+                        <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    </INITIAL>
+                </finalSolarGainOverHeatManually>
+                <finalSolarGainOverHeat id="796" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="797" v="2">
+                        <CURRENT__STATE/>
+                    </INITIAL>
+                </finalSolarGainOverHeat>
+            </com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult>
+        </entry>
+        <entry>
+            <com.hemmis.util.Month>JULY</com.hemmis.util.Month>
+            <com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult id="798">
+                <opaqueInstance class="com.hemmis.mrw.pace.model.skin.WallInstance" reference="692"/>
+                <month>JULY</month>
+                <unshad id="799" v="2">
+                    <INITIAL/>
+                </unshad>
+                <solarGainOverHeatManually id="800" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="801" v="2">
+                        <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    </INITIAL>
+                </solarGainOverHeatManually>
+                <solarGainOverHeat id="802" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="803" v="2">
+                        <CURRENT__STATE/>
+                    </INITIAL>
+                </solarGainOverHeat>
+                <finalSolarGainOverHeatManually id="804" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="805" v="2">
+                        <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    </INITIAL>
+                </finalSolarGainOverHeatManually>
+                <finalSolarGainOverHeat id="806" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="807" v="2">
+                        <CURRENT__STATE/>
+                    </INITIAL>
+                </finalSolarGainOverHeat>
+            </com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult>
+        </entry>
+        <entry>
+            <com.hemmis.util.Month>AUGUST</com.hemmis.util.Month>
+            <com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult id="808">
+                <opaqueInstance class="com.hemmis.mrw.pace.model.skin.WallInstance" reference="692"/>
+                <month>AUGUST</month>
+                <unshad id="809" v="2">
+                    <INITIAL/>
+                </unshad>
+                <solarGainOverHeatManually id="810" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="811" v="2">
+                        <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    </INITIAL>
+                </solarGainOverHeatManually>
+                <solarGainOverHeat id="812" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="813" v="2">
+                        <CURRENT__STATE/>
+                    </INITIAL>
+                </solarGainOverHeat>
+                <finalSolarGainOverHeatManually id="814" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="815" v="2">
+                        <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    </INITIAL>
+                </finalSolarGainOverHeatManually>
+                <finalSolarGainOverHeat id="816" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="817" v="2">
+                        <CURRENT__STATE/>
+                    </INITIAL>
+                </finalSolarGainOverHeat>
+            </com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult>
+        </entry>
+        <entry>
+            <com.hemmis.util.Month>SEPTEMBER</com.hemmis.util.Month>
+            <com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult id="818">
+                <opaqueInstance class="com.hemmis.mrw.pace.model.skin.WallInstance" reference="692"/>
+                <month>SEPTEMBER</month>
+                <unshad id="819" v="2">
+                    <INITIAL/>
+                </unshad>
+                <solarGainOverHeatManually id="820" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="821" v="2">
+                        <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    </INITIAL>
+                </solarGainOverHeatManually>
+                <solarGainOverHeat id="822" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="823" v="2">
+                        <CURRENT__STATE/>
+                    </INITIAL>
+                </solarGainOverHeat>
+                <finalSolarGainOverHeatManually id="824" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="825" v="2">
+                        <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    </INITIAL>
+                </finalSolarGainOverHeatManually>
+                <finalSolarGainOverHeat id="826" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="827" v="2">
+                        <CURRENT__STATE/>
+                    </INITIAL>
+                </finalSolarGainOverHeat>
+            </com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult>
+        </entry>
+        <entry>
+            <com.hemmis.util.Month>OCTOBER</com.hemmis.util.Month>
+            <com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult id="828">
+                <opaqueInstance class="com.hemmis.mrw.pace.model.skin.WallInstance" reference="692"/>
+                <month>OCTOBER</month>
+                <unshad id="829" v="2">
+                    <INITIAL/>
+                </unshad>
+                <solarGainOverHeatManually id="830" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="831" v="2">
+                        <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    </INITIAL>
+                </solarGainOverHeatManually>
+                <solarGainOverHeat id="832" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="833" v="2">
+                        <CURRENT__STATE/>
+                    </INITIAL>
+                </solarGainOverHeat>
+                <finalSolarGainOverHeatManually id="834" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="835" v="2">
+                        <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    </INITIAL>
+                </finalSolarGainOverHeatManually>
+                <finalSolarGainOverHeat id="836" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="837" v="2">
+                        <CURRENT__STATE/>
+                    </INITIAL>
+                </finalSolarGainOverHeat>
+            </com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult>
+        </entry>
+        <entry>
+            <com.hemmis.util.Month>NOVEMBER</com.hemmis.util.Month>
+            <com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult id="838">
+                <opaqueInstance class="com.hemmis.mrw.pace.model.skin.WallInstance" reference="692"/>
+                <month>NOVEMBER</month>
+                <unshad id="839" v="2">
+                    <INITIAL/>
+                </unshad>
+                <solarGainOverHeatManually id="840" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="841" v="2">
+                        <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    </INITIAL>
+                </solarGainOverHeatManually>
+                <solarGainOverHeat id="842" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="843" v="2">
+                        <CURRENT__STATE/>
+                    </INITIAL>
+                </solarGainOverHeat>
+                <finalSolarGainOverHeatManually id="844" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="845" v="2">
+                        <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    </INITIAL>
+                </finalSolarGainOverHeatManually>
+                <finalSolarGainOverHeat id="846" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="847" v="2">
+                        <CURRENT__STATE/>
+                    </INITIAL>
+                </finalSolarGainOverHeat>
+            </com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult>
+        </entry>
+        <entry>
+            <com.hemmis.util.Month>DECEMBER</com.hemmis.util.Month>
+            <com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult id="848">
+                <opaqueInstance class="com.hemmis.mrw.pace.model.skin.WallInstance" reference="692"/>
+                <month>DECEMBER</month>
+                <unshad id="849" v="2">
+                    <INITIAL/>
+                </unshad>
+                <solarGainOverHeatManually id="850" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="851" v="2">
+                        <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    </INITIAL>
+                </solarGainOverHeatManually>
+                <solarGainOverHeat id="852" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="853" v="2">
+                        <CURRENT__STATE/>
+                    </INITIAL>
+                </solarGainOverHeat>
+                <finalSolarGainOverHeatManually id="854" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="855" v="2">
+                        <CURRENT__STATE class="java.lang.Boolean">false</CURRENT__STATE>
+                    </INITIAL>
+                </finalSolarGainOverHeatManually>
+                <finalSolarGainOverHeat id="856" v="2">
+                    <INITIAL class="com.hemmis.mrw.pace.model.ObservableSpecProperty" id="857" v="2">
+                        <CURRENT__STATE/>
+                    </INITIAL>
+                </finalSolarGainOverHeat>
+            </com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult>
+        </entry>
+    </monthlyWallInstanceResults>
+    <monthlyWallInstanceResultsAsList class="com.hemmis.mrw.pace.util.ObservableArrayList" id="858">
+        <com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult reference="738"/>
+        <com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult reference="748"/>
+        <com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult reference="758"/>
+        <com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult reference="768"/>
+        <com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult reference="778"/>
+        <com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult reference="788"/>
+        <com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult reference="798"/>
+        <com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult reference="808"/>
+        <com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult reference="818"/>
+        <com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult reference="828"/>
+        <com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult reference="838"/>
+        <com.hemmis.mrw.pace.model.skin.MonthlyWallInstanceResult reference="848"/>
+    </monthlyWallInstanceResultsAsList>
+</com.hemmis.mrw.pace.model.skin.WallInstance>
