@@ -87,6 +87,7 @@ class PaceExporter:
                 for key, value in queries.items():
                     # element = more_root.find(key)
                     # if element is None:
+                    print(str(path) + ": " + str(key) + " " + str(value))
                     element = ET.SubElement(more_root, key)
 
                     for k, v in value.items():

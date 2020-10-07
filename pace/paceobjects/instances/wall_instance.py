@@ -76,11 +76,13 @@ class WallInstance(PaceObject):
 
     def inside_wall_type(self, wall_type: WallType) -> 'WallInstance':
         self.is_in_wall_type = True
+        self.is_in_wall = False
         self.wall_type = wall_type
         return self
 
     def inside_wall(self, wall: Wall, upcoming_wall_type: WallType) -> 'WallInstance':
         self.is_in_wall = True
+        self.is_in_wall_type = False
         self.wall = wall
         self.upcoming_wall_type = upcoming_wall_type
         return self
