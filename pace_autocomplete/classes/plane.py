@@ -1,5 +1,5 @@
-from energyreport.classes.orientation import Orientation
-from paceautoclick.classes.plane_instance import PlaneInstance
+from ...energyreport.classes.orientation import Orientation
+from ..classes.plane_instance import PlaneInstance
 
 
 class Plane:

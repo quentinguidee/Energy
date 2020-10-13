@@ -1,5 +1,7 @@
 import datetime
 import os
+from time import sleep
+
 import bpy
 
 from xml.etree.ElementTree import ElementTree, SubElement
@@ -8,6 +10,9 @@ from . import info
 
 from .energyreport.classes.color import Color
 from .classes.face_type import FaceType
+from .pace_autocomplete import pace_autocomplete as pac
+from .pace_autocomplete.pace_autocomplete import Save
+from .pace_autocomplete.classes.face import Face
 
 
 def face_projection_area(face, obj):
@@ -102,6 +107,21 @@ def create_html_file(filepath):
     # windows os.startfile(filepath)
     # TODO: Re-enable this line
     # subprocess.call(('xdg-open', filepath))
+
+    return {'FINISHED'}
+
+
+def create_pace_file():
+    # pac.configure()
+    sleep(3)
+    pac.create_file()
+
+    for face_type in FaceType:
+        pac.Type.create_all(Save.faces[face_type.get_name()], face_type)
+
+    pac.Envelope.create_all(Save.wall_planes, FaceType.WALL)
+    pac.Envelope.create_all(Save.roof_planes, FaceType.ROOF)
+    pac.Envelope.create_all(Save.floor_planes, FaceType.FLOOR)
 
     return {'FINISHED'}
 
@@ -226,3 +246,13 @@ def handle_xml(building):
     tree.write(temp_file, encoding="UTF-8")
 
     return projections, tree, temp_file
+
+
+def handle_pace():
+    Save.reset()
+
+    i = 0
+    for material_slot in bpy.context.object.material_slots:
+        face_type = FaceType.get_face_type(material_slot.name[0])
+        Save.faces[face_type.get_name()].append(Face(i, material_slot.name[0:4], material_slot.name))
+        i += 1

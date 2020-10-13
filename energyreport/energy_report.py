@@ -6,13 +6,17 @@ from xml.etree.ElementTree import SubElement
 from bpy.props import StringProperty, EnumProperty, BoolProperty
 from bpy.types import Panel
 
+from ..pace_autocomplete.pace_autocomplete import Save
+from ..pace_autocomplete.classes.plane import Plane
+from ..pace_autocomplete.classes.plane_instance import PlaneInstance
+
 from .classes.building import Building
 from .classes.color import Color
 from .classes.face import Face
 from .classes.orientation import Orientation
 
 from ..classes.face_type import FaceType
-from ..functions import get_path, generate_file, handle_xml, handle_html
+from ..functions import get_path, generate_file, handle_xml, handle_html, handle_pace
 
 import bpy
 
@@ -149,6 +153,8 @@ class OBJECT_PT_ArToKi_EnergyReport(Panel):
                     if materials_projections.count(str(face_projection.material)) == 0:
                         materials_projections.append(face_projection.material)
 
+                instances: [PlaneInstance] = []
+
                 for material_proj in sorted(materials_projections):
                     material_area = 0
                     for face_projection in faces_projections:
@@ -163,6 +169,10 @@ class OBJECT_PT_ArToKi_EnergyReport(Panel):
                     for material_slot in bpy.context.object.material_slots:
                         if material_slot.name[0:4] == material_proj:
                             color = Color.from_8_bits_color(material_slot.material.diffuse_color)
+                            instances.append(PlaneInstance(
+                                name="Inconnu",
+                                face=Save.get_face(material_slot.name[0:4]),
+                                surface=material_area))
 
                     td_1.attrib["style"] = "color:" + str(color)
                     td_1.text = "\u25A0"
@@ -173,6 +183,16 @@ class OBJECT_PT_ArToKi_EnergyReport(Panel):
                     td_3.attrib["class"] = "mat_surf"
                     td_3.text = str(round(material_area, 2)) + " m²"
 
+                # Pace
+                Save.wall_planes.append(Plane("Inconnu", orientation, area_projection, instances))
+
+    def get_floors_area(self, floors: [Face]) -> int:
+        area = 0
+        for floor in floors:
+            area += floor.projection_area
+
+        return area
+
     def draw_floors(self, floors: [Face], xml_projections, html_projections, tree_html):
         row = self.layout.row()
         row.alignment = 'EXPAND'
@@ -180,12 +200,9 @@ class OBJECT_PT_ArToKi_EnergyReport(Panel):
         box = row.box()
         column = box.column()
 
-        area = 0
+        area = self.get_floors_area(floors)
         mat_vert = []
         face_type_id = FaceType.FLOOR.get_id()
-
-        for floor in floors:
-            area += floor.projection_area
 
         if area != 0:
             sub_row = column.row(align=True)
@@ -285,6 +302,7 @@ class OBJECT_PT_ArToKi_EnergyReport(Panel):
                 sub_row.label(text='Angle : ' + str(round(math.fabs(math.degrees(roof_angle)), 1)) + " \xb0")
                 sub_row.label(text='Proj. surf. : ' + str(round(area_projection_material_roof, 2)) + " m\xb2")
 
+                # XML
                 SubElement(
                     xml_projections[face_type_id],
                     'RoofPart',
@@ -295,6 +313,7 @@ class OBJECT_PT_ArToKi_EnergyReport(Panel):
                     SurfProj=str(round(area_projection_material_roof, 2))
                 )
 
+                # HTML
                 tr = SubElement(html_projections[face_type_id], 'tr')
                 td_1 = SubElement(tr, 'td')
                 td_1.attrib["class"] = "mat_color"
@@ -344,10 +363,16 @@ class OBJECT_PT_ArToKi_EnergyReport(Panel):
                     sub_row.label(text=material_slot.name[0:4] + "  " + material_slot.name[5:] + " : ")
                     sub_row.label(text=str(round(xml_material_area, 2)) + " m\xb2")
 
-    def draw_exports(self):
+    def draw_exports(self, floors: [Face]):
         row = self.layout.row()
         row.operator("export.xml", text="Save")
-        row.operator("export.html", text="Export to pdf...")
+        row.operator("export.html", text="Export to PDF")
+        box = self.layout.box()
+        box.label(text="Ouvrir Pace.")
+        box.label(text="Après avoir cliqué sur Export, faire le focus sur Pace dans les 3 secondes qui suivent.")
+        box.label(
+            text="Tout à la fin : Enveloppe > Planchers > Surface brute : " + str(round(self.get_floors_area(floors))))
+        box.operator("export.pace", text="Export to Pace")
 
     def draw_credits(self):
         # Only line to change for lite version for Windows
@@ -367,6 +392,7 @@ class OBJECT_PT_ArToKi_EnergyReport(Panel):
 
         xml_projections, xml_tree, xml_temp_file = handle_xml(building)
         html_projections, html_tree, html_temp_file = handle_html(building)
+        handle_pace()
 
         self.draw_properties()
 
@@ -384,7 +410,7 @@ class OBJECT_PT_ArToKi_EnergyReport(Panel):
         self.draw_subtitle(text="Summary")
         self.draw_summary(building.faces)
 
-        self.draw_exports()
+        self.draw_exports(building.get_faces(FaceType.FLOOR))
         self.draw_credits()
 
         generate_file(xml_tree, xml_temp_file)

@@ -1,4 +1,4 @@
-from paceautoclick.classes.face import Face
+from ..classes.face import Face
 
 
 class PlaneInstance:
