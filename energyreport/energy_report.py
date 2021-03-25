@@ -17,6 +17,29 @@ from ..functions import get_path, generate_file, handle_xml, handle_html
 import bpy
 
 
+# START SAVE
+
+class ConstructionElement:
+    def __init__(self, skin_type: str, label, description, environment, subtype):
+        self.skin_type = skin_type
+        self.label = label
+        self.description = description
+        self.environment = environment
+        self.subtype = subtype
+
+
+class Save:
+    construction_elements: [ConstructionElement] = []
+    building: Building = None
+
+    @staticmethod
+    def reset():
+        Save.construction_elements = []
+        Save.building = None
+
+
+# END SAVE
+
 class OBJECT_PT_ArToKi_EnergyReport(Panel):
     bl_label = "ArToKi - Energy - Report"
     bl_space_type = "PROPERTIES"
@@ -348,6 +371,7 @@ class OBJECT_PT_ArToKi_EnergyReport(Panel):
         row = self.layout.row()
         row.operator("export.xml", text="Save")
         row.operator("export.html", text="Export to pdf...")
+        row.operator("export.pace", text="Pace Export")
 
     def draw_credits(self):
         # Only line to change for lite version for Windows
@@ -361,6 +385,24 @@ class OBJECT_PT_ArToKi_EnergyReport(Panel):
         row = self.layout.row()
         icon_artoki = self.layout.icon(bpy.data.images[img_src])
         row.label(text="ArToKi - Energy by tmaes" + 60 * " " + " info@tmaes.be", icon_value=icon_artoki)
+
+    def save(self, building: Building):
+        Save.reset()
+
+        for face in building.faces:
+            if face.type == FaceType.FLOOR:
+                type = 'GROUND'
+            else:
+                type = 'OPEN_AIR'
+
+            Save.construction_elements.append(ConstructionElement(
+                skin_type=face.type.get_pacetools_id(),
+                label=face.material,
+                description='',
+                environment=type,
+                subtype=''))
+
+        Save.building = building
 
     def draw(self, context):
         building = Building(context.object)
@@ -386,6 +428,8 @@ class OBJECT_PT_ArToKi_EnergyReport(Panel):
 
         self.draw_exports()
         self.draw_credits()
+
+        self.save(building)
 
         generate_file(xml_tree, xml_temp_file)
         generate_file(html_tree, html_temp_file)

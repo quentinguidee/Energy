@@ -6,7 +6,7 @@ class Face:
     index: int
     area: float
     orientation: Orientation
-    material: str
+    material: str  # ex: M-01
     type: FaceType
     angle: float
     projection_area: float
