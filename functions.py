@@ -115,13 +115,10 @@ def create_html_file(filepath):
 
 
 def create_pace_file(filepath):
-    template = os.path.join(
-        '/Users/quentinguidee/Developer/BlenderAddons/scripts/addons/energy/libraries/pacetools/paceTemplates',
-        'audit_vierge.xml')
+    template = os.path.join('libraries/pacetools/paceTemplates', 'audit_vierge.xml')
 
     xml = PACEXML(template)
-    xml.setTemplatesDir(
-        '/Users/quentinguidee/Developer/BlenderAddons/scripts/addons/energy/libraries/pacetools/paceTemplates')
+    xml.setTemplatesDir('libraries/pacetools/paceTemplates')
 
     from .energyreport.energy_report import Save
 
