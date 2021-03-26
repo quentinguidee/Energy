@@ -122,28 +122,14 @@ def create_pace_file(filepath):
 
     from .energyreport.energy_report import Save
 
-    for material_slot in bpy.context.object.material_slots:
-        face_type = FaceType.get_face_type(material_slot.name[0])
-
-        environment = ''
-        subtype = ''
-
-        if face_type == FaceType.WALL:
-            environment = 'OPEN_AIR'
-            subtype = 'FULL'
-        elif face_type == FaceType.FLOOR:
-            environment = 'GROUND'
-            subtype = ''
-        elif face_type == FaceType.ROOF:
-            environment = 'OPEN_AIR'
-            subtype = 'INCLINED'
-
+    for element_type in Save.building.element_types:
         xml.addConstructionElement(
-            elementType=face_type.get_pacetools_id(),
-            label=material_slot.name[0:4],
-            description=material_slot.name[5:],
-            environment=environment,
-            subtype=subtype)
+            element_type.get_pacetools_type(),
+            element_type.label,
+            element_type.description,
+            element_type.environment,
+            element_type.subtype
+        )
 
     # Vol.: building.eval_area()
     # Area : building.eval_volume()

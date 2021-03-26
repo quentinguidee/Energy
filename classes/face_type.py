@@ -18,7 +18,7 @@ class FaceType(Enum):
     def get_letters(self):
         return self.value[3]
 
-    def get_pacetools_id(self):
+    def get_pacetools_type(self):
         return self.value[4]
 
     @staticmethod

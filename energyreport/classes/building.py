@@ -8,6 +8,8 @@ from typing import List
 from ...functions import face_projection_area
 
 from .face import Face
+from .models.element_type import ElementType
+from .models.element_type_factory import ElementTypeFactory
 from ...classes.face_type import FaceType
 from .orientation import Orientation
 
@@ -42,6 +44,14 @@ class Building:
         self.obj = obj
         self.faces: List[Face] = []
         self.populate_faces(obj)
+        self.element_types: List[ElementType] = []
+        self.populate_element_types()
+
+    def populate_element_types(self):
+        for material in bpy.context.object.material_slots:
+            face_type = FaceType.get_face_type(material.name[0])
+            element_type = ElementTypeFactory.serialize(face_type, material.name[0:4], material.name[5:])
+            self.element_types.append(element_type)
 
     def get_faces(self, face_type: FaceType) -> List[Face]:
         return [face for face in self.faces if face.type == face_type]

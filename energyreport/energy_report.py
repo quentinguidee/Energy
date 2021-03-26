@@ -91,12 +91,12 @@ class OBJECT_PT_ArToKi_EnergyReport(Panel):
         sub_row.label(text="Volume of the enveloppe:   " + str(round(volume, 2)) + " m\xb3", icon='VIEW3D')
         sub_row.label(text="Surface of the enveloppe:   " + str(round(area, 2)) + " m\xb2", icon='MESH_GRID')
 
-    def draw_walls(self, walls: [Face], xml_projections, html_projections):
+    def draw_walls(self, walls: List[Face], xml_projections, html_projections):
         projection_id = 0
         face_type_id = FaceType.WALL.get_id()
 
         for orientation in Orientation:
-            faces_projections: [Face] = []
+            faces_projections: List[Face] = []
             materials_projections = []
             area_projection = 0
 
@@ -233,7 +233,7 @@ class OBJECT_PT_ArToKi_EnergyReport(Panel):
                 td_3.attrib["class"] = "mat_surf"
                 td_3.text = str(round(area_material_vert, 2)) + " m²"
 
-    def draw_roofs(self, roofs: [Face], xml_projections, html_projections, tree_html):
+    def draw_roofs(self, roofs: List[Face], xml_projections, html_projections, tree_html):
         row = self.layout.row()
         row.alignment = 'EXPAND'
 
