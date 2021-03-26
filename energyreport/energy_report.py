@@ -6,6 +6,7 @@ from xml.etree.ElementTree import SubElement
 from bpy.props import StringProperty, EnumProperty, BoolProperty
 from bpy.types import Panel
 
+from .classes.save import Save
 from .classes.building import Building
 from .classes.color import Color
 from .classes.face import Face
@@ -15,27 +16,6 @@ from ..classes.face_type import FaceType
 from ..functions import get_path, generate_file, handle_xml, handle_html
 
 import bpy
-
-
-# START SAVE
-
-class ConstructionElement:
-    def __init__(self, skin_type: str, label, description, environment, subtype):
-        self.skin_type = skin_type
-        self.label = label
-        self.description = description
-        self.environment = environment
-        self.subtype = subtype
-
-
-class Save:
-    construction_elements: [ConstructionElement] = []
-    building: Building = None
-
-    @staticmethod
-    def reset():
-        Save.construction_elements = []
-        Save.building = None
 
 
 # END SAVE
@@ -388,20 +368,6 @@ class OBJECT_PT_ArToKi_EnergyReport(Panel):
 
     def save(self, building: Building):
         Save.reset()
-
-        for face in building.faces:
-            if face.type == FaceType.FLOOR:
-                type = 'GROUND'
-            else:
-                type = 'OPEN_AIR'
-
-            Save.construction_elements.append(ConstructionElement(
-                skin_type=face.type.get_pacetools_id(),
-                label=face.material,
-                description='',
-                environment=type,
-                subtype=''))
-
         Save.building = building
 
     def draw(self, context):

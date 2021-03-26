@@ -6,13 +6,9 @@ from ...functions import create_html_file
 
 
 class EXPORT_OT_HTML(bpy.types.Operator, ExportHelper):
-    """
-    This appears in the tooltip of the operator and in the generated docs.
-    """
-    bl_idname = "export.html"  # this is important since its how bpy.ops.export.some_data is constructed
+    bl_idname = "export.html"
     bl_label = "Export to .html"
 
-    # ExportHelper mixin class uses this
     filename_ext = ".html"
 
     filter_glob: StringProperty(
