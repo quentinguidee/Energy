@@ -40,16 +40,11 @@ class Building:
 
     def __init__(self, obj):
         self.obj = obj
-        self.faces:  List[Face] = []
+        self.faces: List[Face] = []
         self.populate_faces(obj)
 
-    def get_faces(self, face_type: FaceType) -> [Face]:
-        fcs = []
-        for face in self.faces:
-            if face.type == face_type:
-                fcs.append(face)
-
-        return fcs
+    def get_faces(self, face_type: FaceType) -> List[Face]:
+        return [face for face in self.faces if face.type == face_type]
 
     def eval_volume(self):
         """
@@ -67,8 +62,4 @@ class Building:
         """
         Calculate the area of the mesh object.
         """
-        area = 0
-        for face in self.faces:
-            area += face.area
-
-        return area
+        return sum([face.area for face in self.faces])
