@@ -1,6 +1,8 @@
 import math
 import os
 
+from typing import List
+
 from xml.etree.ElementTree import SubElement
 
 from bpy.props import StringProperty, EnumProperty, BoolProperty
@@ -176,19 +178,16 @@ class OBJECT_PT_ArToKi_EnergyReport(Panel):
                     td_3.attrib["class"] = "mat_surf"
                     td_3.text = str(round(material_area, 2)) + " m²"
 
-    def draw_floors(self, floors: [Face], xml_projections, html_projections, tree_html):
+    def draw_floors(self, floors: List[Face], xml_projections, html_projections, tree_html):
         row = self.layout.row()
         row.alignment = 'EXPAND'
 
         box = row.box()
         column = box.column()
 
-        area = 0
+        area = sum([floor.projection_area for floor in floors])
         mat_vert = []
         face_type_id = FaceType.FLOOR.get_id()
-
-        for floor in floors:
-            area += floor.projection_area
 
         if area != 0:
             sub_row = column.row(align=True)
