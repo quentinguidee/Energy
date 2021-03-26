@@ -2,9 +2,9 @@ from enum import Enum
 
 
 class FaceType(Enum):
-    WALL = (0, 'Walls', 'MOD_BUILD', ['M', 'W'])
-    FLOOR = (1, 'Floors', 'TEXTURE', ['S', 'F'])
-    ROOF = (2, 'Roofs', 'LINCURVE', ['T', 'R'])
+    WALL = (0, 'Walls', 'MOD_BUILD', ['M', 'W'], 'wall')
+    FLOOR = (1, 'Floors', 'TEXTURE', ['S', 'F'], 'floor')
+    ROOF = (2, 'Roofs', 'LINCURVE', ['T', 'R'], 'roof')
 
     def get_id(self):
         return self.value[0]
@@ -17,6 +17,9 @@ class FaceType(Enum):
 
     def get_letters(self):
         return self.value[3]
+
+    def get_pacetools_id(self):
+        return self.value[4]
 
     @staticmethod
     def get_face_type(letter: str) -> 'FaceType':

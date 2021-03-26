@@ -1,13 +1,21 @@
 import datetime
 import os
 import bpy
+import math
+
+from typing import List
 
 from xml.etree.ElementTree import ElementTree, SubElement
 
 from . import info
 
 from .energyreport.classes.color import Color
+from .energyreport.classes.orientation import Orientation
+from .energyreport.classes.face import Face
+
 from .classes.face_type import FaceType
+
+from .libraries.pacetools.pacetools import PACEXML
 
 
 def face_projection_area(face, obj):
@@ -102,6 +110,125 @@ def create_html_file(filepath):
     # windows os.startfile(filepath)
     # TODO: Re-enable this line
     # subprocess.call(('xdg-open', filepath))
+
+    return {'FINISHED'}
+
+
+def create_pace_file(filepath):
+    template = os.path.join('libraries/pacetools/paceTemplates', 'audit_vierge.xml')
+
+    xml = PACEXML(template)
+    xml.setTemplatesDir('libraries/pacetools/paceTemplates')
+
+    from .energyreport.energy_report import Save
+
+    for material_slot in bpy.context.object.material_slots:
+        face_type = FaceType.get_face_type(material_slot.name[0])
+
+        environment = ''
+        subtype = ''
+
+        if face_type == FaceType.WALL:
+            environment = 'OPEN_AIR'
+            subtype = 'FULL'
+        elif face_type == FaceType.FLOOR:
+            environment = 'GROUND'
+            subtype = ''
+        elif face_type == FaceType.ROOF:
+            environment = 'OPEN_AIR'
+            subtype = 'INCLINED'
+
+        xml.addConstructionElement(
+            elementType=face_type.get_pacetools_id(),
+            label=material_slot.name[0:4],
+            description=material_slot.name[5:],
+            environment=environment,
+            subtype=subtype)
+
+    # Vol.: building.eval_area()
+    # Area : building.eval_volume()
+
+    roofs = Save.building.get_faces(FaceType.ROOF)
+
+    area = 0.0
+    for roof in roofs:
+        area += roof.area
+
+    if area != 0:
+
+        materials = []
+
+        for roof in roofs:
+            if materials.count(str(roof.material)) == 0:
+                materials.append(roof.material)
+
+        for material_proj in sorted(materials):
+            area_material = 0
+            angle = 0
+            orientation: Orientation = None
+
+            for roof in roofs:
+                if roof.material == material_proj:
+                    area_material += roof.area
+                    angle = roof.angle
+                    orientation = roof.orientation
+
+            roof_id = xml.addRoofPlane(orientation.name, math.degrees(angle), area_material)
+            xml.addRoofInstance(roof_id, material_proj, area_material)
+
+    walls = Save.building.get_faces(FaceType.WALL)
+
+    for orientation in Orientation:
+        walls_projection: List[Face] = [wall for wall in walls if wall.orientation == orientation]
+
+        area = 0.0
+        for wall in walls_projection:
+            area += wall.area
+
+        if len(walls_projection) != 0:
+            wall_id = xml.addFacade(orientation.name, area)
+            materials_projections = []
+
+            for wall in walls_projection:
+                if materials_projections.count(str(wall.material)) == 0:
+                    materials_projections.append(wall.material)
+
+            for material_proj in sorted(materials_projections):
+                material_area = 0
+                for wall in walls_projection:
+                    if wall.material == material_proj:
+                        material_area += wall.area
+
+                xml.addWallInstance(wall_id, material_proj, material_area)
+
+    floors: List[Face] = Save.building.get_faces(FaceType.FLOOR)
+
+    area = 0.0
+    for floor in floors:
+        area += floor.projection_area
+
+    xml.setFloorPlaneArea('INITIAL', area)
+
+    if area != 0:
+        materials = []
+
+        for floor in floors:
+            if materials.count(str(floor.material)) == 0:
+                materials.append(floor.material)
+
+        print(materials)
+
+        for material_proj in sorted(materials):
+            area_material = 0
+
+            for floor in floors:
+                if floor.material == material_proj:
+                    area_material += floor.projection_area
+
+            print("ADD " + str(material_proj) + " with area of " + str(area_material))
+            xml.addFloorInstance(material_proj, area_material)
+
+    xml.writePaceFile(filepath)
 
     return {'FINISHED'}
 

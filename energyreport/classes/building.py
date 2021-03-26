@@ -3,6 +3,8 @@ import math
 import bmesh
 import bpy
 
+from typing import List
+
 from ...functions import face_projection_area
 
 from .face import Face
@@ -38,7 +40,7 @@ class Building:
 
     def __init__(self, obj):
         self.obj = obj
-        self.faces: [Face] = []
+        self.faces:  List[Face] = []
         self.populate_faces(obj)
 
     def get_faces(self, face_type: FaceType) -> [Face]:
