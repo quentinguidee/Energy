@@ -166,7 +166,7 @@ def create_pace_file(filepath):
                     orientation = roof.orientation
 
             roof_id = xml.addRoofPlane(orientation.name, math.degrees(angle), area_material)
-            xml.addRoofInstance(roof_id, material_proj, area_material)
+            xml.addRoofInstance(roof_id, material_proj, area_material, '')
 
     walls = Save.building.get_faces(FaceType.WALL)
 
@@ -191,7 +191,7 @@ def create_pace_file(filepath):
                     if wall.material == material_proj:
                         material_area += wall.area
 
-                xml.addWallInstance(wall_id, material_proj, material_area)
+                xml.addWallInstance(wall_id, material_proj, material_area, '')
 
     floors: List[Face] = Save.building.get_faces(FaceType.FLOOR)
 
@@ -218,7 +218,7 @@ def create_pace_file(filepath):
                     area_material += floor.projection_area
 
             print("ADD " + str(material_proj) + " with area of " + str(area_material))
-            xml.addFloorInstance(material_proj, area_material)
+            xml.addFloorInstance(material_proj, area_material, '')
 
     xml.writePaceFile(filepath)
 
