@@ -2,6 +2,8 @@ import datetime
 import os
 import bpy
 import math
+import platform
+import webbrowser
 
 from typing import List
 
@@ -105,11 +107,15 @@ def create_html_file(filepath):
         bpy.context.scene.camera = j
         bpy.ops.render.opengl(write_still=True)
 
-    # print(cameras_in_scene)
     print('Trying to start Firefox')
+
     # windows os.startfile(filepath)
-    # TODO: Re-enable this line
     # subprocess.call(('xdg-open', filepath))
+
+    if platform.system() == 'Darwin':
+        filepath = 'file:///' + filepath
+
+    webbrowser.open(filepath)
 
     return {'FINISHED'}
 
