@@ -1,11 +1,14 @@
 import math
 import os
 
+from typing import List
+
 from xml.etree.ElementTree import SubElement
 
 from bpy.props import StringProperty, EnumProperty, BoolProperty
 from bpy.types import Panel
 
+from .classes.save import Save
 from .classes.building import Building
 from .classes.color import Color
 from .classes.face import Face
@@ -17,34 +20,13 @@ from ..functions import get_path, generate_file, handle_xml, handle_html
 import bpy
 
 
-# START SAVE
-
-class ConstructionElement:
-    def __init__(self, skin_type: str, label, description, environment, subtype):
-        self.skin_type = skin_type
-        self.label = label
-        self.description = description
-        self.environment = environment
-        self.subtype = subtype
-
-
-class Save:
-    construction_elements: [ConstructionElement] = []
-    building: Building = None
-
-    @staticmethod
-    def reset():
-        Save.construction_elements = []
-        Save.building = None
-
-
 # END SAVE
 
 class OBJECT_PT_ArToKi_EnergyReport(Panel):
     bl_label = "ArToKi - Energy - Report"
-    bl_space_type = "PROPERTIES"
-    bl_region_type = "WINDOW"
-    bl_context = "material"
+    bl_space_type = "VIEW_3D"
+    bl_region_type = "UI"
+    bl_category = "ArToKi"
 
     properties = [
         ('atk_procedure_type', "Procedure"),
@@ -109,12 +91,12 @@ class OBJECT_PT_ArToKi_EnergyReport(Panel):
         sub_row.label(text="Volume of the enveloppe:   " + str(round(volume, 2)) + " m\xb3", icon='VIEW3D')
         sub_row.label(text="Surface of the enveloppe:   " + str(round(area, 2)) + " m\xb2", icon='MESH_GRID')
 
-    def draw_walls(self, walls: [Face], xml_projections, html_projections):
+    def draw_walls(self, walls: List[Face], xml_projections, html_projections):
         projection_id = 0
         face_type_id = FaceType.WALL.get_id()
 
         for orientation in Orientation:
-            faces_projections: [Face] = []
+            faces_projections: List[Face] = []
             materials_projections = []
             area_projection = 0
 
@@ -196,19 +178,16 @@ class OBJECT_PT_ArToKi_EnergyReport(Panel):
                     td_3.attrib["class"] = "mat_surf"
                     td_3.text = str(round(material_area, 2)) + " m²"
 
-    def draw_floors(self, floors: [Face], xml_projections, html_projections, tree_html):
+    def draw_floors(self, floors: List[Face], xml_projections, html_projections, tree_html):
         row = self.layout.row()
         row.alignment = 'EXPAND'
 
         box = row.box()
         column = box.column()
 
-        area = 0
+        area = sum([floor.projection_area for floor in floors])
         mat_vert = []
         face_type_id = FaceType.FLOOR.get_id()
-
-        for floor in floors:
-            area += floor.projection_area
 
         if area != 0:
             sub_row = column.row(align=True)
@@ -254,7 +233,7 @@ class OBJECT_PT_ArToKi_EnergyReport(Panel):
                 td_3.attrib["class"] = "mat_surf"
                 td_3.text = str(round(area_material_vert, 2)) + " m²"
 
-    def draw_roofs(self, roofs: [Face], xml_projections, html_projections, tree_html):
+    def draw_roofs(self, roofs: List[Face], xml_projections, html_projections, tree_html):
         row = self.layout.row()
         row.alignment = 'EXPAND'
 
@@ -388,20 +367,6 @@ class OBJECT_PT_ArToKi_EnergyReport(Panel):
 
     def save(self, building: Building):
         Save.reset()
-
-        for face in building.faces:
-            if face.type == FaceType.FLOOR:
-                type = 'GROUND'
-            else:
-                type = 'OPEN_AIR'
-
-            Save.construction_elements.append(ConstructionElement(
-                skin_type=face.type.get_pacetools_id(),
-                label=face.material,
-                description='',
-                environment=type,
-                subtype=''))
-
         Save.building = building
 
     def draw(self, context):
