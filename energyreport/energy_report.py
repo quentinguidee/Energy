@@ -24,9 +24,9 @@ import bpy
 
 class OBJECT_PT_ArToKi_EnergyReport(Panel):
     bl_label = "ArToKi - Energy - Report"
-    bl_space_type = "PROPERTIES"
-    bl_region_type = "WINDOW"
-    bl_context = "material"
+    bl_space_type = "VIEW_3D"
+    bl_region_type = "UI"
+    bl_category = "ArToKi"
 
     properties = [
         ('atk_procedure_type', "Procedure"),
