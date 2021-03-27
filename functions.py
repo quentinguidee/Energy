@@ -161,7 +161,7 @@ def create_pace_file(filepath):
 
             for roof in roofs:
                 if roof.material == material_proj:
-                    area_material += roof.area
+                    area_material += roof.projection_area
                     angle = roof.angle
                     orientation = roof.orientation
 
