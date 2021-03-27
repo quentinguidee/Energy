@@ -28,14 +28,14 @@ jobs:
         echo "::set-output name=version::$output"
     - name: Create archive
       run: |
-        git-archive-all energy-${{ steps.get_version.outputs.version }}.zip
+        git-archive-all energy.zip
     - name: Create Release
       id: create_release
       uses: softprops/action-gh-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        files: energy-${{ steps.get_version.outputs.version }}.zip
+        files: energy.zip
         tag_name: ${{ steps.get_version.outputs.version }}
         name: Energy ${{ steps.get_version.outputs.version }}
         draft: false
