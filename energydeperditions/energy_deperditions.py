@@ -9,7 +9,7 @@ from .classes.peb_icon import PEBIcon
 from ..classes.face_type import FaceType
 
 
-class OBJECT_PT_ArToKi_EnergyDeperditions(bpy.types.Panel):
+class ARTOKI_PT_EnergyDeperditions(bpy.types.Panel):
     bl_label = "ArToKi - Energy - Deperditions (alpha)"
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"

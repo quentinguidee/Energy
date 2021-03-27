@@ -22,7 +22,7 @@ import bpy
 
 # END SAVE
 
-class OBJECT_PT_ArToKi_EnergyReport(Panel):
+class ARTOKI_PT_EnergyReport(Panel):
     bl_label = "ArToKi - Energy - Report"
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"
