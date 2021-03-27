@@ -11,9 +11,9 @@ from ..classes.face_type import FaceType
 
 class ARTOKI_PT_EnergyDeperditions(bpy.types.Panel):
     bl_label = "ArToKi - Energy - Deperditions (alpha)"
-    bl_space_type = "VIEW_3D"
-    bl_region_type = "UI"
-    bl_category = "ArToKi"
+    bl_space_type = "PROPERTIES"
+    bl_region_type = "WINDOW"
+    bl_context = "material"
 
     levels = []
     for i in range(0, 11):
