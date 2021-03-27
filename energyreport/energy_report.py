@@ -20,8 +20,6 @@ from ..functions import get_path, generate_file, handle_xml, handle_html
 import bpy
 
 
-# END SAVE
-
 class ARTOKI_PT_EnergyReport(Panel):
     bl_label = "ArToKi - Energy - Report"
     bl_space_type = "VIEW_3D"
