@@ -142,9 +142,7 @@ def create_pace_file(filepath):
 
     roofs = Save.building.get_faces(FaceType.ROOF)
 
-    area = 0.0
-    for roof in roofs:
-        area += roof.area
+    area: float = sum([roof.area for roof in roofs])
 
     if area != 0:
 
@@ -173,9 +171,7 @@ def create_pace_file(filepath):
     for orientation in Orientation:
         walls_projection: List[Face] = [wall for wall in walls if wall.orientation == orientation]
 
-        area = 0.0
-        for wall in walls_projection:
-            area += wall.area
+        area: float = sum([wall.area for wall in walls_projection])
 
         if len(walls_projection) != 0:
             wall_id = xml.addFacade(orientation.name, area)
@@ -195,9 +191,7 @@ def create_pace_file(filepath):
 
     floors: List[Face] = Save.building.get_faces(FaceType.FLOOR)
 
-    area = 0.0
-    for floor in floors:
-        area += floor.projection_area
+    area: float = sum([floor.projection_area for floor in floors])
 
     xml.setFloorPlaneArea('INITIAL', area)
 
