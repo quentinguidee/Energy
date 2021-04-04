@@ -32,7 +32,7 @@ class Building:
                 area=a.area,
                 orientation=angle_proj_orientation,
                 material=bpy.context.object.material_slots[a.material_index].name[0:4],
-                face_type=FaceType.get_face_type(material_id),
+                type=FaceType.get_face_type(material_id),
                 angle=angle_roof,
                 projection_area=face_projection_area(a, obj),
                 material_name=bpy.context.object.material_slots[a.material_index].name[5:],
