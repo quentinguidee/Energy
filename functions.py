@@ -159,10 +159,10 @@ def create_pace_file(filepath):
 
             for roof in roofs:
                 if roof.material == material_proj:
-                    area_material += roof.projection_area
+                    area_material += roof.area
                     angle = roof.angle
                     orientation = roof.orientation
-
+                   
             roof_id = xml.addRoofPlane(orientation.name, math.degrees(angle), area_material)
             xml.addRoofInstance(roof_id, material_proj, area_material, '')
 
