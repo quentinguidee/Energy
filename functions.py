@@ -87,25 +87,13 @@ def create_html_file(filepath):
     shutil.copy2(bpy.context.scene.atk_aerial, os.path.split(filepath)[0] + '/html_files/aerial.jpg')
     shutil.copy2(bpy.context.scene.atk_elevation, os.path.split(filepath)[0] + '/html_files/elevation.jpg')
 
-    bpy.context.scene.render.image_settings.file_format = 'PNG'
-    bpy.context.scene.render.image_settings.color_mode = 'RGBA'
-    bpy.context.scene.render.resolution_x = 1024
-    bpy.context.scene.render.resolution_y = 768
+    cameras = get_cameras()
 
-    # TODO: Re-enable this line
-    # bpy.context.scene.render.alpha_mode = 'TRANSPARENT'
-
-    cameras_in_scene = []
-    for i in bpy.context.scene.objects:
-
-        if i.type == 'CAMERA':
-            cameras_in_scene.append(i)
     vue_nb = 0
-    for j in cameras_in_scene:
-        vue_nb = vue_nb + 1
-        bpy.context.scene.render.filepath = os.path.split(filepath)[0] + '/html_files/axono_' + str(vue_nb) + '.jpg'
-        bpy.context.scene.camera = j
-        bpy.ops.render.opengl(write_still=True)
+    for camera in cameras:
+        vue_nb += 1
+        path = os.path.split(filepath)[0] + '/html_files/axono_' + str(vue_nb) + '.jpg'
+        render(camera, path)
 
     print('Trying to start Firefox')
 
@@ -118,6 +106,28 @@ def create_html_file(filepath):
     webbrowser.open(filepath)
 
     return {'FINISHED'}
+
+
+def get_cameras():
+    # cameras_in_scene = []
+    # for obj in bpy.context.scene.objects:
+    #     if obj.type == 'CAMERA':
+    #         cameras_in_scene.append(obj)
+
+    return [obj for obj in bpy.context.scene.objects if obj.type == 'CAMERA']
+
+
+def render(camera, filepath: str):
+    # TODO: Re-enable this line
+    # bpy.context.scene.render.alpha_mode = 'TRANSPARENT'
+
+    bpy.context.scene.render.image_settings.file_format = 'PNG'
+    bpy.context.scene.render.image_settings.color_mode = 'RGBA'
+    bpy.context.scene.render.resolution_x = 1024
+    bpy.context.scene.render.resolution_y = 768
+    bpy.context.scene.render.filepath = filepath
+    bpy.context.scene.camera = camera
+    bpy.ops.render.opengl(write_still=True)
 
 
 def create_pace_file(filepath):
@@ -214,6 +224,14 @@ def create_pace_file(filepath):
             print("ADD " + str(material_proj) + " with area of " + str(area_material))
             xml.addFloorInstance(material_proj, area_material, '')
 
+    render_path = os.path.split(filepath)[0] + '/temp/pace_3D_view.png'
+    render(get_cameras()[0], render_path)
+
+    # TODO: Main picture with elevation image path.
+    # Needs pacetools update
+    # xml.setPicture(bpy.context.scene.atk_elevation, 'init')
+
+    xml.setPicture(render_path, 'init')
     xml.setHeatedVolume(Save.building.eval_volume())
     xml.writePaceFile(filepath)
 
