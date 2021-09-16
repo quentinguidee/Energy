@@ -131,10 +131,9 @@ def render(camera, filepath: str):
 
 
 def create_pace_file(filepath):
-    template = os.path.join('libraries/pacetools/paceTemplates', 'audit_vierge.xml')
-
+    template = os.path.expanduser('~') + info.INSTALL_PATH + '/paceTemplates/audit_vierge.xml'
     xml = PACEXML(template)
-    xml.setTemplatesDir('libraries/pacetools/paceTemplates')
+    xml.setTemplatesDir(os.path.expanduser('~') + info.INSTALL_PATH + '/paceTemplates')
 
     from .energyreport.energy_report import Save
 

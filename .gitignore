@@ -5,3 +5,4 @@ __pycache__
 venv
 .blender/ArToKi/artoki_peb_temp.xml
 .blender/ArToKi/artoki_peb_html_temp.html
+.blender/ArToKi/paceTemplates
