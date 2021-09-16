@@ -162,7 +162,7 @@ def create_pace_file(filepath):
                     area_material += roof.area
                     angle = roof.angle
                     orientation = roof.orientation
-                   
+
             roof_id = xml.addRoofPlane(orientation.name, math.degrees(angle), area_material)
             xml.addRoofInstance(roof_id, material_proj, area_material, '')
 
@@ -214,6 +214,7 @@ def create_pace_file(filepath):
             print("ADD " + str(material_proj) + " with area of " + str(area_material))
             xml.addFloorInstance(material_proj, area_material, '')
 
+    xml.setHeatedVolume(Save.building.eval_volume())
     xml.writePaceFile(filepath)
 
     return {'FINISHED'}
