@@ -29,7 +29,7 @@ jobs:
       - name: Create archive
         run: |
           mkdir energy
-          cp -a . energy
+          rsync -av --exclude="energy" . energy
           zip -r energy.zip energy -x '*.git*'
       - name: Create Release
         id: create_release
