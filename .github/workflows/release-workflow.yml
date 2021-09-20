@@ -17,10 +17,6 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
-      - name: Install Python dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install git-archive-all
       - name: Get version
         id: get_version
         run: |
@@ -32,7 +28,7 @@ jobs:
           cp -aR libraries/pacetools/paceTemplates .blender/ArToKi/paceTemplates
       - name: Create archive
         run: |
-          zip -r energy.zip .
+          zip -r energy.zip . -x '*.git*'
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v1
