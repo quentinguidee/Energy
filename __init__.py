@@ -4,7 +4,7 @@ import importlib
 bl_info = {
     "name": "ArToKi-Energy",
     "author": "Thierry Maes (tmaes)",
-    "version": (0, 2, 3),
+    "version": (0, 2, 4),
     "blender": (2, 90, 0),
     "api": 56533,
     "location": "Properties > Material > ArToKi EPB",
