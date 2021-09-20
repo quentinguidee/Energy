@@ -32,7 +32,7 @@ jobs:
           cp -aR libraries/pacetools/paceTemplates .blender/ArToKi/paceTemplates
       - name: Create archive
         run: |
-          git-archive-all energy.zip
+          git-archive-all energy.zip --include=.blender/ArToKi/paceTemplates
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v1
