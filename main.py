@@ -6,6 +6,7 @@ from .energyreport.energy_report import ARTOKI_PT_EnergyReport
 from .energyreport.operators.export_ot_html import EXPORT_OT_HTML
 from .energyreport.operators.export_ot_xml import EXPORT_OT_XML
 from .energyreport.operators.export_ot_pace import EXPORT_OT_PACE
+from .energyreport.operators.export_ot_pace import IMPORT_OT_MAP
 
 from .energydeperditions.energy_deperditions import ARTOKI_PT_EnergyDeperditions
 
@@ -17,6 +18,7 @@ classes = (
     EXPORT_OT_XML,
     EXPORT_OT_HTML,
     EXPORT_OT_PACE,
+    IMPORT_OT_MAP,
     ARTOKI_PT_create_material,
     ARTOKI_OT_add_basic
 )
