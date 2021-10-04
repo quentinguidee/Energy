@@ -73,6 +73,8 @@ class ARTOKI_PT_EnergyReport(Panel):
         for prop in self.properties:
             row = self.layout.row()
             row.prop(bpy.context.scene, prop[0], text=prop[1])
+        row = self.layout.row()
+        row.operator("import.map", text="Import and scale aerial view")
 
     def draw_subtitle(self, text):
         self.layout.separator()
