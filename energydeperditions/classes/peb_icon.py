@@ -2,7 +2,7 @@ import os
 from enum import Enum
 
 import bpy
-from ... import info
+from ...functions import get_path
 
 
 class PEBIcon(Enum):
@@ -17,7 +17,7 @@ class PEBIcon(Enum):
     G = "G"
 
     def get_path(self):
-        directory = os.path.expanduser('~') + info.INSTALL_PATH + '/labels'
+        directory = get_path("labels")
         return os.path.join(directory, self.value + ".png")
 
     def load(self):

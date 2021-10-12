@@ -1,5 +1,6 @@
 import math
 import os
+import bpy
 
 from typing import List
 
@@ -16,8 +17,7 @@ from .classes.orientation import Orientation
 
 from ..classes.face_type import FaceType
 from ..functions import get_path, generate_file, handle_xml, handle_html
-
-import bpy
+from ..preferences import Preferences
 
 
 class ARTOKI_PT_EnergyReport(Panel):
@@ -346,6 +346,16 @@ class ARTOKI_PT_EnergyReport(Panel):
                     sub_row.label(text=material_slot.name[0:4] + "  " + material_slot.name[5:] + " : ")
                     sub_row.label(text=str(round(xml_material_area, 2)) + " m\xb2")
 
+    def draw_processor_info(self, context):
+        layout = self.layout
+        properties = context.preferences.addons["energy"].preferences
+
+        first_name = properties["atk_processor_first_name"]
+        last_name = properties["atk_processor_last_name"]
+
+        layout.row().label(text="Will be signed as " + first_name + " " + last_name + ".", icon="USER")
+        layout.row().operator("object.open_preferences", text="Edit signature")
+
     def draw_exports(self):
         row = self.layout.row()
         row.operator("export.xml", text="Save")
@@ -390,6 +400,10 @@ class ARTOKI_PT_EnergyReport(Panel):
 
         self.draw_subtitle(text="Summary")
         self.draw_summary(building.faces)
+
+        self.draw_processor_info(context)
+
+        self.layout.separator()
 
         self.draw_exports()
         self.draw_credits()

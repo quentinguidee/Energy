@@ -7,10 +7,13 @@ from .energyreport.operators.export_ot_html import EXPORT_OT_HTML
 from .energyreport.operators.export_ot_xml import EXPORT_OT_XML
 from .energyreport.operators.export_ot_pace import EXPORT_OT_PACE
 from .energyreport.operators.import_ot_map import IMPORT_OT_MAP
+from .energyreport.operators.object_ot_open_preferences import OBJECT_OT_OpenPreferences
 
 from .energydeperditions.energy_deperditions import ARTOKI_PT_EnergyDeperditions
 
 from .mana.mana import ARTOKI_PT_create_material, ARTOKI_OT_add_basic
+
+from .preferences import Preferences
 
 classes = (
     ARTOKI_PT_EnergyReport,
@@ -20,7 +23,9 @@ classes = (
     EXPORT_OT_PACE,
     IMPORT_OT_MAP,
     ARTOKI_PT_create_material,
-    ARTOKI_OT_add_basic
+    ARTOKI_OT_add_basic,
+    OBJECT_OT_OpenPreferences,
+    Preferences
 )
 
 

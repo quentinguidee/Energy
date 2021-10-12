@@ -17,6 +17,8 @@ from .energyreport.classes.face import Face
 
 from .classes.face_type import FaceType
 
+from .utils.files import get_path
+
 from .libraries.pacetools.pacetools import PACEXML
 
 
@@ -131,9 +133,22 @@ def render(camera, filepath: str):
 
 
 def create_pace_file(filepath):
-    template = os.path.expanduser('~') + info.INSTALL_PATH + '/paceTemplates/audit_vierge.xml'
+    template = get_path('paceTemplates/audit_vierge.xml')
     xml = PACEXML(template)
-    xml.setTemplatesDir(os.path.expanduser('~') + info.INSTALL_PATH + '/paceTemplates')
+    xml.setTemplatesDir(get_path('paceTemplates'))
+
+    properties = bpy.context.preferences.addons["energy"].preferences
+    xml.setProcessorInfo(
+        number=properties["atk_processor_number"],
+        firstName=properties["atk_processor_first_name"],
+        lastName=properties["atk_processor_last_name"],
+        street=properties["atk_processor_street"],
+        houseNumber=properties["atk_processor_street"],
+        zipCode=properties["atk_processor_zip_code"],
+        city=properties["atk_processor_city"],
+        country=properties["atk_processor_country"],
+        email=properties["atk_processor_email"]
+    )
 
     from .energyreport.energy_report import Save
 
@@ -235,10 +250,6 @@ def create_pace_file(filepath):
     xml.writePaceFile(filepath)
 
     return {'FINISHED'}
-
-
-def get_path(file_name: str):
-    return os.path.expanduser('~') + info.INSTALL_PATH + '/' + file_name
 
 
 def generate_file(tree, file):
