@@ -1,4 +1,4 @@
-VERSION = (0, 2, 9)
+VERSION = (0, 2, 10)
 INSTALL_PATH = '/.blender/ArToKi'
 
 DOCUMENT_AUTHOR = 'Maes Thierry'
