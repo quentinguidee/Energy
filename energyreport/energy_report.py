@@ -350,10 +350,10 @@ class ARTOKI_PT_EnergyReport(Panel):
         layout = self.layout
         properties = context.preferences.addons["energy"].preferences
 
-        first_name = properties["atk_processor_first_name"]
         last_name = properties["atk_processor_last_name"]
+        first_name = properties["atk_processor_first_name"]
 
-        layout.row().label(text="Will be signed as " + first_name + " " + last_name + ".", icon="USER")
+        layout.row().label(text="Will be signed as " + last_name + " " + first_name + ".", icon="USER")
         layout.row().operator("object.open_preferences", text="Edit signature")
 
     def draw_exports(self):
