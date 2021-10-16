@@ -6,7 +6,7 @@ from .classes.environment_type import EnvironmentType
 from .classes.material_type import MaterialType
 from .classes.peb_icon import PEBIcon
 
-from ..classes.face_type import FaceType
+from ..utils.face_type import FaceType
 
 
 class ARTOKI_PT_EnergyDeperditions(bpy.types.Panel):

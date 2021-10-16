@@ -10,7 +10,7 @@ from ...functions import face_projection_area
 from .face import Face
 from .models.element_type import ElementType
 from .models.element_type_factory import ElementTypeFactory
-from ...classes.face_type import FaceType
+from ...utils.face_type import FaceType
 from .orientation import Orientation
 
 

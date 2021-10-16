@@ -15,7 +15,7 @@ from .energyreport.classes.color import Color
 from .energyreport.classes.orientation import Orientation
 from .energyreport.classes.face import Face
 
-from .classes.face_type import FaceType
+from .utils.face_type import FaceType
 
 from .utils.files import get_path
 

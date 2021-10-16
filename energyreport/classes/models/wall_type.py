@@ -1,6 +1,6 @@
 from .element_type import ElementType
 
-from ....classes.face_type import FaceType
+from ....utils.face_type import FaceType
 
 
 class WallType(ElementType):
