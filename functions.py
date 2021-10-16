@@ -2,8 +2,6 @@ import datetime
 import os
 import bpy
 import math
-import platform
-import webbrowser
 
 from typing import List
 
@@ -11,11 +9,12 @@ from xml.etree.ElementTree import ElementTree, SubElement
 
 from . import info
 
+from .utils.browser import open_in_browser
 from .utils.color import Color
-from .utils.orientation import Orientation
 from .utils.face import Face
 from .utils.face_type import FaceType
 from .utils.files import get_path
+from .utils.orientation import Orientation
 
 from .libraries.pacetools.pacetools import PACEXML
 
@@ -95,15 +94,7 @@ def create_html_file(filepath):
         path = os.path.split(filepath)[0] + '/html_files/axono_' + str(vue_nb) + '.jpg'
         render(camera, path)
 
-    print('Trying to start Firefox')
-
-    # windows os.startfile(filepath)
-    # subprocess.call(('xdg-open', filepath))
-
-    if platform.system() == 'Darwin':
-        filepath = 'file:///' + filepath
-
-    webbrowser.open(filepath)
+    open_in_browser(filepath)
 
     return {'FINISHED'}
 
