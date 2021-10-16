@@ -2,13 +2,15 @@ import math
 
 import bpy
 
+from bpy.types import Panel
+
 from ..utils.environment_type import EnvironmentType
 from ..utils.material_type import MaterialType
 from ..utils.peb_icon import PEBIcon
 from ..utils.face_type import FaceType
 
 
-class ARTOKI_PT_EnergyDeperditions(bpy.types.Panel):
+class ARTOKI_PT_EnergyDeperditions(Panel):
     bl_label = "ArToKi - Energy - Deperditions (alpha)"
     bl_space_type = "PROPERTIES"
     bl_region_type = "WINDOW"

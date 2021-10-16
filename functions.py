@@ -118,7 +118,7 @@ def create_pace_file(filepath):
         email=properties["atk_processor_email"]
     )
 
-    from .panels.energy_report import Save
+    from .panels.report import Save
 
     for element_type in Save.building.element_types:
         xml.addConstructionElement(

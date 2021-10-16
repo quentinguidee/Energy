@@ -1,8 +1,7 @@
 import bpy
-import random
-import mathutils
 
 from bpy.types import Panel
+from bpy.props import EnumProperty, StringProperty
 
 
 class ARTOKI_PT_create_material(Panel):
@@ -12,18 +11,18 @@ class ARTOKI_PT_create_material(Panel):
     bl_region_type = 'UI'
     bl_category = 'ArToKi'
 
-    bpy.types.Scene.atk_surface_type = bpy.props.EnumProperty(
+    bpy.types.Scene.atk_surface_type = EnumProperty(
         items=[
             ('M', 'M', 'Murs'),
             ('T', 'T', 'Toitures'),
             ('S', 'S', 'Sols')
         ],
         name="Surface type",
-        description="Changes the first lettre of material name",
+        description="Changes the first letter of the material name",
         default="M"
     )
 
-    bpy.types.Scene.atk_surface_nr = bpy.props.EnumProperty(
+    bpy.types.Scene.atk_surface_nr = EnumProperty(
         items=[
             ('01', '01', '01'),
             ('02', '02', '02'),
@@ -47,11 +46,11 @@ class ARTOKI_PT_create_material(Panel):
             ('20', '20', '20')
         ],
         name="Surface type",
-        description="Changes the first lettre of material name",
+        description="Changes the first letter of the material name",
         default="01"
     )
 
-    bpy.types.Scene.atk_mat_name_preset = bpy.props.EnumProperty(
+    bpy.types.Scene.atk_mat_name_preset = EnumProperty(
         items=[
             ('', '', ''),
             ('Façade Avant', 'Façade Avant', 'Façade Avant'),
@@ -81,20 +80,19 @@ class ARTOKI_PT_create_material(Panel):
             ('Sol sur Cave', 'Sol sur Cave', 'Sol sur Vave')
         ],
         name="Surface type",
-        description="Changes the first lettre of material name",
+        description="Changes the first letter of the material name",
         default=""
     )
 
-    bpy.types.Scene.atk_mat_name = bpy.props.StringProperty(name="Material name", description="Nom", default="")
+    bpy.types.Scene.atk_mat_name = StringProperty(name="Material name", description="Nom", default="")
 
     def draw(self, context):
         layout = self.layout
         scene = bpy.context.scene
-        obj = context.object
 
         row = layout.row()
         row.label(text="Change material name:")
-        row = layout.row()
+        layout.row()
         row = layout.row(align=True)
         sub = row.row()
 
@@ -104,35 +102,6 @@ class ARTOKI_PT_create_material(Panel):
         sub.scale_x = 2.0
         sub.prop(scene, 'atk_mat_name_preset', text="")
         sub.prop(scene, 'atk_mat_name', text="")
-        row = layout.row()
 
+        layout.row()
         layout.operator("artoki.create_material")
-
-
-class ARTOKI_OT_add_basic(bpy.types.Operator):
-    bl_label = "Create Material"
-    bl_idname = "artoki.create_material"
-
-    def execute(self, context):
-        scene = bpy.context.scene
-
-        Material_Name = ""
-        Material_Name = Material_Name + str(scene.atk_surface_type + "-" + scene.atk_surface_nr + " ")
-        if scene.atk_mat_name_preset != "":
-            Material_Name = Material_Name + str(scene.atk_mat_name_preset)
-        else:
-            if scene.atk_mat_name != "":
-                Material_Name = Material_Name + str(scene.atk_mat_name)
-
-        material_basic = bpy.data.materials.new(name=Material_Name)
-
-        col = mathutils.Color()
-        col.hsv = (round(random.uniform(0, 1), 3)), 1, (round(random.uniform(0, 1), 3))
-        material_basic.diffuse_color = col[0], col[1], col[2], 1
-
-        bpy.ops.object.material_slot_add()
-        bpy.context.object.active_material = material_basic
-        bpy.ops.object.material_slot_assign()
-        scene.atk_surface_nr = str(int(scene.atk_surface_nr) + 1).zfill(2)
-
-        return {'FINISHED'}
