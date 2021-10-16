@@ -10,6 +10,7 @@ from xml.etree.ElementTree import ElementTree, SubElement
 from . import info
 
 from .utils.browser import open_in_browser
+from .utils.cameras import get_all_cameras, render
 from .utils.color import Color
 from .utils.face import Face
 from .utils.face_type import FaceType
@@ -86,7 +87,7 @@ def create_html_file(filepath):
     shutil.copy2(bpy.context.scene.atk_aerial, os.path.split(filepath)[0] + '/html_files/aerial.jpg')
     shutil.copy2(bpy.context.scene.atk_elevation, os.path.split(filepath)[0] + '/html_files/elevation.jpg')
 
-    cameras = get_cameras()
+    cameras = get_all_cameras()
 
     vue_nb = 0
     for camera in cameras:
@@ -97,28 +98,6 @@ def create_html_file(filepath):
     open_in_browser(filepath)
 
     return {'FINISHED'}
-
-
-def get_cameras():
-    # cameras_in_scene = []
-    # for obj in bpy.context.scene.objects:
-    #     if obj.type == 'CAMERA':
-    #         cameras_in_scene.append(obj)
-
-    return [obj for obj in bpy.context.scene.objects if obj.type == 'CAMERA']
-
-
-def render(camera, filepath: str):
-    # TODO: Re-enable this line
-    # bpy.context.scene.render.alpha_mode = 'TRANSPARENT'
-
-    bpy.context.scene.render.image_settings.file_format = 'PNG'
-    bpy.context.scene.render.image_settings.color_mode = 'RGBA'
-    bpy.context.scene.render.resolution_x = 1024
-    bpy.context.scene.render.resolution_y = 768
-    bpy.context.scene.render.filepath = filepath
-    bpy.context.scene.camera = camera
-    bpy.ops.render.opengl(write_still=True)
 
 
 def create_pace_file(filepath):
@@ -228,7 +207,7 @@ def create_pace_file(filepath):
             xml.addFloorInstance(material_proj, area_material, '')
 
     render_path = os.path.split(filepath)[0] + '/temp/pace_3D_view.png'
-    render(get_cameras()[0], render_path)
+    render(get_all_cameras()[0], render_path)
 
     # TODO: Main picture with elevation image path.
     # Needs pacetools update
