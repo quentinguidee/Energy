@@ -1,8 +1,9 @@
 import os
+import bpy
+
 from enum import Enum
 
-import bpy
-from ...functions import get_path
+from ..functions import get_path
 
 
 class PEBIcon(Enum):

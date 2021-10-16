@@ -1,6 +1,5 @@
 from .element_type import ElementType
-
-from ....utils.face_type import FaceType
+from .face_type import FaceType
 
 
 class FloorType(ElementType):

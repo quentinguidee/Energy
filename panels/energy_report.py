@@ -9,13 +9,13 @@ from xml.etree.ElementTree import SubElement
 from bpy.props import StringProperty, EnumProperty, BoolProperty
 from bpy.types import Panel
 
-from .classes.save import Save
-from .classes.building import Building
-from .classes.color import Color
-from .classes.face import Face
-from .classes.orientation import Orientation
-
+from ..utils.save import Save
+from ..utils.building import Building
+from ..utils.color import Color
+from ..utils.face import Face
+from ..utils.orientation import Orientation
 from ..utils.face_type import FaceType
+
 from ..functions import get_path, generate_file, handle_xml, handle_html
 
 

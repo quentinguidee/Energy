@@ -1,11 +1,11 @@
-import bpy
+from bpy.types import Operator
 from bpy.props import *
 from bpy_extras.io_utils import ExportHelper
 
-from ...functions import create_html_file
+from ..functions import create_html_file
 
 
-class EXPORT_OT_HTML(bpy.types.Operator, ExportHelper):
+class EXPORT_OT_HTML(Operator, ExportHelper):
     bl_idname = "export.html"
     bl_label = "Export to .html"
 

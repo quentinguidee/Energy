@@ -2,10 +2,9 @@ import math
 
 import bpy
 
-from .classes.environment_type import EnvironmentType
-from .classes.material_type import MaterialType
-from .classes.peb_icon import PEBIcon
-
+from ..utils.environment_type import EnvironmentType
+from ..utils.material_type import MaterialType
+from ..utils.peb_icon import PEBIcon
 from ..utils.face_type import FaceType
 
 

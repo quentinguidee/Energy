@@ -1,4 +1,4 @@
-from ....utils.face_type import FaceType
+from .face_type import FaceType
 
 
 class ElementType:

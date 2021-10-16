@@ -1,14 +1,13 @@
 from .element_type import ElementType
+from .face_type import FaceType
 
-from ....utils.face_type import FaceType
 
-
-class WallType(ElementType):
+class RoofType(ElementType):
     def __init__(self, label: str, description: str):
-        super(WallType, self).__init__(
-            face_type=FaceType.WALL,
+        super(RoofType, self).__init__(
+            face_type=FaceType.ROOF,
             label=label,
             description=description,
             environment='OPEN_AIR',
-            subtype='FULL'
+            subtype='INCLINED'
         )

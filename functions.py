@@ -11,12 +11,10 @@ from xml.etree.ElementTree import ElementTree, SubElement
 
 from . import info
 
-from .energyreport.classes.color import Color
-from .energyreport.classes.orientation import Orientation
-from .energyreport.classes.face import Face
-
+from .utils.color import Color
+from .utils.orientation import Orientation
+from .utils.face import Face
 from .utils.face_type import FaceType
-
 from .utils.files import get_path
 
 from .libraries.pacetools.pacetools import PACEXML
@@ -150,7 +148,7 @@ def create_pace_file(filepath):
         email=properties["atk_processor_email"]
     )
 
-    from .energyreport.energy_report import Save
+    from .panels.energy_report import Save
 
     for element_type in Save.building.element_types:
         xml.addConstructionElement(

@@ -1,9 +1,9 @@
 from .element_type import ElementType
 
-from ...classes.models.floor_type import FloorType
-from ...classes.models.wall_type import WallType
-from ...classes.models.roof_type import RoofType
-from ....utils.face_type import FaceType
+from .floor_type import FloorType
+from .wall_type import WallType
+from .roof_type import RoofType
+from .face_type import FaceType
 
 
 class ElementTypeFactory:

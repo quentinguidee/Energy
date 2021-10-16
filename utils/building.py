@@ -5,12 +5,12 @@ import bpy
 
 from typing import List
 
-from ...functions import face_projection_area
+from ..functions import face_projection_area
 
 from .face import Face
-from .models.element_type import ElementType
-from .models.element_type_factory import ElementTypeFactory
-from ...utils.face_type import FaceType
+from .element_type import ElementType
+from .element_type_factory import ElementTypeFactory
+from .face_type import FaceType
 from .orientation import Orientation
 
 

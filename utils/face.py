@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from .orientation import Orientation
-from ...utils.face_type import FaceType
+from .face_type import FaceType
 
 
 @dataclass
