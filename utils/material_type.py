@@ -21,11 +21,7 @@ class MaterialType(Enum):
 
     @staticmethod
     def as_blender_enum():
-        blender_enum = []
-        for material in MaterialType:
-            blender_enum.append(material.as_blender_tuple())
-
-        return blender_enum
+        return [material.as_blender_tuple() for material in MaterialType]
 
     @staticmethod
     def get_type_of(material_type_name: str) -> 'MaterialType':
