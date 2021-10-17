@@ -16,7 +16,7 @@ from ..utils.face import Face
 from ..utils.orientation import Orientation
 from ..utils.face_type import FaceType
 
-from ..functions import get_path, generate_file, handle_xml, handle_html
+from ..functions import get_path, generate_file, handle_html
 
 
 class ARTOKI_PT_EnergyReport(Panel):
@@ -90,7 +90,7 @@ class ARTOKI_PT_EnergyReport(Panel):
         sub_row.label(text="Volume of the enveloppe:   " + str(round(volume, 2)) + " m\xb3", icon='VIEW3D')
         sub_row.label(text="Surface of the enveloppe:   " + str(round(area, 2)) + " m\xb2", icon='MESH_GRID')
 
-    def draw_walls(self, walls: List[Face], xml_projections, html_projections):
+    def draw_walls(self, walls: List[Face], html_projections):
         projection_id = 0
         face_type_id = FaceType.WALL.get_id()
 
@@ -119,10 +119,6 @@ class ARTOKI_PT_EnergyReport(Panel):
                 # on peut refaire le moteur apd ici...
                 sub_row = column.row(align=True)
                 sub_row.separator()
-                projection = SubElement(xml_projections[face_type_id], 'WallProjection',
-                                        Id=str(projection_id),
-                                        Orientation=str(orientation.name),
-                                        Surf=str(round(area_projection, 2)))
 
                 projection_id += 1
 
@@ -139,8 +135,6 @@ class ARTOKI_PT_EnergyReport(Panel):
 
                     sub_row.label(text=5 * ' ' + material_proj + ' : ' + str(round(material_area, 2)) + " m\xb2",
                                   icon='MOD_BUILD')
-
-                    SubElement(projection, 'WallPart', id=str(material_proj), Surf=str(round(material_area, 2)))
 
                 projection_html_1 = SubElement(html_projections[face_type_id][0][1 if projection_id <= 4 else 2], 'td')
                 projection_html_1_table = SubElement(projection_html_1, 'table')
@@ -177,7 +171,7 @@ class ARTOKI_PT_EnergyReport(Panel):
                     td_3.attrib["class"] = "mat_surf"
                     td_3.text = str(round(material_area, 2)) + " m²"
 
-    def draw_floors(self, floors: List[Face], xml_projections, html_projections, tree_html):
+    def draw_floors(self, floors: List[Face], html_projections, tree_html):
         row = self.layout.row()
         row.alignment = 'EXPAND'
 
@@ -194,7 +188,6 @@ class ARTOKI_PT_EnergyReport(Panel):
             sub_row = column.row(align=True)
             sub_row.separator()
 
-            xml_projections[face_type_id].attrib['Surf'] = str(round(area, 2))
             html_projections[face_type_id].attrib['Surf'] = str(round(area, 2))
 
             caption = tree_html.find(".//table[@id='floors_values']/tbody/caption")
@@ -232,7 +225,7 @@ class ARTOKI_PT_EnergyReport(Panel):
                 td_3.attrib["class"] = "mat_surf"
                 td_3.text = str(round(area_material_vert, 2)) + " m²"
 
-    def draw_roofs(self, roofs: List[Face], xml_projections, html_projections, tree_html):
+    def draw_roofs(self, roofs: List[Face], html_projections, tree_html):
         row = self.layout.row()
         row.alignment = 'EXPAND'
 
@@ -256,7 +249,6 @@ class ARTOKI_PT_EnergyReport(Panel):
             sub_row = column.row(align=True)
             sub_row.separator()
 
-            xml_projections[face_type_id].attrib['Surf'] = str(round(area_projection, 2))
             html_projections[face_type_id].attrib['Surf'] = str(round(area_projection, 2))
 
             caption = tree_html.find(".//table[@id='roofs_values']/tbody/caption")
@@ -285,16 +277,6 @@ class ARTOKI_PT_EnergyReport(Panel):
                 sub_row.label(text='Proj. : ' + str(roof_orientation.name))
                 sub_row.label(text='Angle : ' + str(round(math.fabs(math.degrees(roof_angle)), 1)) + " \xb0")
                 sub_row.label(text='Proj. surf. : ' + str(round(area_projection_material_roof, 2)) + " m\xb2")
-
-                SubElement(
-                    xml_projections[face_type_id],
-                    'RoofPart',
-                    Angle=str(round(math.fabs(math.degrees(roof_angle)), 1)),
-                    Id=str(material_proj),
-                    Orientation=str(roof_orientation.name),
-                    Surf=str(round(area_material_roof, 2)),
-                    SurfProj=str(round(area_projection_material_roof, 2))
-                )
 
                 tr = SubElement(html_projections[face_type_id], 'tr')
                 td_1 = SubElement(tr, 'td')
@@ -334,16 +316,15 @@ class ARTOKI_PT_EnergyReport(Panel):
             sub_row.label(text=face_type.get_name(), icon=face_type.get_icon())
 
             for material_slot in bpy.context.object.material_slots:
-                xml_material_area = 0
-
+                material_area = 0
                 for face in faces:
                     if material_slot.name[0:4] == face.material:
-                        xml_material_area += face.area
+                        material_area += face.area
 
                 if material_slot.name[0] in face_type.get_letters():
                     sub_row = column.row(align=True)
                     sub_row.label(text=material_slot.name[0:4] + "  " + material_slot.name[5:] + " : ")
-                    sub_row.label(text=str(round(xml_material_area, 2)) + " m\xb2")
+                    sub_row.label(text=str(round(material_area, 2)) + " m\xb2")
 
     def draw_processor_info(self, context):
         layout = self.layout
@@ -357,9 +338,8 @@ class ARTOKI_PT_EnergyReport(Panel):
 
     def draw_exports(self):
         row = self.layout.row()
-        row.operator("export.xml", text="Save")
         row.operator("export.html", text="Export to pdf...")
-        row.operator("export.pace", text="Pace Export")
+        row.operator("export.pace", text="Export to Pace...")
 
     def draw_credits(self):
         # Only line to change for lite version for Windows
@@ -381,7 +361,6 @@ class ARTOKI_PT_EnergyReport(Panel):
     def draw(self, context):
         building = Building(context.object)
 
-        xml_projections, xml_tree, xml_temp_file = handle_xml(building)
         html_projections, html_tree, html_temp_file = handle_html(building)
 
         self.draw_properties()
@@ -389,13 +368,13 @@ class ARTOKI_PT_EnergyReport(Panel):
         self.draw_volume_and_area(building.eval_volume(), building.eval_area())
 
         self.draw_subtitle(text=FaceType.WALL.get_name())
-        self.draw_walls(building.get_faces(FaceType.WALL), xml_projections, html_projections)
+        self.draw_walls(building.get_faces(FaceType.WALL), html_projections)
 
         self.draw_subtitle(text=FaceType.FLOOR.get_name())
-        self.draw_floors(building.get_faces(FaceType.FLOOR), xml_projections, html_projections, html_tree)
+        self.draw_floors(building.get_faces(FaceType.FLOOR), html_projections, html_tree)
 
         self.draw_subtitle(text=FaceType.ROOF.get_name())
-        self.draw_roofs(building.get_faces(FaceType.ROOF), xml_projections, html_projections, html_tree)
+        self.draw_roofs(building.get_faces(FaceType.ROOF), html_projections, html_tree)
 
         self.draw_subtitle(text="Summary")
         self.draw_summary(building.faces)
@@ -409,5 +388,4 @@ class ARTOKI_PT_EnergyReport(Panel):
 
         self.save(building)
 
-        generate_file(xml_tree, xml_temp_file)
         generate_file(html_tree, html_temp_file)

@@ -63,14 +63,6 @@ def face_projection_area(face, obj):
     return area
 
 
-def create_xml_file(filepath):
-    print("running write_some_data...")
-    import shutil
-    temp_file = get_path('artoki_peb_temp.xml')
-    shutil.copyfile(temp_file, filepath)
-    return {'FINISHED'}
-
-
 def create_html_file(filepath):
     print("running write_some_data...")
     import shutil
@@ -258,11 +250,11 @@ def handle_html(building):
     ]
 
     for material_slot in bpy.context.object.material_slots:
-        xml_surf_mat = 0
+        material_surface = 0
 
         for face in building.faces:
             if material_slot.name[0:4] == face.material:
-                xml_surf_mat += face.area
+                material_surface += face.area
 
         face_type = FaceType.get_face_type(material_slot.name[0])
         color = Color.from_8_bits_color(material_slot.material.diffuse_color)
@@ -280,7 +272,7 @@ def handle_html(building):
         td_3.text = material_slot.name[5:]
         td_4 = SubElement(tr, 'td')
         td_4.attrib["class"] = "mat_surf"
-        td_4.text = str(round(xml_surf_mat, 2)) + " m²"
+        td_4.text = str(round(material_surface, 2)) + " m²"
 
     html_volume = tree.find(".//td[@id='general_volume']")
     html_volume.text = "Volume total: " + str(round(building.eval_volume(), 2)) + " m³"
@@ -292,47 +284,5 @@ def handle_html(building):
         tree.find(".//table[@id='floors_projection']"),
         tree.find(".//table[@id='roofs_projection']"),
     ]
-
-    return projections, tree, temp_file
-
-
-def handle_xml(building):
-    scene = bpy.context.scene
-    date = datetime.datetime.now()
-
-    base_file = get_path('artoki_peb_BASE.xml')
-    temp_file = get_path('artoki_peb_temp.xml')
-    tree = ElementTree(file=base_file)
-
-    root = tree.getroot()
-    root.attrib['Version'] = info.VERSION
-
-    project = tree.find('Project')
-    project.attrib['Name'] = bpy.context.scene.name
-    project.attrib['Date'] = date.strftime("%Y-%m-%d %H:%M")
-
-    address1 = tree.find('Project/Address1')
-    address1.text = str(scene.atk_address1)
-    address2 = tree.find('Project/Address2')
-    address2.text = str(scene.atk_address2)
-
-    materials = [
-        tree.find('Project/Walls'),
-        tree.find('Project/Floors'),
-        tree.find('Project/Roofs'),
-    ]
-
-    xml_volume = tree.find('Project/Volume')
-    xml_volume.text = str(round(building.eval_volume(), 2))
-    xml_area = tree.find('Project/Surf_tot')
-    xml_area.text = str(round(building.eval_area(), 2))
-
-    projections = [
-        tree.find('Project/WallProjections'),
-        tree.find('Project/FloorProjections'),
-        tree.find('Project/RoofProjections'),
-    ]
-
-    tree.write(temp_file, encoding="UTF-8")
 
     return projections, tree, temp_file
