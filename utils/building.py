@@ -2,7 +2,7 @@ import math
 import bmesh
 import bpy
 
-from typing import Dict, List, TypedDict
+from typing import Dict, List, Tuple, TypedDict
 from xml.etree.ElementTree import SubElement
 
 from .calculation import eval_projected_area
@@ -90,15 +90,16 @@ class WallsGroup(TypedDict):
 def get_walls_grouped_by_orientation(walls: List[Face]) -> List[WallsGroup]:
     """
     :param walls: Walls to group
-    :return: A dictionary formatted like this:
-    {
+    :return: A list formatted like this:
+    [
+        "orientation": Orientation.N
         "faces": [face1, face2...],
         "projected_area": 12.3,
-        "materials": {
-            "M-01": { area: 2 },
+        "materials": [
+            { "name": "M-01", "area": 2 },
             ...
-        }
-    }
+        ]
+    ]
     """
     walls_grouped: List[WallsGroup] = []
 
@@ -140,7 +141,38 @@ def get_walls_grouped_by_orientation(walls: List[Face]) -> List[WallsGroup]:
     return walls_grouped
 
 
-def add_walls_to_html(html_projections, walls):
+def get_all_floors_materials(floors: List[Face]) -> Tuple[float, List[Material]]:
+    """
+    :param floors:
+    :return: Tuple with area + list of materials.
+    """
+    total_area = sum([floor.projection_area for floor in floors])
+    if total_area == 0:
+        return total_area, []
+
+    material_names: List[str] = []
+    materials: List[Material] = []
+
+    for floor in floors:
+        if material_names.count(str(floor.material)) == 0:
+            material_names.append(floor.material)
+
+    for material in sorted(material_names):
+        area = 0
+        for floor in floors:
+            if floor.material == material:
+                area += floor.projection_area
+
+        if area != 0:
+            materials.append({
+                'name': material,
+                'area': area
+            })
+
+    return total_area, materials
+
+
+def add_walls_to_html(walls, html_projections):
     face_type_id = FaceType.WALL.get_id()
     walls_grouped_by_orientation = get_walls_grouped_by_orientation(walls)
 
@@ -180,3 +212,37 @@ def add_walls_to_html(html_projections, walls):
             td_3 = SubElement(tr, 'td')
             td_3.attrib["class"] = "mat_surf"
             td_3.text = str(round(area, 2)) + " m²"
+
+
+def add_floors_to_html(floors, html_projections, html_tree):
+    face_type_id = FaceType.FLOOR.get_id()
+    total_area, materials = get_all_floors_materials(floors)
+    total_area = str(round(total_area, 2))
+
+    html_projections[face_type_id].attrib['Surf'] = total_area
+
+    caption = html_tree.find(".//table[@id='floors_values']/tbody/caption")
+    caption.text = 'Projection Sols: ' + total_area + ' m²'
+
+    for material in materials:
+        name = material['name']
+        area = material['area']
+        area = str(round(area, 2))
+
+        tr = SubElement(html_projections[face_type_id][0], 'tr')
+        td_1 = SubElement(tr, 'td')
+        td_1.attrib["class"] = "mat_color"
+
+        color = Color()
+        for material_slot in bpy.context.object.material_slots:
+            if material_slot.name[0:4] == material:
+                color = Color.from_8_bits_color(material_slot.material.diffuse_color)
+
+        td_1.attrib["style"] = "color:" + str(color)
+        td_1.text = "\u25A0"
+        td_2 = SubElement(tr, 'td')
+        td_2.attrib["class"] = "mat_index"
+        td_2.text = name
+        td_3 = SubElement(tr, 'td')
+        td_3.attrib["class"] = "mat_surf"
+        td_3.text = area + " m²"

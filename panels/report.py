@@ -9,7 +9,8 @@ from xml.etree.ElementTree import SubElement
 from bpy.props import StringProperty, EnumProperty, BoolProperty
 from bpy.types import Panel
 
-from ..utils.building import Building, add_walls_to_html, get_walls_grouped_by_orientation
+from ..utils.building import Building, add_walls_to_html, add_floors_to_html, get_all_floors_materials, \
+    get_walls_grouped_by_orientation
 from ..utils.color import Color
 from ..utils.exports import write_tree_in_file, handle_html
 from ..utils.face import Face
@@ -119,59 +120,30 @@ class ARTOKI_PT_EnergyReport(Panel):
                 sub_row = column.row(align=True)
                 sub_row.label(text=5 * ' ' + name + ' : ' + str(round(area, 2)) + " m\xb2", icon='MOD_BUILD')
 
-    def draw_floors(self, floors: List[Face], html_projections, tree_html):
+    def draw_floors(self, floors: List[Face]):
+        total_area, materials = get_all_floors_materials(floors)
+        total_area = str(round(total_area, 2))
+
         row = self.layout.row()
         row.alignment = 'EXPAND'
 
         box = row.box()
         column = box.column()
 
-        area = sum([floor.projection_area for floor in floors])
-        mat_vert = []
-        face_type_id = FaceType.FLOOR.get_id()
+        if total_area == 0:
+            return
 
-        if area != 0:
+        sub_row = column.row(align=True)
+        sub_row.label(text="Floors Projection     Surface : " + total_area + " m\xb2", icon="TEXTURE")
+        sub_row = column.row(align=True)
+        sub_row.separator()
+
+        for material in materials:
+            name = material['name']
+            area = material['area']
+
             sub_row = column.row(align=True)
-            sub_row.label(text="Floors Projection     Surface : " + str(round(area, 2)) + " m\xb2", icon="TEXTURE")
-            sub_row = column.row(align=True)
-            sub_row.separator()
-
-            html_projections[face_type_id].attrib['Surf'] = str(round(area, 2))
-
-            caption = tree_html.find(".//table[@id='floors_values']/tbody/caption")
-            caption.text = 'Projection Sols: ' + str(round(area, 2)) + ' m²'
-
-            for floor in floors:
-                if mat_vert.count(str(floor.material)) == 0:
-                    mat_vert.append(floor.material)
-
-            for material_proj in sorted(mat_vert):
-                sub_row = column.row(align=True)
-                area_material_vert = 0
-                for floor in floors:
-                    if floor.material == material_proj:
-                        area_material_vert += floor.projection_area
-
-                sub_row.label(text=5 * ' ' + material_proj + ' : ' + str(round(area_material_vert, 2)) + " m\xb2",
-                              icon="ASSET_MANAGER")
-
-                tr = SubElement(html_projections[face_type_id][0], 'tr')
-                td_1 = SubElement(tr, 'td')
-                td_1.attrib["class"] = "mat_color"
-
-                color = Color()
-                for material_slot in bpy.context.object.material_slots:
-                    if material_slot.name[0:4] == material_proj:
-                        color = Color.from_8_bits_color(material_slot.material.diffuse_color)
-
-                td_1.attrib["style"] = "color:" + str(color)
-                td_1.text = "\u25A0"
-                td_2 = SubElement(tr, 'td')
-                td_2.attrib["class"] = "mat_index"
-                td_2.text = str(material_proj)
-                td_3 = SubElement(tr, 'td')
-                td_3.attrib["class"] = "mat_surf"
-                td_3.text = str(round(area_material_vert, 2)) + " m²"
+            sub_row.label(text=5 * ' ' + name + ' : ' + str(round(area, 2)) + " m\xb2", icon="ASSET_MANAGER")
 
     def draw_roofs(self, roofs: List[Face], html_projections, tree_html):
         row = self.layout.row()
@@ -314,7 +286,8 @@ class ARTOKI_PT_EnergyReport(Panel):
         roofs = building.get_faces(FaceType.ROOF)
 
         html_projections, html_tree, html_temp_file = handle_html(building)
-        add_walls_to_html(html_projections, walls)
+        add_walls_to_html(walls, html_projections)
+        add_floors_to_html(floors, html_projections, html_tree)
 
         self.draw_properties()
 
@@ -324,7 +297,7 @@ class ARTOKI_PT_EnergyReport(Panel):
         self.draw_walls(walls)
 
         self.draw_subtitle(text=FaceType.FLOOR.get_name())
-        self.draw_floors(floors, html_projections, html_tree)
+        self.draw_floors(floors)
 
         self.draw_subtitle(text=FaceType.ROOF.get_name())
         self.draw_roofs(roofs, html_projections, html_tree)
