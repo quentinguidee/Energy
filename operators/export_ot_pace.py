@@ -2,7 +2,7 @@ from bpy.types import Operator
 from bpy.props import StringProperty
 from bpy_extras.io_utils import ExportHelper
 
-from ..functions import create_pace_file
+from ..utils.exports import create_pace_file
 
 
 class EXPORT_OT_PACE(Operator, ExportHelper):

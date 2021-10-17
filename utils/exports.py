@@ -4,63 +4,23 @@ import bpy
 import math
 
 from typing import List
-
 from xml.etree.ElementTree import ElementTree, SubElement
 
-from . import info
+from .. import info
 
-from .utils.browser import open_in_browser
-from .utils.cameras import get_all_cameras, render
-from .utils.color import Color
-from .utils.face import Face
-from .utils.face_type import FaceType
-from .utils.files import get_path
-from .utils.orientation import Orientation
+from .browser import open_in_browser
+from .cameras import get_all_cameras, render
+from .color import Color
+from .face import Face
+from .face_type import FaceType
+from .files import get_path
+from .orientation import Orientation
 
-from .libraries.pacetools.pacetools import PACEXML
+from ..libraries.pacetools.pacetools import PACEXML
 
 
-def face_projection_area(face, obj):
-    """
-    Calculate the z projected surface of a face
-    """
-    area = 0.0
-    transform_matrix = obj.matrix_world
-
-    vertices_count = len(face.vertices)
-    vertices = []
-
-    for i in range(vertices_count):
-        vertex_id = face.vertices[i]
-        vertex = obj.data.vertices[vertex_id]
-        transformed_vertex = transform_matrix @ vertex.co
-        transformed_vertex[2] = 0
-        vertices.append(transformed_vertex)
-
-    if vertices_count == 4:
-        vector0 = vertices[1] - vertices[0]
-        vector1 = vertices[3] - vertices[0]
-
-        n = vector0.cross(vector1)
-
-        area = n.length / 2.0
-
-        vector0 = vertices[3] - vertices[2]
-        vector1 = vertices[1] - vertices[2]
-
-        n = vector0.cross(vector1)
-
-        area += n.length / 2.0
-
-    elif vertices_count == 3:
-        vector0 = vertices[2] - vertices[1]
-        vector1 = vertices[0] - vertices[1]
-
-        n = vector0.cross(vector1)
-
-        area = n.length / 2.0
-
-    return area
+def write_tree_in_file(tree, file):
+    tree.write(file, encoding="UTF-8")
 
 
 def create_html_file(filepath):
@@ -110,7 +70,7 @@ def create_pace_file(filepath):
         email=properties["atk_processor_email"]
     )
 
-    from .panels.report import Save
+    from ..panels.report import Save
 
     for element_type in Save.building.element_types:
         xml.addConstructionElement(
@@ -210,10 +170,6 @@ def create_pace_file(filepath):
     xml.writePaceFile(filepath)
 
     return {'FINISHED'}
-
-
-def generate_file(tree, file):
-    tree.write(file, encoding="UTF-8")
 
 
 def handle_html(building):

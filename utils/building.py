@@ -1,15 +1,13 @@
 import math
-
 import bmesh
 import bpy
 
 from typing import List
 
-from ..functions import face_projection_area
-
-from .face import Face
+from .calculation import eval_projected_area
 from .element_type import ElementType
 from .element_type_factory import ElementTypeFactory
+from .face import Face
 from .face_type import FaceType
 from .orientation import Orientation
 
@@ -34,7 +32,7 @@ class Building:
                 material=bpy.context.object.material_slots[a.material_index].name[0:4],
                 type=FaceType.get_face_type(material_id),
                 angle=angle_roof,
-                projection_area=face_projection_area(a, obj),
+                projection_area=eval_projected_area(a, obj),
                 material_name=bpy.context.object.material_slots[a.material_index].name[5:],
             )
 

@@ -9,14 +9,14 @@ from xml.etree.ElementTree import SubElement
 from bpy.props import StringProperty, EnumProperty, BoolProperty
 from bpy.types import Panel
 
-from ..utils.save import Save
 from ..utils.building import Building
 from ..utils.color import Color
+from ..utils.exports import write_tree_in_file, handle_html
 from ..utils.face import Face
-from ..utils.orientation import Orientation
 from ..utils.face_type import FaceType
-
-from ..functions import get_path, generate_file, handle_html
+from ..utils.files import get_path
+from ..utils.orientation import Orientation
+from ..utils.save import Save
 
 
 class ARTOKI_PT_EnergyReport(Panel):
@@ -388,4 +388,4 @@ class ARTOKI_PT_EnergyReport(Panel):
 
         self.save(building)
 
-        generate_file(html_tree, html_temp_file)
+        write_tree_in_file(html_tree, html_temp_file)

@@ -3,7 +3,7 @@ import bpy
 
 from enum import Enum
 
-from ..functions import get_path
+from .files import get_path
 
 
 class PEBIcon(Enum):
