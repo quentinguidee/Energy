@@ -9,13 +9,12 @@ from xml.etree.ElementTree import SubElement
 from bpy.props import StringProperty, EnumProperty, BoolProperty
 from bpy.types import Panel
 
-from ..utils.building import Building
+from ..utils.building import Building, add_walls_to_html, get_walls_grouped_by_orientation
 from ..utils.color import Color
 from ..utils.exports import write_tree_in_file, handle_html
 from ..utils.face import Face
 from ..utils.face_type import FaceType
 from ..utils.files import get_path
-from ..utils.orientation import Orientation
 from ..utils.save import Save
 
 
@@ -90,86 +89,35 @@ class ARTOKI_PT_EnergyReport(Panel):
         sub_row.label(text="Volume of the enveloppe:   " + str(round(volume, 2)) + " m\xb3", icon='VIEW3D')
         sub_row.label(text="Surface of the enveloppe:   " + str(round(area, 2)) + " m\xb2", icon='MESH_GRID')
 
-    def draw_walls(self, walls: List[Face], html_projections):
-        projection_id = 0
-        face_type_id = FaceType.WALL.get_id()
+    def draw_walls(self, walls: List[Face]):
+        walls_grouped_by_orientation = get_walls_grouped_by_orientation(walls)
 
-        for orientation in Orientation:
-            faces_projections: List[Face] = []
-            materials_projections = []
-            area_projection = 0
+        for walls_group in walls_grouped_by_orientation:
+            row = self.layout.row()
+            row.alignment = 'EXPAND'
 
-            for wall in walls:
-                if wall.orientation == orientation:
-                    faces_projections.append(wall)
-                    area_projection += wall.area
+            box = row.box()
+            column = box.column()
 
-            if area_projection != 0:
-                row = self.layout.row()
-                row.alignment = 'EXPAND'
+            orientation = walls_group['orientation']
+            projected_area = walls_group['projected_area']
+            materials = walls_group['materials']
 
-                box = row.box()
-                column = box.column()
+            sub_row = column.row(align=True)
+            sub_row.label(
+                text=str(orientation.name) + " Projection" + (' ' * 10) + "Surface : " + str(
+                    round(projected_area, 2)) + " m\xb2",
+                icon='CURSOR')
+
+            sub_row = column.row(align=True)
+            sub_row.separator()
+
+            for material in materials:
+                name = material['name']
+                area = material['area']
 
                 sub_row = column.row(align=True)
-                sub_row.label(
-                    text=str(orientation.name) + " Projection          Surface : " + str(
-                        round(area_projection, 2)) + " m\xb2",
-                    icon='CURSOR')
-                # on peut refaire le moteur apd ici...
-                sub_row = column.row(align=True)
-                sub_row.separator()
-
-                projection_id += 1
-
-                for face_projection in faces_projections:
-                    if materials_projections.count(str(face_projection.material)) == 0:
-                        materials_projections.append(face_projection.material)
-
-                for material_proj in sorted(materials_projections):
-                    sub_row = column.row(align=True)
-                    material_area = 0
-                    for face_projection in faces_projections:
-                        if face_projection.material == material_proj:
-                            material_area += face_projection.area
-
-                    sub_row.label(text=5 * ' ' + material_proj + ' : ' + str(round(material_area, 2)) + " m\xb2",
-                                  icon='MOD_BUILD')
-
-                projection_html_1 = SubElement(html_projections[face_type_id][0][1 if projection_id <= 4 else 2], 'td')
-                projection_html_1_table = SubElement(projection_html_1, 'table')
-                projection_html_1_table.attrib["id"] = "walls_projection"
-                tbody = SubElement(projection_html_1_table, 'tbody')
-                caption = SubElement(tbody, 'caption')  # , Orientation=str(p), Surf=str(round(surf_proj,2))
-                caption.text = "Az.: " + str(orientation.name) + " - " + str(round(area_projection, 2)) + " m²"
-
-                for face_projection in faces_projections:
-                    if materials_projections.count(str(face_projection.material)) == 0:
-                        materials_projections.append(face_projection.material)
-
-                for material_proj in sorted(materials_projections):
-                    material_area = 0
-                    for face_projection in faces_projections:
-                        if face_projection.material == material_proj:
-                            material_area += face_projection.area
-
-                    tr = SubElement(tbody, 'tr')
-                    td_1 = SubElement(tr, 'td')
-                    td_1.attrib["class"] = "mat_color"
-
-                    color = Color()
-                    for material_slot in bpy.context.object.material_slots:
-                        if material_slot.name[0:4] == material_proj:
-                            color = Color.from_8_bits_color(material_slot.material.diffuse_color)
-
-                    td_1.attrib["style"] = "color:" + str(color)
-                    td_1.text = "\u25A0"
-                    td_2 = SubElement(tr, 'td')
-                    td_2.attrib["class"] = "mat_index"
-                    td_2.text = str(material_proj)
-                    td_3 = SubElement(tr, 'td')
-                    td_3.attrib["class"] = "mat_surf"
-                    td_3.text = str(round(material_area, 2)) + " m²"
+                sub_row.label(text=5 * ' ' + name + ' : ' + str(round(area, 2)) + " m\xb2", icon='MOD_BUILD')
 
     def draw_floors(self, floors: List[Face], html_projections, tree_html):
         row = self.layout.row()
@@ -361,20 +309,25 @@ class ARTOKI_PT_EnergyReport(Panel):
     def draw(self, context):
         building = Building(context.object)
 
+        walls = building.get_faces(FaceType.WALL)
+        floors = building.get_faces(FaceType.FLOOR)
+        roofs = building.get_faces(FaceType.ROOF)
+
         html_projections, html_tree, html_temp_file = handle_html(building)
+        add_walls_to_html(html_projections, walls)
 
         self.draw_properties()
 
         self.draw_volume_and_area(building.eval_volume(), building.eval_area())
 
         self.draw_subtitle(text=FaceType.WALL.get_name())
-        self.draw_walls(building.get_faces(FaceType.WALL), html_projections)
+        self.draw_walls(walls)
 
         self.draw_subtitle(text=FaceType.FLOOR.get_name())
-        self.draw_floors(building.get_faces(FaceType.FLOOR), html_projections, html_tree)
+        self.draw_floors(floors, html_projections, html_tree)
 
         self.draw_subtitle(text=FaceType.ROOF.get_name())
-        self.draw_roofs(building.get_faces(FaceType.ROOF), html_projections, html_tree)
+        self.draw_roofs(roofs, html_projections, html_tree)
 
         self.draw_subtitle(text="Summary")
         self.draw_summary(building.faces)
