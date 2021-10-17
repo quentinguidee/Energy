@@ -9,6 +9,7 @@ from xml.etree.ElementTree import ElementTree, SubElement
 from .. import info
 
 from .browser import open_in_browser
+from .building import add_floors_to_html, add_roofs_to_html, add_walls_to_html
 from .cameras import get_all_cameras, render
 from .color import Color
 from .face import Face
@@ -24,7 +25,22 @@ def write_tree_in_file(tree, file):
 
 
 def create_html_file(filepath):
-    print("running write_some_data...")
+    from ..panels.report import Save
+
+    building = Save.building
+
+    html_projections, html_tree, html_temp_file = handle_html(building)
+
+    walls = building.get_faces(FaceType.WALL)
+    floors = building.get_faces(FaceType.FLOOR)
+    roofs = building.get_faces(FaceType.ROOF)
+
+    add_walls_to_html(walls, html_projections)
+    add_floors_to_html(floors, html_projections, html_tree)
+    add_roofs_to_html(roofs, html_projections, html_tree)
+
+    write_tree_in_file(html_tree, html_temp_file)
+
     import shutil
     temp_file = get_path('artoki_peb_html_temp.html')
     base_html_folder = get_path('html_files')

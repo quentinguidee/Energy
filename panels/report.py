@@ -235,11 +235,6 @@ class ARTOKI_PT_EnergyReport(Panel):
         floors = building.get_faces(FaceType.FLOOR)
         roofs = building.get_faces(FaceType.ROOF)
 
-        html_projections, html_tree, html_temp_file = handle_html(building)
-        add_walls_to_html(walls, html_projections)
-        add_floors_to_html(floors, html_projections, html_tree)
-        add_roofs_to_html(roofs, html_projections, html_tree)
-
         self.draw_properties()
 
         self.draw_volume_and_area(building.eval_volume(), building.eval_area())
@@ -264,5 +259,3 @@ class ARTOKI_PT_EnergyReport(Panel):
         self.draw_credits()
 
         self.save(building)
-
-        write_tree_in_file(html_tree, html_temp_file)
