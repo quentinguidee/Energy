@@ -4,14 +4,12 @@ import bpy
 
 from typing import List
 
-from xml.etree.ElementTree import SubElement
-
 from bpy.props import StringProperty, EnumProperty, BoolProperty
 from bpy.types import Panel
 
-from ..utils.building import Building, add_walls_to_html, add_floors_to_html, get_all_floors_materials, \
-    get_walls_grouped_by_orientation
-from ..utils.color import Color
+from ..utils.building import Building, add_walls_to_html, add_floors_to_html, add_roofs_to_html
+from ..utils.building import get_all_floors_materials, get_all_roofs, get_walls_grouped_by_orientation
+
 from ..utils.exports import write_tree_in_file, handle_html
 from ..utils.face import Face
 from ..utils.face_type import FaceType
@@ -122,6 +120,9 @@ class ARTOKI_PT_EnergyReport(Panel):
 
     def draw_floors(self, floors: List[Face]):
         total_area, materials = get_all_floors_materials(floors)
+        if total_area == 0:
+            return
+
         total_area = str(round(total_area, 2))
 
         row = self.layout.row()
@@ -129,9 +130,6 @@ class ARTOKI_PT_EnergyReport(Panel):
 
         box = row.box()
         column = box.column()
-
-        if total_area == 0:
-            return
 
         sub_row = column.row(align=True)
         sub_row.label(text="Floors Projection     Surface : " + total_area + " m\xb2", icon="TEXTURE")
@@ -145,85 +143,37 @@ class ARTOKI_PT_EnergyReport(Panel):
             sub_row = column.row(align=True)
             sub_row.label(text=5 * ' ' + name + ' : ' + str(round(area, 2)) + " m\xb2", icon="ASSET_MANAGER")
 
-    def draw_roofs(self, roofs: List[Face], html_projections, tree_html):
+    def draw_roofs(self, roofs: List[Face]):
+        total_projected_area, materials = get_all_roofs(roofs)
+        if total_projected_area == 0:
+            return
+
+        total_projected_area = str(round(total_projected_area, 2))
+
         row = self.layout.row()
         row.alignment = 'EXPAND'
 
         box = row.box()
         column = box.column()
 
-        area = 0
-        area_projection = 0
-        materials = []
+        sub_row = column.row(align=True)
+        sub_row.label(text="Roofs Projection     Surface : " + total_projected_area + " m\xb2", icon="LINCURVE")
+        sub_row = column.row(align=True)
+        sub_row.separator()
 
-        face_type_id = FaceType.ROOF.get_id()
-
-        for roof in roofs:
-            area += roof.area
-            area_projection += roof.projection_area
-
-        if area != 0:
+        for material in materials:
             sub_row = column.row(align=True)
-            sub_row.label(text="Roofs Projection     Surface : " + str(round(area_projection, 2)) + " m\xb2",
-                          icon="LINCURVE")
-            sub_row = column.row(align=True)
-            sub_row.separator()
 
-            html_projections[face_type_id].attrib['Surf'] = str(round(area_projection, 2))
+            name = material['name']
+            area = str(round(material['area'], 2))
+            orientation = material['orientation']
+            angle = material['angle']
+            projected_area = str(round(material['projected_area'], 2))
 
-            caption = tree_html.find(".//table[@id='roofs_values']/tbody/caption")
-            caption.text = 'Projection Toitures: ' + str(round(area_projection, 2)) + ' m²'
-
-            for roof in roofs:
-                if materials.count(str(roof.material)) == 0:
-                    materials.append(roof.material)
-
-            for material_proj in sorted(materials):
-                sub_row = column.row(align=True)
-                area_material_roof = 0
-                area_projection_material_roof = 0
-                roof_angle = 0
-                roof_orientation = ''
-
-                for roof in roofs:
-                    if roof.material == material_proj:
-                        area_material_roof += roof.area
-                        area_projection_material_roof += roof.projection_area
-                        roof_angle = roof.angle
-                        roof_orientation = roof.orientation
-
-                sub_row.label(text=material_proj + ' : ' + str(round(area_material_roof, 2)) + " m\xb2",
-                              icon="MOD_ARRAY")
-                sub_row.label(text='Proj. : ' + str(roof_orientation.name))
-                sub_row.label(text='Angle : ' + str(round(math.fabs(math.degrees(roof_angle)), 1)) + " \xb0")
-                sub_row.label(text='Proj. surf. : ' + str(round(area_projection_material_roof, 2)) + " m\xb2")
-
-                tr = SubElement(html_projections[face_type_id], 'tr')
-                td_1 = SubElement(tr, 'td')
-                td_1.attrib["class"] = "mat_color"
-
-                color = Color()
-                for material_slot in bpy.context.object.material_slots:
-                    if material_slot.name[0:4] == material_proj:
-                        color = Color.from_8_bits_color(material_slot.material.diffuse_color)
-
-                td_1.attrib["style"] = "color:" + str(color)
-                td_1.text = "\u25A0"
-                td_2 = SubElement(tr, 'td')
-                td_2.attrib["class"] = "mat_index"
-                td_2.text = str(material_proj)
-                td_3 = SubElement(tr, 'td')
-                td_3.attrib["class"] = "mat_surf_brute"
-                td_3.text = str(round(area_material_roof, 2)) + " m²"
-                td_4 = SubElement(tr, 'td')
-                td_4.attrib["class"] = "mat_angle"
-                td_4.text = str(round(math.fabs(math.degrees(roof_angle)), 1)) + " °"
-                td_5 = SubElement(tr, 'td')
-                td_5.attrib["class"] = "mat_orient"
-                td_5.text = str(roof_orientation.name)
-                td_6 = SubElement(tr, 'td')
-                td_6.attrib["class"] = "mat_surf_proj"
-                td_6.text = str(round(area_projection_material_roof, 2)) + " m²"
+            sub_row.label(text=name + ' : ' + area + " m\xb2", icon="MOD_ARRAY")
+            sub_row.label(text='Proj. : ' + str(orientation.name))
+            sub_row.label(text='Angle : ' + str(round(math.fabs(math.degrees(angle)), 1)) + " \xb0")
+            sub_row.label(text='Proj. surf. : ' + projected_area + " m\xb2")
 
     def draw_summary(self, faces):
         row = self.layout.row()
@@ -288,6 +238,7 @@ class ARTOKI_PT_EnergyReport(Panel):
         html_projections, html_tree, html_temp_file = handle_html(building)
         add_walls_to_html(walls, html_projections)
         add_floors_to_html(floors, html_projections, html_tree)
+        add_roofs_to_html(roofs, html_projections, html_tree)
 
         self.draw_properties()
 
@@ -300,7 +251,7 @@ class ARTOKI_PT_EnergyReport(Panel):
         self.draw_floors(floors)
 
         self.draw_subtitle(text=FaceType.ROOF.get_name())
-        self.draw_roofs(roofs, html_projections, html_tree)
+        self.draw_roofs(roofs)
 
         self.draw_subtitle(text="Summary")
         self.draw_summary(building.faces)
